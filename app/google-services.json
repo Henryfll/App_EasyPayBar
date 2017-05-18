@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "373194687955",
+    "firebase_url": "https://easypaybar.firebaseio.com",
+    "project_id": "easypaybar",
+    "storage_bucket": "easypaybar.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:373194687955:android:5a858052e665f931",
+        "android_client_info": {
+          "package_name": "com.example.henryf.pryeasypaybar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "373194687955-mq3885fleu6cikmfu7m6rkom6qg08j6a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACn1GtGb9czxiqxC_Vhl-4gVNB-WX8Zvo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
