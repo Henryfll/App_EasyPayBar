@@ -10,6 +10,9 @@ import android.view.ViewGroup;
  * Created by HenryF on 03/03/2017.
  */
 
+/**
+ * Fragmento para la sección de "Inicio"
+ */
 public class FragmentoInicio extends Fragment {
     private RecyclerView reciclador;
     private LinearLayoutManager layoutManager;

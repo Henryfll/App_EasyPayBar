@@ -34,9 +34,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView nameTextView;
-    private TextView emailTextView;
-    private TextView uidTextView;
+
     private DatabaseReference mFirebaseDatabase;
     private FirebaseDatabase mFirebaseInstance;
     private String userId;
@@ -46,11 +44,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        consulta();
-       //nameTextView = (TextView) findViewById(R.id.nameTextView);
-        //emailTextView = (TextView) findViewById(R.id.emailTextView);
-        //uidTextView = (TextView) findViewById(R.id.uidTextView);
-
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         if (user != null) {
@@ -59,24 +52,33 @@ public class MainActivity extends AppCompatActivity {
             Uri photoUrl = user.getPhotoUrl();
             String uid = user.getUid();
 
-
-           // nameTextView.setText(name);
-           // emailTextView.setText(email);
-           // uidTextView.setText(uid);
         } else {
             goLoginScreen();
         }
+
         agregarToolbar();
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+
         if (navigationView != null) {
             prepararDrawer(navigationView);
             // Seleccionar item por defecto
             seleccionarItem(navigationView.getMenu().getItem(0));
-
         }
     }
+    private void agregarToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        final ActionBar ab = getSupportActionBar();
+        if (ab != null) {
+            // Poner ícono del drawer toggle
+            ab.setHomeAsUpIndicator(R.drawable.drawer_toggle);
+            ab.setDisplayHomeAsUpEnabled(true);
+        }
+
+    }
+
     private void prepararDrawer(NavigationView navigationView) {
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
@@ -99,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
                 fragmentoGenerico = new FragmentoInicio();
                 break;
             case R.id.item_cuenta:
-                // Fragmento para la sección Cuenta
+                fragmentoGenerico = new FragmentoCuenta();
                 break;
             case R.id.item_categorias:
                 // Fragmento para la sección Categorías
@@ -153,17 +155,7 @@ public class MainActivity extends AppCompatActivity {
         LoginManager.getInstance().logOut();
         goLoginScreen();
     }
-    private void agregarToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        final ActionBar ab = getSupportActionBar();
-        if (ab != null) {
-            // Poner ícono del drawer toggle
-            ab.setHomeAsUpIndicator(R.drawable.drawer_toggle);
-            ab.setDisplayHomeAsUpEnabled(true);
-        }
 
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

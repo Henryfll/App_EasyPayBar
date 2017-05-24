@@ -14,12 +14,6 @@ public class Comida {
     private String nombre;
     private int idDrawable;
 
-
-
-    public Comida(){
-
-    }
-
     public Comida(float precio, String nombre, int idDrawable) {
         this.precio = precio;
         this.nombre = nombre;
@@ -34,7 +28,6 @@ public class Comida {
         COMIDAS_POPULARES.add(new Comida(12f, "Sushi Extremo", R.drawable.sushi));
         COMIDAS_POPULARES.add(new Comida(9, "Sandwich Deli", R.drawable.sandwich));
         COMIDAS_POPULARES.add(new Comida(34f, "Lomo De Cerdo Austral", R.drawable.lomo_cerdo));
-
     }
 
     public float getPrecio() {
