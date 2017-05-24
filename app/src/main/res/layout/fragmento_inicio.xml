@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,7 +12,7 @@
         android:background="@color/background_header_seccion_inicio"
         android:gravity="center"
         android:padding="8dp"
-        android:text="Proveedores"
+        android:text="@string/titulo_comidas_populares"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="@color/color_light" />
 

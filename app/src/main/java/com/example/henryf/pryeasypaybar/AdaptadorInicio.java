@@ -13,17 +13,24 @@ import com.bumptech.glide.Glide;
  * Created by HenryF on 03/03/2017.
  */
 
+/**
+ * Adaptador para mostrar las comidas más pedidas en la sección "Inicio"
+ */
 public class AdaptadorInicio
         extends RecyclerView.Adapter<AdaptadorInicio.ViewHolder> {
-    MainActivity objlogin = new MainActivity();
+
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         // Campos respectivos de un item
         public TextView nombre;
+        public TextView precio;
+        public ImageView imagen;
 
         public ViewHolder(View v) {
             super(v);
-            nombre = (TextView) v.findViewById(R.id.nombre_proveedor);
+            nombre = (TextView) v.findViewById(R.id.nombre_comida);
+            precio = (TextView) v.findViewById(R.id.precio_comida);
+            imagen = (ImageView) v.findViewById(R.id.miniatura_comida);
         }
     }
 
@@ -32,12 +39,7 @@ public class AdaptadorInicio
 
     @Override
     public int getItemCount() {
-        System.out.println("pruebaConteo:"+objlogin.Lista_Proveedores.size());
-        for (Proveedor item: objlogin.Lista_Proveedores
-                ) {
-            System.out.println("pruebaProv: "+item.getNombre());
-        }
-        return objlogin.Lista_Proveedores.size();
+        return Comida.COMIDAS_POPULARES.size();
     }
 
     @Override
@@ -49,10 +51,14 @@ public class AdaptadorInicio
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
+        Comida item = Comida.COMIDAS_POPULARES.get(i);
 
-        Proveedor item =  objlogin.Lista_Proveedores.get(i);
+        Glide.with(viewHolder.itemView.getContext())
+                .load(item.getIdDrawable())
+                .centerCrop()
+                .into(viewHolder.imagen);
         viewHolder.nombre.setText(item.getNombre());
-
+        viewHolder.precio.setText("$" + item.getPrecio());
 
     }
 
