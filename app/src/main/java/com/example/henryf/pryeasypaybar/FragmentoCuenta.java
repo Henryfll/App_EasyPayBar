@@ -12,6 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.auth.FirebaseUser;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,8 +26,9 @@ public class FragmentoCuenta extends Fragment {
     private AppBarLayout appBar;
     private TabLayout pestanas;
     private ViewPager viewPager;
-
-    public FragmentoCuenta() {
+    private FirebaseUser usuario;
+    public FragmentoCuenta(FirebaseUser user) {
+        usuario = user;
     }
 
     @Override
@@ -57,7 +60,7 @@ public class FragmentoCuenta extends Fragment {
         AdaptadorSecciones adapter = new AdaptadorSecciones(getFragmentManager());
         adapter.addFragment(new FragmentoPerfil(), getString(R.string.titulo_tab_perfil));
         adapter.addFragment(new FragmentoRecargas(), "RECARGAS");
-        adapter.addFragment(new FragmentoQr(),"QR");
+        adapter.addFragment(new FragmentoQr(usuario),"QR");
         viewPager.setAdapter(adapter);
     }
 

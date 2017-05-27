@@ -4,6 +4,9 @@
 
     <color name="window_background">#ffffff</color>
 
+    <color name="QRCodeBlackColor">#020202</color>
+    <color name="QRCodeWhiteColor">#ffffff</color>
+
     <color name="primaryDarkColor">#323232</color>
     <color name="primaryColor">#484848</color>
     <color name="accentColor">#F87652</color>
