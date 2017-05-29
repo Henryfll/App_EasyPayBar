@@ -6,10 +6,15 @@
     android:orientation="vertical">
 
 
+
+
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="@color/QRCodeWhiteColor">
 
         <ImageView
             android:id="@+id/imageView"
@@ -22,5 +27,15 @@
             android:layout_weight="1" />
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_generar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_weight="1"
+        android:text="Generar" />
+
+
 
 </FrameLayout>

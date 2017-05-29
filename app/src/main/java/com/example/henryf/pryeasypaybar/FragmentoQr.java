@@ -28,12 +28,13 @@ import com.google.zxing.integration.android.IntentIntegrator;
 public class FragmentoQr extends Fragment{
 
     ImageView imageView;
+    Button btn_generear;
     public final static int QRcodeWidth = 500 ;
     Bitmap bitmap ;
     private FirebaseUser usuario;
 
-    public FragmentoQr(FirebaseUser user) {
-        usuario = user;
+    public FragmentoQr() {
+
     }
 
     @Override
@@ -42,6 +43,36 @@ public class FragmentoQr extends Fragment{
        // write(container);
         View rootView = inflater.inflate(R.layout.fragmento_qr, container, false);
         imageView = (ImageView)  rootView.findViewById(R.id.imageView);
+        btn_generear = (Button) rootView.findViewById(R.id.btn_generar);
+        btn_generear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle argsBundle =  getArguments();
+
+                if(argsBundle != null) {
+                    String var_value = argsBundle.getString("data");
+                    System.out.println("Data"+var_value);
+                    System.out.println("Data: if");
+
+                    try {
+                        bitmap = TextToImageEncode(var_value);
+                        imageView.setImageBitmap(bitmap);
+
+                    } catch (WriterException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+        });
+
+
+
+
+        System.out.println("CodigoQR");
+        return rootView;
+    }
+    public void CodigoQR(){
         try {
             bitmap = TextToImageEncode(usuario.getUid());
             imageView.setImageBitmap(bitmap);
@@ -49,10 +80,6 @@ public class FragmentoQr extends Fragment{
         } catch (WriterException e) {
             e.printStackTrace();
         }
-
-
-
-        return rootView;
     }
 
     Bitmap TextToImageEncode(String Value) throws WriterException {

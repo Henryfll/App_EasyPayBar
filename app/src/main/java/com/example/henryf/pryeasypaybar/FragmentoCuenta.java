@@ -57,11 +57,16 @@ public class FragmentoCuenta extends Fragment {
     }
 
     private void poblarViewPager(ViewPager viewPager) {
+
+        Bundle argsBundle=new Bundle();
+        argsBundle.putString("data", usuario.getUid());
+
         AdaptadorSecciones adapter = new AdaptadorSecciones(getFragmentManager());
-        adapter.addFragment(new FragmentoPerfil(), getString(R.string.titulo_tab_perfil));
-        adapter.addFragment(new FragmentoRecargas(), "RECARGAS");
-        adapter.addFragment(new FragmentoQr(usuario),"QR");
+        adapter.addFragment(new FragmentoPerfil(), getString(R.string.titulo_tab_perfil), null);
+        adapter.addFragment(new FragmentoRecargas(), "RECARGAS", null);
+        adapter.addFragment(new FragmentoQr(),"QR",argsBundle );
         viewPager.setAdapter(adapter);
+
     }
 
     @Override
@@ -92,9 +97,10 @@ public class FragmentoCuenta extends Fragment {
             return fragmentos.size();
         }
 
-        public void addFragment(android.support.v4.app.Fragment fragment, String title) {
+        public void addFragment(android.support.v4.app.Fragment fragment, String title, Bundle args) {
             fragmentos.add(fragment);
             titulosFragmentos.add(title);
+            fragment.setArguments(args);
         }
 
         @Override
