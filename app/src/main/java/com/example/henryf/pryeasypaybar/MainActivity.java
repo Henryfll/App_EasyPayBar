@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private String userId;
     public List<Proveedor> Lista_Proveedores = new ArrayList<Proveedor>();
     private DrawerLayout drawerLayout;
+    private FirebaseUser usuario;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
             String email = user.getEmail();
             Uri photoUrl = user.getPhotoUrl();
             String uid = user.getUid();
+            usuario = user;
 
         } else {
             goLoginScreen();
@@ -101,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
                 fragmentoGenerico = new FragmentoInicio();
                 break;
             case R.id.item_cuenta:
-                fragmentoGenerico = new FragmentoCuenta();
+                fragmentoGenerico = new FragmentoCuenta(usuario);
                 break;
             case R.id.item_categorias:
                 // Fragmento para la sección Categorías
