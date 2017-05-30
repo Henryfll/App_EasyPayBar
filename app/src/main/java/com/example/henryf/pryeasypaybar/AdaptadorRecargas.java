@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,11 +22,14 @@ public class AdaptadorRecargas
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-
+        public TextView nombre_proveedor;
+        public TextView saldo_cliente;
+        public Recargas objRecargas = new Recargas();
 
         public ViewHolder(View v) {
             super(v);
-
+            nombre_proveedor = (TextView) v.findViewById(R.id.nombre_proeevdor);
+            saldo_cliente = (TextView) v.findViewById(R.id.saldo_cliente);
         }
     }
 
@@ -35,7 +39,9 @@ public class AdaptadorRecargas
 
     @Override
     public int getItemCount() {
-        return 0;
+
+
+        return 0 ;
     }
 
     @Override
