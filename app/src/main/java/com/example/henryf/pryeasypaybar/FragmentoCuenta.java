@@ -61,6 +61,10 @@ public class FragmentoCuenta extends Fragment {
         Bundle argsBundle=new Bundle();
         argsBundle.putString("data", usuario.getUid());
 
+
+        Bundle cuentaBundle=new Bundle();
+        cuentaBundle.putString("data", usuario.getUid());
+
         AdaptadorSecciones adapter = new AdaptadorSecciones(getFragmentManager());
         adapter.addFragment(new FragmentoPerfil(), getString(R.string.titulo_tab_perfil), null);
         adapter.addFragment(new FragmentoRecargas(), "RECARGAS", null);

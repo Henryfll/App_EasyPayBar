@@ -96,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
     }
     private void seleccionarItem(MenuItem itemDrawer) {
         Fragment fragmentoGenerico = null;
+
         FragmentManager fragmentManager = getSupportFragmentManager();
 
         switch (itemDrawer.getItemId()) {
