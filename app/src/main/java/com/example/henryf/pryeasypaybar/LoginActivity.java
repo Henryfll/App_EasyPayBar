@@ -48,7 +48,8 @@ public class LoginActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private DatabaseReference mFirebaseDatabase;
     private FirebaseDatabase mFirebaseInstance;
-    private String userId;
+    private String idUsuario;
+
 
 
     @Override
@@ -101,9 +102,9 @@ public class LoginActivity extends AppCompatActivity {
                                 //Si encuentra regitro no hace nada mas
                             }else {
                                 //Como no esta registrado el cliente procede al registro en firebase
-                                userId = mFirebaseDatabase.push().getKey();//genera la key unica de cada cliente
+                                idUsuario = mFirebaseDatabase.push().getKey();//genera la key unica de cada cliente
                                 Cliente cliente = new Cliente(user.getUid(), user.getDisplayName()); //instancia de cliente
-                                mFirebaseDatabase.child("cliente").child(userId).setValue(cliente);//guarda la informacion en firebase
+                                mFirebaseDatabase.child("cliente").child(idUsuario).setValue(cliente);//guarda la informacion en firebase
                             }
                         }
 
@@ -113,7 +114,8 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     });
 
-
+                   // Proveedor pro = new Proveedor();
+                    // pro.Afiliarse("HTEWqzf51Gd8YF4vCrl4Brf2pBi1");
                 /*mFirebaseDatabase.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {

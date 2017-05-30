@@ -1,5 +1,14 @@
 package com.example.henryf.pryeasypaybar;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -16,6 +25,9 @@ public class Cliente {
     public String fecha_Afiliacion;
     public String nombre;
     public boolean proveedor;
+    private FirebaseAuth firebaseAuth;
+    private DatabaseReference mFirebaseDatabase;
+    private FirebaseDatabase mFirebaseInstance;
 
 
 
@@ -80,5 +92,28 @@ public class Cliente {
 
     public void setProveedor(boolean proveedor) {
         this.proveedor = proveedor;
+    }
+
+    public void recuperarDatos(){
+        firebaseAuth = FirebaseAuth.getInstance();
+        final FirebaseUser user = firebaseAuth.getCurrentUser();
+        mFirebaseInstance = FirebaseDatabase.getInstance();
+        mFirebaseDatabase = mFirebaseInstance.getReference();
+        //Busca el registro del cliente con el Uid del mismo
+        Query queryCliente = mFirebaseDatabase.child("cliente").orderByChild("codigoQR").equalTo(user.getUid());
+        queryCliente.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    Cliente cli = dataSnapshot.getValue(Cliente.class);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 }
