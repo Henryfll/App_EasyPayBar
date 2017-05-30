@@ -9,23 +9,18 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by Diego Claudio on 04/05/2017.
  */
 
 public class Proveedor {
     private String nombre;
+    private String bar;
     private DatabaseReference mFirebaseDatabase;
     private FirebaseDatabase mFirebaseInstance;
     private FirebaseAuth firebaseAuth;
 
 
-    public Proveedor(){
-
-    }
 
     public Proveedor(String nombre) {
         this.nombre = nombre;
@@ -34,6 +29,7 @@ public class Proveedor {
     public String getNombre() {
         return nombre;
     }
+
 
     public void Afiliarse(String proveedorId){//proveedorId es el UID del proveedor en firebase
         firebaseAuth = FirebaseAuth.getInstance();

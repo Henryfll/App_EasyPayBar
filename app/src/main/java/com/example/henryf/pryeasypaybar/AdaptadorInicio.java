@@ -14,7 +14,7 @@ import com.bumptech.glide.Glide;
  */
 
 /**
- * Adaptador para mostrar las comidas más pedidas en la sección "Inicio"
+ * Adaptador para mostrar los proveedores
  */
 public class AdaptadorInicio
         extends RecyclerView.Adapter<AdaptadorInicio.ViewHolder> {
@@ -22,15 +22,15 @@ public class AdaptadorInicio
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         // Campos respectivos de un item
+
         public TextView nombre;
-        public TextView precio;
-        public ImageView imagen;
+        //public ImageView imagen;
 
         public ViewHolder(View v) {
             super(v);
-            nombre = (TextView) v.findViewById(R.id.nombre_comida);
-            precio = (TextView) v.findViewById(R.id.precio_comida);
-            imagen = (ImageView) v.findViewById(R.id.miniatura_comida);
+           // nombre = (TextView) v.findViewById(R.id.nombre_comida);
+            nombre = (TextView) v.findViewById(R.id.txt_nombre);
+            //imagen = (ImageView) v.findViewById(R.id.miniatura_comida);
         }
     }
 
@@ -39,7 +39,8 @@ public class AdaptadorInicio
 
     @Override
     public int getItemCount() {
-        return Comida.COMIDAS_POPULARES.size();
+        System.out.println("tama;o del array= "+FragmentoInicio.Lista_Proveedor.size());
+        return FragmentoInicio.Lista_Proveedor.size();
     }
 
     @Override
@@ -51,14 +52,14 @@ public class AdaptadorInicio
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
-        Comida item = Comida.COMIDAS_POPULARES.get(i);
+        Proveedor item = FragmentoInicio.Lista_Proveedor.get(i);
 
-        Glide.with(viewHolder.itemView.getContext())
-                .load(item.getIdDrawable())
-                .centerCrop()
-                .into(viewHolder.imagen);
+        //Glide.with(viewHolder.itemView.getContext())
+          //      .load(item.getIdDrawable())
+            //    .centerCrop()
+              //  .into(viewHolder.imagen);
+       // viewHolder.nombre.setText(item.getNombre());
         viewHolder.nombre.setText(item.getNombre());
-        viewHolder.precio.setText("$" + item.getPrecio());
 
     }
 

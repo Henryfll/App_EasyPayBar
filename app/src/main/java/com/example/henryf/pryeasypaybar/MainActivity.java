@@ -35,10 +35,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
 
-    private DatabaseReference mFirebaseDatabase;
-    private FirebaseDatabase mFirebaseInstance;
+
     private String userId;
-    public List<Proveedor> Lista_Proveedores = new ArrayList<Proveedor>();
     private DrawerLayout drawerLayout;
     private FirebaseUser usuario;
     @Override
@@ -174,31 +172,5 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-    private void consulta(){
-        mFirebaseInstance = FirebaseDatabase.getInstance();
-        mFirebaseDatabase = mFirebaseInstance.getReference();
 
-        //Consulta todos los proveedores
-        mFirebaseDatabase.child("proveedor").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot proveedor : dataSnapshot.getChildren()) {
-                    try {
-                        System.out.println("pruebaProveedor: "+proveedor.child("bar").getValue().toString());
-                        // Lista_Proveedores.add(proveedor.child("bar").getValue().toString());//Almacena en el arraylist proveedores cada proveedor
-                        Lista_Proveedores.add(new Proveedor(proveedor.child("bar").getValue().toString()));
-                    }catch (Exception e){
-                        System.out.println("Error: "+e.getMessage());
-                    }
-                }
-
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
 }
