@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
 import com.squareup.picasso.Picasso;
 
 
@@ -49,8 +50,19 @@ public class FragmentoPerfil extends Fragment {
         int width = display.getWidth();  // deprecated
         int height = display.getHeight();  // deprecated
         System.out.println("problema: "+width + height);
-        Picasso.with(getContext()).load(user.getPhotoUrl()).centerCrop().resize(display.getWidth()/3, display.getHeight()/5).into(viewfoto);
 
+        String facebookUserId="";
+        for(UserInfo profile : user.getProviderData()) {
+            facebookUserId = profile.getUid();
+
+        }
+        System.out.println("uid :"+facebookUserId);
+        String url = "https://graph.facebook.com/" + facebookUserId + "/picture?height=500";
+        Picasso.with(getContext())
+                .load(url)
+                .centerCrop()
+                .resize(display.getWidth()/3, display.getHeight()/5)
+                .into(viewfoto);
         /*BitmapFactory.Options options = new BitmapFactory.Options();
         options.inPreferredConfig = Bitmap.Config.ARGB_8888;
         System.out.println("problema: "+user.getPhotoUrl().toString());
