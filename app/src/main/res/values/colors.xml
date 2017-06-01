@@ -24,6 +24,13 @@
     <color name="bg_screen2">#000000</color>
     <color name="bg_screen3">#F87652</color>
     <color name="bg_screen4">#000000</color>
+    <color name="graf_azul">#0E0E61</color>
+    <color name="graf_rojo">#CE1613</color>
+    <color name="graf_celeste">#106299</color>
+    <color name="graf_verde">#043F0C</color>
+    <color name="graf_verdeClaro">#0DC826</color>
+    <color name="graf_amarillo">#DED714</color>
+    <color name="graf_morado">#7C30B2</color>
 
     <!-- dots inactive colors -->
     <color name="dot_dark_screen1">#000000</color>

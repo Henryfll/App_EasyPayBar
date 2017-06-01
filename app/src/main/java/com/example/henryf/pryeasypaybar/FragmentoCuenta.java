@@ -68,6 +68,7 @@ public class FragmentoCuenta extends Fragment {
         AdaptadorSecciones adapter = new AdaptadorSecciones(getFragmentManager());
         adapter.addFragment(new FragmentoPerfil(), getString(R.string.titulo_tab_perfil), null);
         adapter.addFragment(new FragmentoRecargas(), "RECARGAS", null);
+        adapter.addFragment(new FragmentoGrafica(), "GRAFICAS", null);
         adapter.addFragment(new FragmentoQr(),"QR",argsBundle );
         viewPager.setAdapter(adapter);
 
