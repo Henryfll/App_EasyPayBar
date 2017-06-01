@@ -69,46 +69,8 @@ public class FragmentoGrafica extends Fragment {
         pieChart.setRotationEnabled(true);
         pieChart.animateXY(1500, 1500);
 
-        /*firebaseAuth = FirebaseAuth.getInstance();
-        final FirebaseUser user = firebaseAuth.getCurrentUser();
-        mFirebaseInstance = FirebaseDatabase.getInstance();
-        mFirebaseDatabase = mFirebaseInstance.getReference("proveedor");
 
-        final ArrayList<String> valoresX = new ArrayList<String>();
-        final ArrayList<Entry> valoresY = new ArrayList<Entry>();
-        mFirebaseDatabase.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-
-                for (DataSnapshot c: dataSnapshot.getChildren()) {
-                    try {
-                        if (!c.child("afiliados").child(user.getUid()).getValue().equals("")){
-                            valoresX.add(c.child("bar").getValue().toString());
-                            valoresY.add(new Entry(Float.parseFloat(c.child("afiliados").child(user.getUid()).child("saldo").getValue().toString())* 100 / 25,0));
-                            saldoTotal=saldoTotal+Double.parseDouble(c.child("afiliados").child(user.getUid()).child("saldo").getValue().toString());
-                        }
-
-                    }catch (Exception e){
-
-                    }
-
-                }
-                setLista_X(valoresX);
-                setLista_Y(valoresY);
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                System.out.println("The read failed: " + databaseError.getCode());
-            }
-        });
-
-
-
-
- 		/*creamos una lista de colores*/
+        /*creamos una lista de colores*/
         ArrayList<Integer> colors = new ArrayList<Integer>();
         colors.add(getResources().getColor(R.color.bg_screen1));
         colors.add(getResources().getColor(R.color.graf_celeste));
