@@ -22,6 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 
@@ -32,6 +33,7 @@ public class FragmentoGrafica extends Fragment {
     private DatabaseReference mFirebaseDatabase;
     private FirebaseDatabase mFirebaseInstance;
     private double saldoTotal = 0;
+
     /*creamos una lista para los valores Y*/
     /*public static ArrayList<Entry> valsY = new ArrayList<Entry>();
         /*valsY.add(new Entry(5* 100 / 25,0));
@@ -109,17 +111,31 @@ public class FragmentoGrafica extends Fragment {
  		/*creamos una lista de colores*/
         ArrayList<Integer> colors = new ArrayList<Integer>();
         colors.add(getResources().getColor(R.color.bg_screen1));
-        colors.add(getResources().getColor(R.color.bg_screen2));
+        colors.add(getResources().getColor(R.color.graf_celeste));
+        colors.add(getResources().getColor(R.color.graf_verde));
+        colors.add(getResources().getColor(R.color.graf_morado));
+        colors.add(getResources().getColor(R.color.graf_verdeClaro));
+        colors.add(getResources().getColor(R.color.graf_amarillo));
+        colors.add(getResources().getColor(R.color.graf_azul));
+        colors.add(getResources().getColor(R.color.graf_rojo));
 
         /*creamos una lista para los valores Y*/
         ArrayList<Entry> valsY = new ArrayList<Entry>();
-            valsY.add(new Entry(5* 100 / 25,0));
-            valsY.add(new Entry(20 * 100 / 25,1));
+           /* valsY.add(new Entry(5* 100 / 25,0));
+            valsY.add(new Entry(20 * 100 / 25,1));*/
 
         /*creamos una lista para los valores X*/
         final ArrayList<String> valsX = new ArrayList<String>();
-            valsX.add("Varones");
-            valsX.add("Mujeres");
+            /*valsX.add("Varones");
+            valsX.add("Mujeres");*/
+        int cont=0;
+        for (Recargas lista: FragmentoRecargas.lista_result
+             ) {
+            valsX.add(lista.getBar_proveedor());
+            valsY.add(new Entry(Float.parseFloat(lista.getSaldo_cliente()),cont));
+            cont++;
+
+        }
 
             /*seteamos los valores de Y y los colores*/
         PieDataSet set1 = new PieDataSet(valsY, "Resultados");
