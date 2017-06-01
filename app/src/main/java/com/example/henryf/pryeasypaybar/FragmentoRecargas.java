@@ -34,6 +34,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -58,6 +59,7 @@ public class FragmentoRecargas extends Fragment {
 
     public static void setLista_result(ArrayList<Recargas> lista_result) {
         FragmentoRecargas.lista_result = lista_result;
+
     }
 
     public static ArrayList<Recargas> lista_result = new ArrayList<Recargas>();
@@ -115,23 +117,16 @@ public class FragmentoRecargas extends Fragment {
                     try {
                         System.out.println("pruebaProveedor: "+proveedor.child("nombre").getValue().toString());
                         if(proveedor.child("afiliados").child(user.getUid()).getValue() != null) {
-                            FirebaseStorage storage = FirebaseStorage.getInstance();
-                            StorageReference storageRef = storage.getReferenceFromUrl("gs://easypaybar.appspot.com/")
-                                    .child(proveedor.child("imagen").getValue().toString());
 
-                                final File localFile = File.createTempFile("images", "jpg");
-                                storageRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                                 @Override
-                                  public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                                  Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
-                                   setImagen(bitmap);                                                    }
-                                });
 
 
                             lista_recargas.add(new Recargas(proveedor.child("nombre").getValue().toString(),
                                     proveedor.child("afiliados").child(user.getUid()).child("saldo").getValue().toString(),
                                             proveedor.child("bar").getValue().toString(),
-                                    imagen));
+                                    proveedor.child("imagen").getValue().toString()
+                                    ));
+
+
                         }
 
                     }catch (Exception e){
@@ -152,7 +147,34 @@ public class FragmentoRecargas extends Fragment {
 
     }
 
+    public Bitmap imagen(String nombre_imagen, String codigo) throws IOException {
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        Bitmap bitmaplocal;
+        StorageReference storageRef = storage.getReferenceFromUrl("gs://easypaybar.appspot.com/")
+                .child(nombre_imagen);
 
+        final File localFile = File.createTempFile("images"+codigo, "jpg");
+
+
+
+        storageRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+            File fichero;
+            @Override
+            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+
+                Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                setImagen(bitmap);
+
+
+            }
+
+
+
+        });
+
+
+        return imagen;
+    }
     public void ejem(ArrayList<Recargas> recarga){
         System.out.println("Nombre p"+recarga.size());
     }

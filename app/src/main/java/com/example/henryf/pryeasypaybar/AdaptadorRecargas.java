@@ -6,6 +6,8 @@ package com.example.henryf.pryeasypaybar;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,8 +18,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
 import org.w3c.dom.Text;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,12 +77,42 @@ public class AdaptadorRecargas
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, int i) {
 
+
         Recargas item = FragmentoRecargas.lista_result.get(i);
+
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        Bitmap bitmaplocal;
+        StorageReference storageRef = storage.getReferenceFromUrl("gs://easypaybar.appspot.com/")
+                .child(item.getImagen());
+
+        final File localFile;
+        try {
+            localFile = File.createTempFile("images"+item.getNombre_proveedor().toString(), "jpg");
+
+            storageRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                File fichero;
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+
+                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+
+                        viewHolder.imagenProveedor.setImageBitmap(bitmap);
+
+                }
+
+
+
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
 
         viewHolder.nombre_proveedor.setText(item.getNombre_proveedor());
         viewHolder.saldo_cliente.setText(item.getSaldo_cliente()+ "$");
         viewHolder.bar_proveedor.setText(item.getBar_proveedor());
-        viewHolder.imagenProveedor.setImageBitmap(item.getImagen());
+        //viewHolder.imagenProveedor.setImageBitmap(item.getImagen());
         viewHolder.provedorView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

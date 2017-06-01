@@ -25,16 +25,16 @@ public class Recargas {
     private String nombre_proveedor;
     private String saldo_cliente;
     private String bar_proveedor;
-    private Bitmap imagen;
+    private String imagen;
 
-    public Recargas(String nombre_proveedor, String saldo_cliente, String bar_proveedor, Bitmap imagen) {
+    public Recargas(String nombre_proveedor, String saldo_cliente, String bar_proveedor, String imagen) {
         this.nombre_proveedor = nombre_proveedor;
         this.saldo_cliente = saldo_cliente;
         this.bar_proveedor = bar_proveedor;
         this.imagen = imagen;
     }
 
-    public Bitmap getImagen() {
+    public String getImagen() {
         return imagen;
     }
 
