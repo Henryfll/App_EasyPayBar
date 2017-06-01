@@ -1,5 +1,7 @@
 package com.example.henryf.pryeasypaybar;
 
+import android.graphics.Bitmap;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -12,31 +14,7 @@ import java.util.List;
 /**
  * Created by Fabian on 29/05/2017.
  */
-class Recarga{
-    private String fecha;
-    private String saldo;
 
-    public Recarga(String fecha, String saldo) {
-        this.fecha = fecha;
-        this.saldo = saldo;
-    }
-
-    public String getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(String fecha) {
-        this.fecha = fecha;
-    }
-
-    public String getSaldo() {
-        return saldo;
-    }
-
-    public void setSaldo(String saldo) {
-        this.saldo = saldo;
-    }
-}
 public class Recargas {
 
     private DatabaseReference mFirebaseDatabase;
@@ -46,6 +24,19 @@ public class Recargas {
 
     private String nombre_proveedor;
     private String saldo_cliente;
+    private String bar_proveedor;
+    private Bitmap imagen;
+
+    public Recargas(String nombre_proveedor, String saldo_cliente, String bar_proveedor, Bitmap imagen) {
+        this.nombre_proveedor = nombre_proveedor;
+        this.saldo_cliente = saldo_cliente;
+        this.bar_proveedor = bar_proveedor;
+        this.imagen = imagen;
+    }
+
+    public Bitmap getImagen() {
+        return imagen;
+    }
 
     public String getNombre_proveedor() {
         return nombre_proveedor;
@@ -58,12 +49,11 @@ public class Recargas {
     public Recargas() {
     }
 
-
-    public Recargas(String nombre_proveedor, String saldo_cliente) {
-        this.nombre_proveedor = nombre_proveedor;
-        this.saldo_cliente = saldo_cliente;
-
+    public String getBar_proveedor() {
+        return bar_proveedor;
     }
+
+
 
 
 

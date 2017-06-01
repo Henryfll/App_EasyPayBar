@@ -1,38 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:orientation="horizontal"
-        android:background="@color/ProveedorColor">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#dee4ee"
+    android:orientation="vertical"
+    android:padding="@dimen/espacio_norma_2"
+    tools:context="com.example.henryf.pryeasypaybar.MainActivity">
 
-        <TextView
-            android:id="@+id/nombre_proeevdor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
 
-            android:layout_gravity="center"
 
-            android:layout_weight="1"
-            android:paddingLeft="@dimen/espacio_norma_1"
-            android:text="Proveedor A"
-            android:textColor="@android:color/black"
-            android:textSize="30sp"
-            android:textStyle="normal" />
 
-        <TextView
-            android:id="@+id/saldo_cliente"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="20 $ "
-            android:layout_marginRight="10dp"
-            android:textColor="@android:color/black"
-            android:textAppearance="@style/TextAppearance.AppCompat.Title"
-            />
+        <android.support.design.widget.CoordinatorLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-    </LinearLayout>
-</LinearLayout>
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/recicladorDetalle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:scrollbars="vertical" />
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/recicladorRecarg"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:scrollbars="vertical" />
+
+
+                </LinearLayout>
+                <android.support.design.widget.FloatingActionButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/fab"
+                    android:layout_gravity="bottom|end"
+                    app:backgroundTint="@color/accentColor"
+                    app:fabSize="normal"
+                    android:src="@drawable/ic_action_compose"
+                    android:layout_margin="10dp"/>
+
+        </android.support.design.widget.CoordinatorLayout>
+
+</RelativeLayout>
