@@ -4,12 +4,15 @@ package com.example.henryf.pryeasypaybar;
  * Created by HenryF on 23/05/2017.
  */
 
+import android.app.Activity;
+import android.app.Dialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 
@@ -31,6 +34,7 @@ public class AdaptadorRecargas
         public CardView provedorView;
         public TextView bar_proveedor;
         public ImageView imagenProveedor;
+
 
 
         public ViewHolder(View v) {
@@ -62,7 +66,7 @@ public class AdaptadorRecargas
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(final ViewHolder viewHolder, int i) {
 
         Recargas item = FragmentoRecargas.lista_result.get(i);
 

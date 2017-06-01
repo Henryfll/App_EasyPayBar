@@ -116,8 +116,8 @@ public class FragmentoRecargas extends Fragment {
                         System.out.println("pruebaProveedor: "+proveedor.child("nombre").getValue().toString());
                         if(proveedor.child("afiliados").child(user.getUid()).getValue() != null) {
                             FirebaseStorage storage = FirebaseStorage.getInstance();
-                            StorageReference storageRef = storage.getReferenceFromUrl("gs://easypaybar.appspot.com/proveedores")
-                                    .child("bar12.jpg");
+                            StorageReference storageRef = storage.getReferenceFromUrl("gs://easypaybar.appspot.com/")
+                                    .child(proveedor.child("imagen").getValue().toString());
 
                                 final File localFile = File.createTempFile("images", "jpg");
                                 storageRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
