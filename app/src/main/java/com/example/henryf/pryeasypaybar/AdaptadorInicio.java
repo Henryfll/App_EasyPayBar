@@ -1,13 +1,19 @@
 package com.example.henryf.pryeasypaybar;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+
+import org.w3c.dom.Text;
 
 /**
  * Created by HenryF on 03/03/2017.
@@ -24,13 +30,18 @@ public class AdaptadorInicio
         // Campos respectivos de un item
 
         public TextView nombre;
-        //public ImageView imagen;
+        public TextView bar;
+        public ImageView imagenProveedor;
+        public Switch switch_afiliacion;
 
         public ViewHolder(View v) {
             super(v);
-           // nombre = (TextView) v.findViewById(R.id.nombre_comida);
+
             nombre = (TextView) v.findViewById(R.id.txt_nombre);
-            //imagen = (ImageView) v.findViewById(R.id.miniatura_comida);
+            bar = (TextView) v.findViewById(R.id.txt_bar);
+            imagenProveedor = (ImageView) v.findViewById(R.id.img_proveedor);
+            switch_afiliacion = (Switch) v.findViewById(R.id.Switch_afiliacion);
+
         }
     }
 
@@ -39,7 +50,7 @@ public class AdaptadorInicio
 
     @Override
     public int getItemCount() {
-        System.out.println("tama;o del array= "+FragmentoInicio.Lista_Proveedor.size());
+        //System.out.println("tama;o del array= "+FragmentoInicio.Lista_Proveedor.size());
         return FragmentoInicio.Lista_Proveedor.size();
     }
 
@@ -52,15 +63,19 @@ public class AdaptadorInicio
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
-        Proveedor item = FragmentoInicio.Lista_Proveedor.get(i);
+        final Proveedor item = FragmentoInicio.Lista_Proveedor.get(i);
 
-        //Glide.with(viewHolder.itemView.getContext())
-          //      .load(item.getIdDrawable())
-            //    .centerCrop()
-              //  .into(viewHolder.imagen);
-       // viewHolder.nombre.setText(item.getNombre());
-        viewHolder.nombre.setText(item.getNombre());
+        viewHolder.nombre.setText("Proveedor: "+item.getNombre());
+        viewHolder.bar.setText(item.getBar());
+        viewHolder.imagenProveedor.setImageBitmap(item.getImagen());
+        viewHolder.switch_afiliacion.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                Proveedor prov=new Proveedor();
+                prov.Afiliarse(item.getUid());
 
+            }
+        });
     }
 
 
