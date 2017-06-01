@@ -1,29 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="wrap_content"
+    android:background="#dee4ee"
+    android:orientation="vertical"
+    android:padding="0dp">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        card_view:cardCornerRadius="2dp"
+        android:layout_gravity="center"
+        card_view:cardUseCompatPadding="true">
+
+        <ImageView
+            android:id="@+id/imagenProveedor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="10dp"
+            card_view:srcCompat="@drawable/com_facebook_profile_picture_blank_square" />
+
+
+
+    </android.support.v7.widget.CardView>
+    <android.support.v7.widget.CardView
+        android:id="@+id/provedorView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        card_view:cardCornerRadius="0dp"
+        card_view:cardUseCompatPadding="true">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:orientation="horizontal"
-        android:background="@color/ProveedorColor">
 
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal">
+        <LinearLayout
+
+            android:layout_width="250dp"
+            android:layout_height="60dp"
+            android:orientation="vertical"
+            android:layout_gravity="center" >
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/bar_proeevdor"
+            android:paddingLeft="@dimen/espacio_norma_1"
+            android:layout_marginTop="5dp"
+            android:text="Proveedor A"
+            android:layout_gravity="center|left"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            android:textStyle="italic|bold" />
         <TextView
             android:id="@+id/nombre_proeevdor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
-            android:layout_gravity="center"
-
-            android:layout_weight="1"
+            android:layout_gravity="center|left"
             android:paddingLeft="@dimen/espacio_norma_1"
             android:text="Proveedor A"
             android:textColor="@android:color/black"
-            android:textSize="30sp"
+            android:textSize="12sp"
             android:textStyle="normal" />
-
+        </LinearLayout>
         <TextView
             android:id="@+id/saldo_cliente"
             android:layout_width="wrap_content"
@@ -35,6 +77,8 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
             />
 
-    </LinearLayout>
 
-</RelativeLayout>
+
+    </LinearLayout>
+    </android.support.v7.widget.CardView>
+</LinearLayout>
