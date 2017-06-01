@@ -60,7 +60,7 @@ public class FragmentoGrafica extends Fragment {
         View fragmentoView = inflater.inflate(R.layout.fragmento_grafica, container, false);
         pieChart = (PieChart) fragmentoView.findViewById(R.id.pieChart);
 
-        /*definimos algunos atributos*/
+        //definimos algunos atributos
         pieChart.setHoleRadius(40f);
         pieChart.setDrawYValues(true);
         pieChart.setDrawXValues(true);
