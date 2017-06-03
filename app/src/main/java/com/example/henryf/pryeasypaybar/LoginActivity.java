@@ -114,61 +114,6 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     });
 
-                   // Proveedor pro = new Proveedor();
-                    // pro.Afiliarse("HTEWqzf51Gd8YF4vCrl4Brf2pBi1");
-                /*mFirebaseDatabase.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-
-
-                            for (DataSnapshot c: dataSnapshot.getChildren()) {
-                                Cliente cli = c.getValue(Cliente.class);
-                                //System.out.println("Cliente :"+cli.codigoQR);
-                                if(user.getUid() == cli.codigoQR){
-                                    cont++;
-                                }
-                            }
-                            if (cont == 0){
-                                userId = mFirebaseDatabase.push().getKey();
-                                Cliente cliente = new Cliente(user.getUid(), user.getDisplayName());
-                                mFirebaseDatabase.child(userId).setValue(cliente);
-                            }
-
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-                            System.out.println("The read failed: " + databaseError.getCode());
-                        }
-                    });
-                   /* mFirebaseDatabase.addChildEventListener(new ChildEventListener() {
-
-                        @Override
-                        public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
-                            Cliente cli = dataSnapshot.getValue(Cliente.class);
-                            if (user.getUid() == cli.codigoQR)
-                                cont++;
-
-                        }
-
-                        @Override
-                        public void onChildChanged(DataSnapshot dataSnapshot, String prevChildKey) {}
-
-                        @Override
-                        public void onChildRemoved(DataSnapshot dataSnapshot) {}
-
-                        @Override
-                        public void onChildMoved(DataSnapshot dataSnapshot, String prevChildKey) {}
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {}
-                    });
-
-                    if (cont == 0) {
-                        userId = mFirebaseDatabase.push().getKey();
-                        Cliente cliente = new Cliente(user.getUid(), user.getDisplayName());
-                        mFirebaseDatabase.child(userId).setValue(cliente);
-                    }*/
 
 
                 }

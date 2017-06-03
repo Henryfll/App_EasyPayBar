@@ -4,12 +4,9 @@ package com.example.henryf.pryeasypaybar;
  * Created by HenryF on 23/05/2017.
  */
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,14 +14,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.*;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -57,12 +51,12 @@ public class FragmentoRecargas extends Fragment {
         this.imagen = imagen;
     }
 
-    public static void setLista_result(ArrayList<Recargas> lista_result) {
+    public static void setLista_result(ArrayList<ProveedorServicio> lista_result) {
         FragmentoRecargas.lista_result = lista_result;
 
     }
 
-    public static ArrayList<Recargas> lista_result = new ArrayList<Recargas>();
+    public static ArrayList<ProveedorServicio> lista_result = new ArrayList<ProveedorServicio>();
 
     public FragmentoRecargas() {
     }
@@ -101,7 +95,7 @@ public class FragmentoRecargas extends Fragment {
 
 
     public void getListRecargas(){
-        final ArrayList<Recargas> lista_recargas = new ArrayList<Recargas>();
+        final ArrayList<ProveedorServicio> lista_recargas = new ArrayList<>();
         mFirebaseInstance = FirebaseDatabase.getInstance();
         mFirebaseDatabase = mFirebaseInstance.getReference();
         firebaseAuth = FirebaseAuth.getInstance();
@@ -120,10 +114,10 @@ public class FragmentoRecargas extends Fragment {
 
 
 
-                            lista_recargas.add(new Recargas(proveedor.child("nombre").getValue().toString(),
+                            lista_recargas.add(new ProveedorServicio(proveedor.child("nombre").getValue().toString(),
                                     proveedor.child("afiliados").child(user.getUid()).child("saldo").getValue().toString(),
                                             proveedor.child("bar").getValue().toString(),
-                                    proveedor.child("imagen").getValue().toString()
+                                    proveedor.child("imagen").getValue().toString(),proveedor.child("codigoQR").getValue().toString()
                                     ));
 
 
@@ -175,9 +169,7 @@ public class FragmentoRecargas extends Fragment {
 
         return imagen;
     }
-    public void ejem(ArrayList<Recargas> recarga){
-        System.out.println("Nombre p"+recarga.size());
-    }
+
 
 
 }

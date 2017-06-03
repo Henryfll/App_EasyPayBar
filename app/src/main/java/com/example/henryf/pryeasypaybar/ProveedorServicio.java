@@ -1,69 +1,62 @@
 package com.example.henryf.pryeasypaybar;
 
-import android.graphics.Bitmap;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 /**
- * Created by Diego Claudio on 04/05/2017.
+ * Created by Fabian on 03/06/2017.
  */
 
-public class Proveedor {
-    private String nombre;
-    private String bar;
-    private Bitmap imagen;
-    private String uid;
+public class ProveedorServicio {
+
     private DatabaseReference mFirebaseDatabase;
     private FirebaseDatabase mFirebaseInstance;
     private FirebaseAuth firebaseAuth;
 
-    public Proveedor(){};
 
-    public Proveedor(String nombre, String bar, Bitmap imagen, String uid) {
-        this.nombre = nombre;
-        this.bar = bar;
+
+    private String nombre_proveedor;
+    private String saldo_cliente;
+    private String bar_proveedor;
+    private String imagen;
+    private String uid_Proveedor;
+
+
+    public ProveedorServicio(String nombre_proveedor, String saldo_cliente, String bar_proveedor, String imagen, String uid) {
+        this.nombre_proveedor = nombre_proveedor;
+        this.saldo_cliente = saldo_cliente;
+        this.bar_proveedor = bar_proveedor;
         this.imagen = imagen;
-        this.uid = uid;
+        this.uid_Proveedor = uid;
     }
 
-    public String getUid() {
-        return uid;
+    public String getUid_Proveedor() {
+        return uid_Proveedor;
     }
 
-    public void setUid(String uid) {
-        this.uid = uid;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getBar() {
-        return bar;
-    }
-
-    public void setBar(String bar) {
-        this.bar = bar;
-    }
-
-    public Bitmap getImagen() {
+    public String getImagen() {
         return imagen;
     }
 
-    public void setImagen(Bitmap imagen) {
-        this.imagen = imagen;
+    public String getNombre_proveedor() {
+        return nombre_proveedor;
     }
+
+    public String getSaldo_cliente() {
+        return saldo_cliente;
+    }
+
+    public ProveedorServicio() {
+    }
+
+    public String getBar_proveedor() {
+        return bar_proveedor;
+    }
+
 
     public void Afiliarse(String proveedorId){//proveedorId es el UID del proveedor en firebase
         firebaseAuth = FirebaseAuth.getInstance();
@@ -77,4 +70,9 @@ public class Proveedor {
             System.out.println("problema: "+e.getMessage());
         }
     }
+
+
+
+
+
 }

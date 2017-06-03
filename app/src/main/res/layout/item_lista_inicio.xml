@@ -8,7 +8,9 @@
             android:id="@+id/img_proveedor"
             android:layout_width="match_parent"
             android:layout_height="@dimen/altura_miniatura_comida"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"
+
+        />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -34,9 +36,9 @@
             android:layout_weight="1"
             android:paddingLeft="@dimen/espacio_norma_1"
             android:text="Large Text"
-            android:textColor="@android:color/white"
+            android:textColor="@android:color/black"
             android:textSize="26sp"
-            android:textStyle="italic" />
+            android:textStyle="italic|bold" />
         <TextView
             android:id="@+id/txt_nombre"
             android:layout_width="wrap_content"
@@ -46,7 +48,7 @@
             android:layout_weight="1"
             android:paddingLeft="@dimen/espacio_norma_1"
             android:text="Large Text"
-            android:textColor="@android:color/white"
+            android:textColor="@android:color/black"
             android:textSize="20sp"
             android:textStyle="italic" />
 

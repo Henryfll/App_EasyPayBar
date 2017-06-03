@@ -78,7 +78,7 @@ public class AdaptadorRecargas
     public void onBindViewHolder(final ViewHolder viewHolder, int i) {
 
 
-        Recargas item = FragmentoRecargas.lista_result.get(i);
+        ProveedorServicio item = FragmentoRecargas.lista_result.get(i);
 
         FirebaseStorage storage = FirebaseStorage.getInstance();
         Bitmap bitmaplocal;

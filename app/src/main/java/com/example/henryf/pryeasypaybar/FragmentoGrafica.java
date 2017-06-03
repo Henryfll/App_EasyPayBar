@@ -91,7 +91,7 @@ public class FragmentoGrafica extends Fragment {
             /*valsX.add("Varones");
             valsX.add("Mujeres");*/
         int cont=0;
-        for (Recargas lista: FragmentoRecargas.lista_result
+        for (ProveedorServicio lista: FragmentoRecargas.lista_result
              ) {
             valsX.add(lista.getBar_proveedor());
             valsY.add(new Entry(Float.parseFloat(lista.getSaldo_cliente()),cont));

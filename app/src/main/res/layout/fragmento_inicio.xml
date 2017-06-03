@@ -17,7 +17,7 @@
         android:textColor="@color/color_light" />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/reciclador"
+        android:id="@+id/recicladorInicio"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical" />

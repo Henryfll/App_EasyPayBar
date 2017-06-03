@@ -1,5 +1,7 @@
 package com.example.henryf.pryeasypaybar;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,8 +14,15 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import org.w3c.dom.Text;
+
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Created by HenryF on 03/03/2017.
@@ -62,18 +71,35 @@ public class AdaptadorInicio
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, int i) {
-        final Proveedor item = FragmentoInicio.Lista_Proveedor.get(i);
+    public void onBindViewHolder(final ViewHolder viewHolder, int i) {
+        final ProveedorServicio item = FragmentoInicio.Lista_Proveedor.get(i);
 
-        viewHolder.nombre.setText("Proveedor: "+item.getNombre());
-        viewHolder.bar.setText(item.getBar());
-        viewHolder.imagenProveedor.setImageBitmap(item.getImagen());
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReferenceFromUrl("gs://easypaybar.appspot.com/")
+                .child(item.getImagen());
+
+        final File localFile;
+        try {
+            localFile = File.createTempFile("images"+item.getNombre_proveedor().toString(), "jpg");
+            storageRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                    viewHolder.imagenProveedor.setImageBitmap(bitmap);
+                                                                       }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        viewHolder.nombre.setText("Proveedor: "+item.getNombre_proveedor());
+        viewHolder.bar.setText(item.getBar_proveedor());
+
         viewHolder.switch_afiliacion.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                Proveedor prov=new Proveedor();
-                prov.Afiliarse(item.getUid());
-
+                ProveedorServicio prov=new ProveedorServicio();
+                prov.Afiliarse(item.getUid_Proveedor());
             }
         });
     }
