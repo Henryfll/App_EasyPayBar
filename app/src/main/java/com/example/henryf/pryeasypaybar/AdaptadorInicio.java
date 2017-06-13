@@ -51,6 +51,8 @@ public class AdaptadorInicio
             imagenProveedor = (ImageView) v.findViewById(R.id.img_proveedor);
             switch_afiliacion = (Switch) v.findViewById(R.id.Switch_afiliacion);
 
+            switch_afiliacion.setTextOn("Yes"); // displayed text of the Switch whenever it is in checked or on state
+            switch_afiliacion.setTextOff("No");
         }
     }
 
