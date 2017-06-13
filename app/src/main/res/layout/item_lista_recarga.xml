@@ -81,4 +81,49 @@
 
     </LinearLayout>
     </android.support.v7.widget.CardView>
+    <android.support.v7.widget.CardView
+        android:id="@+id/detalleRecarga"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        card_view:cardCornerRadius="0dp"
+        android:background="#b1b1b1"
+
+        card_view:cardUseCompatPadding="true">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:paddingLeft="16dp"
+                    android:layout_gravity="center"
+                    android:text="Detallle de Recaraga"
+                    android:textSize="16dp"
+                    android:textStyle="bold"
+                    android:textColor="#000000"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ListView
+                    android:layout_width="match_parent"
+                    android:layout_height="170dp"
+                    android:id="@+id/listViewDetalle"
+                    android:scrollbarStyle="insideOverlay"
+                    android:layout_weight="5" />
+            </LinearLayout>
+        </LinearLayout>
+
+
+
+
+    </android.support.v7.widget.CardView>
+
+
 </LinearLayout>

@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -94,6 +95,7 @@ public class FragmentoRecargas extends Fragment {
 
 
 
+
     public void getListRecargas(){
         final ArrayList<ProveedorServicio> lista_recargas = new ArrayList<>();
         mFirebaseInstance = FirebaseDatabase.getInstance();
@@ -112,20 +114,28 @@ public class FragmentoRecargas extends Fragment {
                         System.out.println("pruebaProveedor: "+proveedor.child("nombre").getValue().toString());
                         if(proveedor.child("afiliados").child(user.getUid()).getValue() != null) {
 
+                            ArrayList<String> listDetalle = new ArrayList<String>();
+                            for(DataSnapshot detalleRecarga: proveedor.child("afiliados").child(user.getUid()).child("recarga").getChildren()){
+                                Recarga recarga = detalleRecarga.getValue(Recarga.class);
+                                System.out.println("Recarga"+ recarga.getFecha_Recarga());
+                                System.out.println("DetalleRecarga: "+detalleRecarga.getValue());
+                                listDetalle.add("Fecha: "+recarga.getFecha_Recarga() +"           Valor: "+ recarga.getValor());
+                            }
 
 
                             lista_recargas.add(new ProveedorServicio(proveedor.child("nombre").getValue().toString(),
                                     proveedor.child("afiliados").child(user.getUid()).child("saldo").getValue().toString(),
                                             proveedor.child("bar").getValue().toString(),
                                     proveedor.child("imagen").getValue().toString(),proveedor.child("codigoQR").getValue().toString()
-                                    ));
+                                    ,listDetalle));
 
-
+                            System.out.println("ListaViewRecarga"+listDetalle);
                         }
 
                     }catch (Exception e){
                         System.out.println("Error: "+e.getMessage());
                     }
+
                 }
 
                 setLista_result(lista_recargas);
@@ -141,34 +151,11 @@ public class FragmentoRecargas extends Fragment {
 
     }
 
-    public Bitmap imagen(String nombre_imagen, String codigo) throws IOException {
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        Bitmap bitmaplocal;
-        StorageReference storageRef = storage.getReferenceFromUrl("gs://easypaybar.appspot.com/")
-                .child(nombre_imagen);
+    public void detalle(){
 
-        final File localFile = File.createTempFile("images"+codigo, "jpg");
-
-
-
-        storageRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-            File fichero;
-            @Override
-            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-
-                Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
-                setImagen(bitmap);
-
-
-            }
-
-
-
-        });
-
-
-        return imagen;
     }
+
+
 
 
 

@@ -24,7 +24,11 @@ public class ProveedorServicio {
     private String bar_proveedor;
     private String imagen;
     private String uid_Proveedor;
+    private ArrayList<String> Lista_recargas;
 
+    public ArrayList<String> getLista_recargas() {
+        return Lista_recargas;
+    }
 
     public ProveedorServicio(String nombre_proveedor, String saldo_cliente, String bar_proveedor, String imagen, String uid) {
         this.nombre_proveedor = nombre_proveedor;
@@ -32,6 +36,14 @@ public class ProveedorServicio {
         this.bar_proveedor = bar_proveedor;
         this.imagen = imagen;
         this.uid_Proveedor = uid;
+    }
+    public ProveedorServicio(String nombre_proveedor, String saldo_cliente, String bar_proveedor, String imagen, String uid, ArrayList<String> recargas) {
+        this.nombre_proveedor = nombre_proveedor;
+        this.saldo_cliente = saldo_cliente;
+        this.bar_proveedor = bar_proveedor;
+        this.imagen = imagen;
+        this.uid_Proveedor = uid;
+        this.Lista_recargas = recargas;
     }
 
     public String getUid_Proveedor() {

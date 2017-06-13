@@ -72,15 +72,7 @@ public class FragmentoQr extends Fragment{
         System.out.println("CodigoQR");
         return rootView;
     }
-    public void CodigoQR(){
-        try {
-            bitmap = TextToImageEncode(usuario.getUid());
-            imageView.setImageBitmap(bitmap);
 
-        } catch (WriterException e) {
-            e.printStackTrace();
-        }
-    }
 
     Bitmap TextToImageEncode(String Value) throws WriterException {
         BitMatrix bitMatrix;
