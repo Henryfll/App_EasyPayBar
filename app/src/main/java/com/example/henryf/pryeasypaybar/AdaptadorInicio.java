@@ -1,8 +1,12 @@
 package com.example.henryf.pryeasypaybar;
 
+import android.app.AlertDialog;
+import android.app.Fragment;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
+import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,7 +45,9 @@ public class AdaptadorInicio
         public TextView nombre;
         public TextView bar;
         public ImageView imagenProveedor;
-        public Switch switch_afiliacion;
+        //public Switch switch_afiliacion;
+        private ImageView imgAfiliar;
+
 
         public ViewHolder(View v) {
             super(v);
@@ -49,10 +55,11 @@ public class AdaptadorInicio
             nombre = (TextView) v.findViewById(R.id.txt_nombre);
             bar = (TextView) v.findViewById(R.id.txt_bar);
             imagenProveedor = (ImageView) v.findViewById(R.id.img_proveedor);
-            switch_afiliacion = (Switch) v.findViewById(R.id.Switch_afiliacion);
+            imgAfiliar = (ImageView) v.findViewById(R.id.ic_afiliar);
+            //switch_afiliacion = (Switch) v.findViewById(R.id.Switch_afiliacion);
 
-            switch_afiliacion.setTextOn("Yes"); // displayed text of the Switch whenever it is in checked or on state
-            switch_afiliacion.setTextOff("No");
+           // switch_afiliacion.setTextOn("Yes"); // displayed text of the Switch whenever it is in checked or on state
+          //  switch_afiliacion.setTextOff("No");
         }
     }
 
@@ -97,14 +104,48 @@ public class AdaptadorInicio
         viewHolder.nombre.setText("Proveedor: "+item.getNombre_proveedor());
         viewHolder.bar.setText(item.getBar_proveedor());
 
-        viewHolder.switch_afiliacion.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        /*viewHolder.switch_afiliacion.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 ProveedorServicio prov=new ProveedorServicio();
                 prov.Afiliarse(item.getUid_Proveedor());
             }
-        });
+        });*/
+        if(item.isUsuarioAfiliado()){
+            viewHolder.imgAfiliar.setVisibility(View.GONE);
+
+        }else{
+            viewHolder.imgAfiliar.setVisibility(View.VISIBLE);
+            viewHolder.imgAfiliar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AlertDialog.Builder dialogo1 = new AlertDialog.Builder(v.getContext());
+                    dialogo1.setTitle("Importante");
+                    dialogo1.setMessage("¿Desea afiliarce al "+ item.getBar_proveedor()+"?");
+                    dialogo1.setCancelable(false);
+                    dialogo1.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialogo1, int id) {
+                            afiliar(item.getUid_Proveedor());
+                        }
+                    });
+                    dialogo1.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialogo1, int id) {
+
+                        }
+                    });
+                    dialogo1.show();
+
+                }
+            });
+        }
+
+
     }
 
+    public void afiliar(String uidProveedor){
+        ProveedorServicio prov=new ProveedorServicio();
+        prov.Afiliarse(uidProveedor);
+
+    }
 
 }

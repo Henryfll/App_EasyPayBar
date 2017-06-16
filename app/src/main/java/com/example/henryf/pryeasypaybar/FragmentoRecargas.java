@@ -72,13 +72,11 @@ public class FragmentoRecargas extends Fragment {
 
         View view = inflater.inflate(R.layout.fragmento_recarga, container, false);
         fab = (FloatingActionButton) view.findViewById(R.id.fab);
-
         recyclerView = (RecyclerView) view.findViewById(R.id.recicladorRecarg);
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         adaptador = new AdaptadorRecargas();
         recyclerView.setAdapter(adaptador);
-
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -87,11 +85,12 @@ public class FragmentoRecargas extends Fragment {
                 recyclerView.setAdapter(adaptador);
             }
         });
-        getListRecargas();
 
+        getListRecargas();
 
         return view;
     }
+
 
 
 

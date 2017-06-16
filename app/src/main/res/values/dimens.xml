@@ -21,5 +21,7 @@
     <dimen name="ancho_logo">200dp</dimen>
     <dimen name="text_margin">16dp</dimen>
 
+    <dimen name="espacio_texto_icono">240dp</dimen>
+
 
 </resources>
