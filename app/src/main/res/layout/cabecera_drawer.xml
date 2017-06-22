@@ -24,20 +24,11 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/icono_carrito"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="8dp"
-                android:src="@drawable/carrito_compras" />
-
-            <TextView
-                android:id="@+id/etiqueta_carrito"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:text="@string/etiqueta_carrito"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textStyle="bold" />
+                android:id="@+id/imagen_Cliente"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_margin="10dp"
+                android:layout_weight="1" />
 
         </TableRow>
 
@@ -46,14 +37,14 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/texto_total_carrito"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_column="1"
+                android:id="@+id/nombre_Usuario"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_margin="10dp"
                 android:layout_gravity="center_vertical"
-                android:text="$ 0"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textStyle="bold" />
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+
         </TableRow>
 
     </TableLayout>
