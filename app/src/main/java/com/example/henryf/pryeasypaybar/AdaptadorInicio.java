@@ -57,7 +57,7 @@ public class AdaptadorInicio
             bar = (TextView) v.findViewById(R.id.txt_bar);
             imagenProveedor = (ImageView) v.findViewById(R.id.img_proveedor);
             imgAfiliar = (ImageView) v.findViewById(R.id.ic_afiliar);
-            imgCategoria = (ImageView) v.findViewById(R.id.ic_visible);
+            imgCategoria = (ImageView) v.findViewById(R.id.btn_menu);
 
             //switch_afiliacion = (Switch) v.findViewById(R.id.Switch_afiliacion);
 
