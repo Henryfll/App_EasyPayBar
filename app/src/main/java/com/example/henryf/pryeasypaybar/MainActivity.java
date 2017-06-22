@@ -2,8 +2,12 @@ package com.example.henryf.pryeasypaybar;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -32,6 +36,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -46,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private FirebaseUser usuario;
 
+    private String name;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         if (user != null) {
-            String name = user.getDisplayName();
+            name = user.getDisplayName();
             String email = user.getEmail();
             Uri photoUrl = user.getPhotoUrl();
             String uid = user.getUid();
@@ -68,8 +75,16 @@ public class MainActivity extends AppCompatActivity {
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+
+
+
+        //Insertar imagen redondeada
         View hView =  navigationView.getHeaderView(0);
-        ImageView nav_img = (ImageView) hView.findViewById(R.id.imagenCliente);
+        //Insertar Nombre de usuario
+        System.out.println("problema"+name);
+        final TextView nombre_Usuario = (TextView) hView.findViewById(R.id.nombre_Usuario);
+        nombre_Usuario.setText(name);
+        final ImageView nav_img = (ImageView) hView.findViewById(R.id.imagen_Cliente);
         String facebookUserId="";
         for(UserInfo profile : user.getProviderData()) {
             facebookUserId = profile.getUid();
@@ -78,13 +93,26 @@ public class MainActivity extends AppCompatActivity {
         String url = "https://graph.facebook.com/" + facebookUserId + "/picture?height=500";
         WindowManager wm = (WindowManager) hView.getContext().getSystemService(hView.getContext().WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
-        int width = display.getWidth();  // deprecated
-        int height = display.getHeight();  // deprecated
+
         Picasso.with(hView.getContext())
                 .load(url)
                 .centerCrop()
-                .resize(display.getWidth()/3, display.getHeight()/5)
-                .into(nav_img);
+                .resize(display.getWidth()/5, display.getHeight()/8)
+                .into(nav_img, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        Bitmap imageBitmap = ((BitmapDrawable) nav_img.getDrawable()).getBitmap();
+                        RoundedBitmapDrawable imageDrawable = RoundedBitmapDrawableFactory.create(getResources(), imageBitmap);
+                        imageDrawable.setCircular(true);
+                        imageDrawable.setCornerRadius(Math.max(imageBitmap.getWidth(), imageBitmap.getHeight()) / 2.0f);
+                        nav_img.setImageDrawable(imageDrawable);
+                    }
+                    @Override
+                    public void onError() {
+                        //viewfoto.setImageResource(R.drawable.default_image);
+                    }
+                });
+
 
 
 

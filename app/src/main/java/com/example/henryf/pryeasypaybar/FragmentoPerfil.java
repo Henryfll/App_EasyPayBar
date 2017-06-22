@@ -1,8 +1,12 @@
 package com.example.henryf.pryeasypaybar;
 
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.text.Layout;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -15,6 +19,7 @@ import android.widget.TextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 
@@ -47,22 +52,32 @@ public class FragmentoPerfil extends Fragment {
         lblcorreo.setText(user.getEmail());
         WindowManager wm = (WindowManager) getContext().getSystemService(getContext().WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
-        int width = display.getWidth();  // deprecated
-        int height = display.getHeight();  // deprecated
-        System.out.println("problema: "+width + height);
 
         String facebookUserId="";
         for(UserInfo profile : user.getProviderData()) {
             facebookUserId = profile.getUid();
 
         }
-        System.out.println("uid :"+facebookUserId);
+        //System.out.println("uid :"+facebookUserId);
         String url = "https://graph.facebook.com/" + facebookUserId + "/picture?height=500";
         Picasso.with(getContext())
                 .load(url)
                 .centerCrop()
                 .resize(display.getWidth()/3, display.getHeight()/5)
-                .into(viewfoto);
+                .into(viewfoto, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        Bitmap imageBitmap = ((BitmapDrawable) viewfoto.getDrawable()).getBitmap();
+                        RoundedBitmapDrawable imageDrawable = RoundedBitmapDrawableFactory.create(getResources(), imageBitmap);
+                        imageDrawable.setCircular(true);
+                        imageDrawable.setCornerRadius(Math.max(imageBitmap.getWidth(), imageBitmap.getHeight()) / 2.0f);
+                        viewfoto.setImageDrawable(imageDrawable);
+                    }
+                    @Override
+                    public void onError() {
+                        //viewfoto.setImageResource(R.drawable.default_image);
+                    }
+                });
         /*BitmapFactory.Options options = new BitmapFactory.Options();
         options.inPreferredConfig = Bitmap.Config.ARGB_8888;
         System.out.println("problema: "+user.getPhotoUrl().toString());

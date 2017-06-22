@@ -8,7 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -29,38 +33,22 @@ import java.util.ArrayList;
 
 public class FragmentoGrafica extends Fragment {
     private PieChart pieChart;
-    private FirebaseAuth firebaseAuth;
-    private DatabaseReference mFirebaseDatabase;
-    private FirebaseDatabase mFirebaseInstance;
-    private double saldoTotal = 0;
+    private BarChart barChart;
 
-    /*creamos una lista para los valores Y*/
-    /*public static ArrayList<Entry> valsY = new ArrayList<Entry>();
-        /*valsY.add(new Entry(5* 100 / 25,0));
-        valsY.add(new Entry(20 * 100 / 25,1));
+    private float saldoTotal = 0;
 
-    /*creamos una lista para los valores X
-    public static ArrayList<String> valsX = new ArrayList<String>();
-
-        /*valsX.add("Varones");
-        valsX.add("Mujeres");*/
 
     public FragmentoGrafica() {
         // Required empty public constructor
     }
 
-    /*public static void setLista_X(ArrayList<String> listax) {
-        valsX = listax;
-    }
-    public static void setLista_Y(ArrayList<Entry> listay) {
-        valsY = listay;
-    }*/
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View fragmentoView = inflater.inflate(R.layout.fragmento_grafica, container, false);
         pieChart = (PieChart) fragmentoView.findViewById(R.id.pieChart);
+        barChart = (BarChart) fragmentoView.findViewById(R.id.chart);
 
         //definimos algunos atributos
         pieChart.setHoleRadius(40f);
@@ -83,36 +71,45 @@ public class FragmentoGrafica extends Fragment {
 
         /*creamos una lista para los valores Y*/
         ArrayList<Entry> valsY = new ArrayList<Entry>();
-           /* valsY.add(new Entry(5* 100 / 25,0));
-            valsY.add(new Entry(20 * 100 / 25,1));*/
+        ArrayList<BarEntry> entries = new ArrayList<>();
 
         /*creamos una lista para los valores X*/
         final ArrayList<String> valsX = new ArrayList<String>();
-            /*valsX.add("Varones");
-            valsX.add("Mujeres");*/
+
         int cont=0;
         for (ProveedorServicio lista: FragmentoRecargas.lista_result
              ) {
             valsX.add(lista.getBar_proveedor());
             valsY.add(new Entry(Float.parseFloat(lista.getSaldo_cliente()),cont));
+            entries.add(new BarEntry(Float.parseFloat(lista.getSaldo_cliente()),cont));
+            saldoTotal=saldoTotal+Float.parseFloat(lista.getSaldo_cliente());
             cont++;
 
         }
 
             /*seteamos los valores de Y y los colores*/
         PieDataSet set1 = new PieDataSet(valsY, "Resultados");
+        BarDataSet dataset = new BarDataSet(entries, "Saldo por proveedor");
+        dataset.setColors(colors);
+        BarData dataBarras = new BarData(valsX, dataset);
+        // dataset.setColors(ColorTemplate.COLORFUL_COLORS); //
+        barChart.setData(dataBarras);
+        barChart.animateY(5000);
+        barChart.highlightValues(null);
+        barChart.invalidate();
+
         set1.setSliceSpace(3f);
         set1.setColors(colors);
 
-		/*seteamos los valores de X*/
-        PieData data = new PieData(valsX, set1);
-        pieChart.setData(data);
+		//seteamos los valores de X
+        PieData dataPastel = new PieData(valsX, set1);
+        pieChart.setData(dataPastel);
         pieChart.highlightValues(null);
         pieChart.invalidate();
 
-        /*Ocutar descripcion*/
-        pieChart.setDescription("");
-        /*Ocultar leyenda*/
+        //Ocutar descripcion
+        pieChart.setDescription("Saldo por Proveedor");
+        //Ocultar leyenda
         pieChart.setDrawLegend(false);
         return fragmentoView;
     }
