@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
                 fragmentoGenerico = new FragmentoCuenta(usuario);
                 break;
             case R.id.item_categorias:
-                // Fragmento para la sección Categorías
+                fragmentoGenerico = new FragmentoProductos();
                 break;
             case R.id.item_configuracion:
                 // Iniciar actividad de configuración
