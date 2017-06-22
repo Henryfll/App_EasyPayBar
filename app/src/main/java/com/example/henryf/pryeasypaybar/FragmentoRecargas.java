@@ -118,7 +118,7 @@ public class FragmentoRecargas extends Fragment {
                                 Recarga recarga = detalleRecarga.getValue(Recarga.class);
                                 System.out.println("Recarga"+ recarga.getFecha_Recarga());
                                 System.out.println("DetalleRecarga: "+detalleRecarga.getValue());
-                                listDetalle.add("Fecha: "+recarga.getFecha_Recarga() +"           Valor: "+ recarga.getValor());
+                                listDetalle.add("Fecha: "+recarga.getFecha_Recarga() +"           "+ recarga.getValor()+" $");
                             }
 
 

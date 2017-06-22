@@ -8,9 +8,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Display;
 import android.view.View;
 import com.facebook.login.LoginManager;
 import android.net.Uri;
+import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -22,11 +25,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.app.Fragment;
+
+import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -39,11 +45,13 @@ public class MainActivity extends AppCompatActivity {
     private String userId;
     private DrawerLayout drawerLayout;
     private FirebaseUser usuario;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
 
         if (user != null) {
             String name = user.getDisplayName();
@@ -60,6 +68,25 @@ public class MainActivity extends AppCompatActivity {
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View hView =  navigationView.getHeaderView(0);
+        ImageView nav_img = (ImageView) hView.findViewById(R.id.imagenCliente);
+        String facebookUserId="";
+        for(UserInfo profile : user.getProviderData()) {
+            facebookUserId = profile.getUid();
+                    }
+        System.out.println("uid :"+facebookUserId);
+        String url = "https://graph.facebook.com/" + facebookUserId + "/picture?height=500";
+        WindowManager wm = (WindowManager) hView.getContext().getSystemService(hView.getContext().WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        int width = display.getWidth();  // deprecated
+        int height = display.getHeight();  // deprecated
+        Picasso.with(hView.getContext())
+                .load(url)
+                .centerCrop()
+                .resize(display.getWidth()/3, display.getHeight()/5)
+                .into(nav_img);
+
+
 
         if (navigationView != null) {
             prepararDrawer(navigationView);

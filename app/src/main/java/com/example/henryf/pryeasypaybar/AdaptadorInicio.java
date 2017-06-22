@@ -1,29 +1,27 @@
 package com.example.henryf.pryeasypaybar;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-
-import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.IOException;
@@ -45,8 +43,11 @@ public class AdaptadorInicio
         public TextView nombre;
         public TextView bar;
         public ImageView imagenProveedor;
+        private RecyclerView reciclador;
         //public Switch switch_afiliacion;
         private ImageView imgAfiliar;
+        private ImageView imgCategoria;
+
 
 
         public ViewHolder(View v) {
@@ -56,6 +57,8 @@ public class AdaptadorInicio
             bar = (TextView) v.findViewById(R.id.txt_bar);
             imagenProveedor = (ImageView) v.findViewById(R.id.img_proveedor);
             imgAfiliar = (ImageView) v.findViewById(R.id.ic_afiliar);
+            imgCategoria = (ImageView) v.findViewById(R.id.ic_visible);
+
             //switch_afiliacion = (Switch) v.findViewById(R.id.Switch_afiliacion);
 
            // switch_afiliacion.setTextOn("Yes"); // displayed text of the Switch whenever it is in checked or on state
@@ -111,6 +114,21 @@ public class AdaptadorInicio
                 prov.Afiliarse(item.getUid_Proveedor());
             }
         });*/
+        /**
+         * Nuevo fragmento para categoria
+         */
+        viewHolder.imgCategoria.setOnClickListener(new View.OnClickListener() {
+            private Context context;
+            @Override
+            public void onClick(View v) {
+
+
+            }
+        });
+
+        /**
+         * Afiliacion de usuario a proveedor
+         */
         if(item.isUsuarioAfiliado()){
             viewHolder.imgAfiliar.setVisibility(View.GONE);
 
@@ -126,6 +144,7 @@ public class AdaptadorInicio
                     dialogo1.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialogo1, int id) {
                             afiliar(item.getUid_Proveedor());
+                            viewHolder.imgAfiliar.setVisibility(View.GONE);
                         }
                     });
                     dialogo1.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
@@ -145,6 +164,7 @@ public class AdaptadorInicio
     public void afiliar(String uidProveedor){
         ProveedorServicio prov=new ProveedorServicio();
         prov.Afiliarse(uidProveedor);
+
 
     }
 

@@ -54,6 +54,16 @@
                 android:text="$ 0"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/imagenCliente"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
+                />
+
+
         </TableRow>
 
     </TableLayout>

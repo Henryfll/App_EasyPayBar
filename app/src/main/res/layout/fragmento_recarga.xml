@@ -21,11 +21,6 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                        <android.support.v7.widget.RecyclerView
-                            android:id="@+id/recicladorDetalle"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:scrollbars="vertical" />
 
                         <android.support.v7.widget.RecyclerView
                             android:id="@+id/recicladorRecarg"
@@ -43,7 +38,11 @@
                     app:backgroundTint="@color/accentColor"
                     app:fabSize="normal"
                     android:src="@drawable/ic_action_compose"
-                    android:layout_margin="10dp"/>
+                    android:layout_margin="10dp"
+
+                    />
+
+
 
         </android.support.design.widget.CoordinatorLayout>
 

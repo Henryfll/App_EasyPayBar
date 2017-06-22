@@ -9,8 +9,10 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.text.Layout;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,7 +62,7 @@ public class AdaptadorRecargas
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView nombre_proveedor;
         public TextView saldo_cliente;
-        public CardView provedorView;
+        public LinearLayout provedorView;
         public TextView bar_proveedor;
         public ImageView imagenProveedor;
         public ListView listaDetalle;
@@ -72,12 +74,11 @@ public class AdaptadorRecargas
             super(v);
             nombre_proveedor = (TextView) v.findViewById(R.id.nombre_proeevdor);
             saldo_cliente = (TextView) v.findViewById(R.id.saldo_cliente);
-            provedorView = (CardView) v.findViewById(R.id.provedorView);
+            provedorView = (LinearLayout) v.findViewById(R.id.provedorView);
             bar_proveedor = (TextView) v.findViewById(R.id.bar_proeevdor);
             imagenProveedor = (ImageView) v.findViewById(R.id.imagenProveedor);
             listaDetalle = (ListView) v.findViewById(R.id.listViewDetalle);
             detalleRecarga = (CardView) v.findViewById(R.id.detalleRecarga);
-
 
 
         }
@@ -100,6 +101,7 @@ public class AdaptadorRecargas
                 .inflate(R.layout.item_lista_recarga, viewGroup, false);
         return new ViewHolder(v);
     }
+
 
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, int contador) {
@@ -154,6 +156,7 @@ public class AdaptadorRecargas
 
             if(viewHolder.detalleRecarga.getVisibility() == View.GONE){
                     viewHolder.detalleRecarga.setVisibility(View.VISIBLE);
+
             }else{
                 if(viewHolder.detalleRecarga.getVisibility() == View.VISIBLE){
                     viewHolder.detalleRecarga.setVisibility(View.GONE);
