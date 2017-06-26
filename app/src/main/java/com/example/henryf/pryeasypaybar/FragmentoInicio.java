@@ -1,16 +1,16 @@
 package com.example.henryf.pryeasypaybar;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
 
+import com.example.henryf.pryeasypaybar.Servicios.CategoriaProveedor;
+import com.example.henryf.pryeasypaybar.Servicios.ProductoProveedor;
+import com.example.henryf.pryeasypaybar.Servicios.ProveedorServicio;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -36,7 +36,15 @@ public class FragmentoInicio extends Fragment {
     private FirebaseDatabase mFirebaseInstance;
     private Bitmap imagen;
     private FirebaseAuth firebaseAuth;
+    private ArrayList<CategoriaProveedor> categoriaProveedors;
 
+    public ArrayList<CategoriaProveedor> getCategoriaProveedors() {
+        return categoriaProveedors;
+    }
+
+    public void setCategoriaProveedors(ArrayList<CategoriaProveedor> categoriaProveedors) {
+        this.categoriaProveedors = categoriaProveedors;
+    }
 
     public void setImagen(Bitmap imagen) {
         this.imagen = imagen;
@@ -85,14 +93,39 @@ public class FragmentoInicio extends Fragment {
                         if(proveedor.child("afiliados").child(user.getUid()).getValue() != null) {
                             afiliado = true;
                         }
+                        ArrayList<CategoriaProveedor> listCategoria = new ArrayList<CategoriaProveedor>();
+                        for(DataSnapshot categorias: proveedor.child("categoria").getChildren()){
+                            CategoriaProveedor categ = categorias.getValue(CategoriaProveedor.class);
+                            System.out.println("Descripcion:"+ categ.getDescripcion().toString());
+                            System.out.println("DetalleRecarga: "+categ.getNombre());
+                            ArrayList<ProductoProveedor> listProductos = new ArrayList<ProductoProveedor>();
+                            for(DataSnapshot producto: categorias.child("producto").getChildren()){
+
+                                listProductos.add(new ProductoProveedor(
+                                        producto.child("nombre").getValue().toString(),
+                                        producto.child("precio").getValue().toString(),
+                                        producto.child("imagen").getValue().toString(),
+                                        producto.child("veces").getValue().toString(),
+                                        producto.child("imagenURL").getValue().toString()
+                                ));
+
+
+                            }
+                            categ.setProductoProveedores(listProductos);
+                            listCategoria.add(categ);
+                        }
                         System.out.println("BarAfiliados = "+proveedor.child("afiliados").child(user.getUid()).getValue());
                         // Lista_Proveedores.add(proveedor.child("bar").getValue().toString());//Almacena en el arraylist proveedores cada proveedor
-                        lista_prove.add(new ProveedorServicio(proveedor.child("nombre").getValue().toString(),
+                        lista_prove.add(new
+                                ProveedorServicio(proveedor.child("nombre").getValue().toString(),
                                 "",
                                 proveedor.child("bar").getValue().toString(),
                                 proveedor.child("imagen").getValue().toString(),
-                                proveedor.child("codigoQR").getValue().toString(), afiliado
-                                ));
+                                proveedor.child("codigoQR").getValue().toString(),
+                                null,
+                                afiliado,
+                                listCategoria
+                        ));
 
                         System.out.println("URLimagen: "+ proveedor.child("imagen").getValue().toString());
                     }catch (Exception e){

@@ -1,24 +1,26 @@
-package com.example.henryf.pryeasypaybar;
+package com.example.henryf.pryeasypaybar.Servicios;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import com.example.henryf.pryeasypaybar.Afiliado;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by Fabian on 03/06/2017.
  */
 
-public class ProveedorServicio {
+public class ProveedorServicio implements Serializable{
 
     private DatabaseReference mFirebaseDatabase;
     private FirebaseDatabase mFirebaseInstance;
     private FirebaseAuth firebaseAuth;
-
-
-
     private String nombre_proveedor;
     private String saldo_cliente;
     private String bar_proveedor;
@@ -26,6 +28,12 @@ public class ProveedorServicio {
     private String uid_Proveedor;
     private ArrayList<String> Lista_recargas;
     private boolean usuarioAfiliado;
+    private int mData;
+    private ArrayList<CategoriaProveedor> categoriaProveedors = new ArrayList<>();
+
+    public ArrayList<CategoriaProveedor> getCategoriaProveedors() {
+        return categoriaProveedors;
+    }
 
     public boolean isUsuarioAfiliado() {
         return usuarioAfiliado;
@@ -35,29 +43,18 @@ public class ProveedorServicio {
         return Lista_recargas;
     }
 
-    public ProveedorServicio(String nombre_proveedor, String saldo_cliente, String bar_proveedor, String imagen, String uid) {
-        this.nombre_proveedor = nombre_proveedor;
-        this.saldo_cliente = saldo_cliente;
-        this.bar_proveedor = bar_proveedor;
-        this.imagen = imagen;
-        this.uid_Proveedor = uid;
-    }
-    public ProveedorServicio(String nombre_proveedor, String saldo_cliente, String bar_proveedor, String imagen, String uid, boolean afiliado) {
-        this.nombre_proveedor = nombre_proveedor;
-        this.saldo_cliente = saldo_cliente;
-        this.bar_proveedor = bar_proveedor;
-        this.imagen = imagen;
-        this.uid_Proveedor = uid;
-        this.usuarioAfiliado = afiliado;
-    }
-    public ProveedorServicio(String nombre_proveedor, String saldo_cliente, String bar_proveedor, String imagen, String uid, ArrayList<String> recargas) {
+
+    public ProveedorServicio(String nombre_proveedor, String saldo_cliente, String bar_proveedor, String imagen, String uid, ArrayList<String> recargas, boolean afiliado, ArrayList<CategoriaProveedor> categoriaProveedors) {
         this.nombre_proveedor = nombre_proveedor;
         this.saldo_cliente = saldo_cliente;
         this.bar_proveedor = bar_proveedor;
         this.imagen = imagen;
         this.uid_Proveedor = uid;
         this.Lista_recargas = recargas;
+        this.usuarioAfiliado = afiliado;
+        this.categoriaProveedors = categoriaProveedors;
     }
+
 
     public String getUid_Proveedor() {
         return uid_Proveedor;
@@ -95,8 +92,6 @@ public class ProveedorServicio {
             System.out.println("problema: "+e.getMessage());
         }
     }
-
-
 
 
 

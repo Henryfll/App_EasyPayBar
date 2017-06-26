@@ -1,10 +1,6 @@
 package com.example.henryf.pryeasypaybar;
 
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,8 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.example.henryf.pryeasypaybar.MenuProveedor.MenuProveedor;
+import com.example.henryf.pryeasypaybar.Servicios.ProveedorServicio;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
@@ -49,7 +46,6 @@ public class AdaptadorInicio
         private ImageView imgCategoria;
 
 
-
         public ViewHolder(View v) {
             super(v);
 
@@ -57,16 +53,14 @@ public class AdaptadorInicio
             bar = (TextView) v.findViewById(R.id.txt_bar);
             imagenProveedor = (ImageView) v.findViewById(R.id.img_proveedor);
             imgAfiliar = (ImageView) v.findViewById(R.id.ic_afiliar);
-            imgCategoria = (ImageView) v.findViewById(R.id.btn_menu);
+            imgCategoria = (ImageView) v.findViewById(R.id.btnMenu);
 
-            //switch_afiliacion = (Switch) v.findViewById(R.id.Switch_afiliacion);
 
-           // switch_afiliacion.setTextOn("Yes"); // displayed text of the Switch whenever it is in checked or on state
-          //  switch_afiliacion.setTextOff("No");
         }
     }
 
     public AdaptadorInicio() {
+
     }
 
     @Override
@@ -84,6 +78,8 @@ public class AdaptadorInicio
 
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, int i) {
+
+
         final ProveedorServicio item = FragmentoInicio.Lista_Proveedor.get(i);
 
         FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -92,7 +88,7 @@ public class AdaptadorInicio
 
         final File localFile;
         try {
-            localFile = File.createTempFile("images"+item.getNombre_proveedor().toString(), "jpg");
+            localFile = File.createTempFile(item.getNombre_proveedor().toString(), "jpg");
             storageRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
@@ -118,17 +114,20 @@ public class AdaptadorInicio
          * Nuevo fragmento para categoria
          */
         viewHolder.imgCategoria.setOnClickListener(new View.OnClickListener() {
-            private Context context;
+            ProveedorServicio itemAxi = item;
             @Override
             public void onClick(View v) {
 
 
+                Context context = v.getContext();
+                Intent intent = new Intent(context, MenuProveedor.class);
+                intent.putExtra( "proveedor" , item );
+                context.startActivity(intent);
             }
         });
 
         /**
-         * Afiliacion de usuario a proveedor
-         */
+         * Afiliacion de usuario en un bar   */
         if(item.isUsuarioAfiliado()){
             viewHolder.imgAfiliar.setVisibility(View.GONE);
 
@@ -138,7 +137,7 @@ public class AdaptadorInicio
                 @Override
                 public void onClick(View v) {
                     AlertDialog.Builder dialogo1 = new AlertDialog.Builder(v.getContext());
-                    dialogo1.setTitle("Importante");
+                    dialogo1.setTitle("");
                     dialogo1.setMessage("¿Desea afiliarce al "+ item.getBar_proveedor()+"?");
                     dialogo1.setCancelable(false);
                     dialogo1.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {

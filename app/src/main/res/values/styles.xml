@@ -20,11 +20,23 @@
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorPrimaryDark">@color/primaryDarkColor</item>
         <item name="colorAccent">@color/accentColor</item>
-
         <item name="android:windowBackground">@color/window_background</item>
     </style>
 
 
     <style name="Theme.ConNavigationDrawer" parent="Base.AppTheme"/>
+    <style name="Widget.CardContent" parent="android:Widget">
+
+        <item name="android:paddingLeft">16dp</item>
+
+        <item name="android:paddingRight">16dp</item>
+
+        <item name="android:paddingTop">24dp</item>
+
+        <item name="android:paddingBottom">24dp</item>
+
+        <item name="android:orientation">vertical</item>
+
+    </style>
 
 </resources>
