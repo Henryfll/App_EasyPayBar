@@ -5,7 +5,6 @@ package com.example.henryf.pryeasypaybar;
  */
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -15,29 +14,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.example.henryf.pryeasypaybar.Servicios.ProveedorServicio;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FileDownloadTask;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
+
+import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 
 /**
        * Fragmento para la pestaña "DIRECCIONES" De la sección "Mi Cuenta"
         */
 public class FragmentoRecargas extends Fragment {
     private RecyclerView recyclerView;
-
     private FloatingActionButton fab;
     private LinearLayoutManager layoutManager;
     public static AdaptadorRecargas adaptador;
@@ -122,11 +116,17 @@ public class FragmentoRecargas extends Fragment {
                             }
 
 
-                            lista_recargas.add(new ProveedorServicio(proveedor.child("nombre").getValue().toString(),
-                                    proveedor.child("afiliados").child(user.getUid()).child("saldo").getValue().toString(),
+                            lista_recargas.add(new
+                                    ProveedorServicio(
+                                            proveedor.child("nombre").getValue().toString(),
+                                            proveedor.child("afiliados").child(user.getUid()).child("saldo").getValue().toString(),
                                             proveedor.child("bar").getValue().toString(),
-                                    proveedor.child("imagen").getValue().toString(),proveedor.child("codigoQR").getValue().toString()
-                                    ,listDetalle));
+                                            proveedor.child("imagen").getValue().toString(),
+                                            proveedor.child("codigoQR").getValue().toString(),
+                                            listDetalle,
+                                            true,
+                                             null
+                            ));
 
                             System.out.println("ListaViewRecarga"+listDetalle);
                         }
