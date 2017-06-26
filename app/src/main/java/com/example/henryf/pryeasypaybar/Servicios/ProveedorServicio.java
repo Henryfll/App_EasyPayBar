@@ -28,7 +28,6 @@ public class ProveedorServicio implements Serializable{
     private String uid_Proveedor;
     private ArrayList<String> Lista_recargas;
     private boolean usuarioAfiliado;
-    private int mData;
     private ArrayList<CategoriaProveedor> categoriaProveedors = new ArrayList<>();
 
     public ArrayList<CategoriaProveedor> getCategoriaProveedors() {

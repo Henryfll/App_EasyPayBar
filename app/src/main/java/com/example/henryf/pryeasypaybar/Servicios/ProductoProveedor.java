@@ -1,10 +1,12 @@
 package com.example.henryf.pryeasypaybar.Servicios;
 
+import java.io.Serializable;
+
 /**
  * Created by Fabian on 25/06/2017.
  */
 
-public class ProductoProveedor {
+public class ProductoProveedor implements Serializable {
     private String nombre;
     private String precio;
     private String imagen;
