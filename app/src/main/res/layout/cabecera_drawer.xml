@@ -8,7 +8,6 @@
     android:padding="@dimen/padding_izquierdo_cabecera"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <!-- Logo Rico Pa' Rico -->
 
     <TableLayout
         android:layout_width="match_parent"
