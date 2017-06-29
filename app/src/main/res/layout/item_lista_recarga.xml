@@ -13,20 +13,36 @@
         card_view:cardCornerRadius="0dp"
         android:layout_gravity="center"
         card_view:cardUseCompatPadding="true">
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="210dp"
             android:orientation="vertical">
+            <RelativeLayout
+                android:id="@+id/loadingPanel"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"             >
+
+                <ProgressBar
+                    android:id="@+id/progressBarRecarga"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:indeterminate="true"
+                    android:foregroundGravity="center"
+                    android:progressDrawable="@drawable/progress_bar_states"/>
+
+            </RelativeLayout>
             <ImageView
                 android:id="@+id/imagenProveedor"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:layout_margin="10dp"
-                card_view:srcCompat="@drawable/com_facebook_profile_picture_blank_square" />
+                />
 
 
-        </LinearLayout>
+        </RelativeLayout>
 
         <View
             android:layout_width="fill_parent"
@@ -108,7 +124,7 @@
                     android:layout_marginTop="5dp"
                     android:paddingLeft="16dp"
                     android:layout_gravity="center"
-                    android:text="Detallle de Recaraga"
+                    android:text="Detallle de Recarga"
                     android:textSize="16dp"
                     android:textStyle="bold"
                     android:textColor="#000000"/>

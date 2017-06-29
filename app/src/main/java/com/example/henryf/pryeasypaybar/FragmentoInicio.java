@@ -124,7 +124,8 @@ public class FragmentoInicio extends Fragment {
                                 proveedor.child("codigoQR").getValue().toString(),
                                 null,
                                 afiliado,
-                                listCategoria
+                                listCategoria,
+                                proveedor.child("imagenURL").getValue().toString()
                         ));
 
                         System.out.println("URLimagen: "+ proveedor.child("imagen").getValue().toString());
