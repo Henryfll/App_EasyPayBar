@@ -28,6 +28,16 @@ public class ProveedorServicio implements Serializable{
     private String uid_Proveedor;
     private ArrayList<String> Lista_recargas;
     private boolean usuarioAfiliado;
+    private String imagenURL;
+
+    public String getImagenURL() {
+        return imagenURL;
+    }
+
+    public void setImagenURL(String imagenURL) {
+        this.imagenURL = imagenURL;
+    }
+
     private ArrayList<CategoriaProveedor> categoriaProveedors = new ArrayList<>();
 
     public ArrayList<CategoriaProveedor> getCategoriaProveedors() {
@@ -43,7 +53,7 @@ public class ProveedorServicio implements Serializable{
     }
 
 
-    public ProveedorServicio(String nombre_proveedor, String saldo_cliente, String bar_proveedor, String imagen, String uid, ArrayList<String> recargas, boolean afiliado, ArrayList<CategoriaProveedor> categoriaProveedors) {
+    public ProveedorServicio(String nombre_proveedor, String saldo_cliente, String bar_proveedor, String imagen, String uid, ArrayList<String> recargas, boolean afiliado, ArrayList<CategoriaProveedor> categoriaProveedors , String imagenURL) {
         this.nombre_proveedor = nombre_proveedor;
         this.saldo_cliente = saldo_cliente;
         this.bar_proveedor = bar_proveedor;
@@ -52,6 +62,7 @@ public class ProveedorServicio implements Serializable{
         this.Lista_recargas = recargas;
         this.usuarioAfiliado = afiliado;
         this.categoriaProveedors = categoriaProveedors;
+        this.imagenURL = imagenURL;
     }
 
 

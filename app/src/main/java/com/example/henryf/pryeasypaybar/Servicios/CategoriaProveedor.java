@@ -14,6 +14,7 @@ public class CategoriaProveedor implements Serializable{
 
     private String descripcion;
     private String nombre;
+
     private ArrayList<ProductoProveedor> productoProveedores = new ArrayList<ProductoProveedor>();
 
 

@@ -21,8 +21,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.example.henryf.pryeasypaybar.Servicios.ProveedorServicio;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FileDownloadTask;
@@ -66,6 +71,7 @@ public class AdaptadorRecargas
         public ListView listaDetalle;
         private LinearLayout layoutAnimado;
         public CardView detalleRecarga;
+        private ProgressBar progressBar;
 
 
         public ViewHolder(View v) {
@@ -77,6 +83,7 @@ public class AdaptadorRecargas
             imagenProveedor = (ImageView) v.findViewById(R.id.imagenProveedor);
             listaDetalle = (ListView) v.findViewById(R.id.listViewDetalle);
             detalleRecarga = (CardView) v.findViewById(R.id.detalleRecarga);
+            progressBar = (ProgressBar) itemView.findViewById(R.id.progressBarRecarga);
 
 
         }
@@ -106,7 +113,8 @@ public class AdaptadorRecargas
 
         viewHolder.detalleRecarga.setVisibility(View.GONE);
         ProveedorServicio item = FragmentoRecargas.lista_result.get(contador);
-        FirebaseStorage storage = FirebaseStorage.getInstance();
+
+       /* FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReferenceFromUrl("gs://easypaybar.appspot.com/")
                 .child(item.getImagen());
 
@@ -129,7 +137,24 @@ public class AdaptadorRecargas
             e.printStackTrace();
         }
 
+*/
 
+        Glide.with(viewHolder.itemView.getContext()).load(item.getImagenURL().toString())
+                .listener(new RequestListener<String, GlideDrawable>() {
+                    @Override
+                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                        viewHolder.progressBar.setVisibility(View.GONE);
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                        viewHolder.progressBar.setVisibility(View.GONE);
+                        return false;
+                    }
+                })
+
+                .into(viewHolder.imagenProveedor);
 
         viewHolder.nombre_proveedor.setText(item.getNombre_proveedor());
         viewHolder.saldo_cliente.setText(item.getSaldo_cliente()+ "$");
@@ -179,7 +204,7 @@ public class AdaptadorRecargas
         ListView listView = (ListView) dialog.findViewById(R.id.listView);
         Button btnBtmLeft = (Button) dialog.findViewById(R.id.btnBtmLeft);
         Button btnBtmRight = (Button) dialog.findViewById(R.id.btnBtmRight);
-        System.out.println("ABCD: "+detalleRecargas.size() );
+
 
         ListAdapter adaptador = new ArrayAdapter<String>( context, android.R.layout.simple_list_item_1, detalleRecargas);
         listView.setAdapter(adaptador);

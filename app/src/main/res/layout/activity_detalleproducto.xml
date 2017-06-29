@@ -79,7 +79,7 @@
 
             <android.support.v7.widget.Toolbar
 
-                android:id="@+id/toolbarMenu"
+                android:id="@+id/toolbarProducto"
 
                 android:layout_width="match_parent"
 
@@ -94,7 +94,7 @@
 
             </android.support.v7.widget.Toolbar>
             <RelativeLayout
-                android:id="@+id/loadingPanel"
+                android:id="@+id/loadingPanelproducto"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:layout_marginTop="80dp"
@@ -114,7 +114,7 @@
             <ImageView
 
 
-                android:id="@+id/imagenProveedorMenu"
+                android:id="@+id/imagenProducto"
 
                 android:layout_width="match_parent"
 
@@ -136,21 +136,7 @@
     </android.support.design.widget.AppBarLayout>
 
 
-    <android.support.design.widget.FloatingActionButton
 
-        android:layout_height="wrap_content"
-
-        android:layout_width="wrap_content"
-
-        app:layout_anchor="@id/appbar"
-
-        app:layout_anchorGravity="bottom|right|end"
-
-        android:src="@drawable/ic_action_compose"
-
-        android:layout_margin="@dimen/fab_margin"
-
-        android:clickable="true"/>
 
     <android.support.v4.widget.NestedScrollView
 
@@ -161,8 +147,7 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <fragment
-            android:id="@+id/list"
-            android:name="com.example.henryf.pryeasypaybar.MenuProveedor.FragmentoMenuProveedor"
+            android:id="@+id/lista"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1" />
