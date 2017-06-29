@@ -159,12 +159,6 @@ public class MainActivity extends AppCompatActivity {
             case R.id.item_cuenta:
                 fragmentoGenerico = new FragmentoCuenta(usuario);
                 break;
-            case R.id.item_categorias:
-                fragmentoGenerico = new FragmentoProductos();
-                break;
-            case R.id.item_configuracion:
-                // Iniciar actividad de configuración
-                break;
             case R.id.item_salir:
                 new AlertDialog.Builder(this)
                         .setTitle(R.string.logout)

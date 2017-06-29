@@ -44,7 +44,6 @@ public class MenuProveedor extends AppCompatActivity {
         MenuProveedor.categoriasProveedor = categoriasProveedor;
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

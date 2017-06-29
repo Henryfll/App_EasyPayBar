@@ -2,6 +2,7 @@ package com.example.henryf.pryeasypaybar.Servicios;
 
 import com.example.henryf.pryeasypaybar.MenuProveedor.MenuProveedor;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +10,7 @@ import java.util.List;
  * Created by Fabian on 25/06/2017.
  */
 
-public class CategoriaProveedor{
+public class CategoriaProveedor implements Serializable{
 
     private String descripcion;
     private String nombre;
