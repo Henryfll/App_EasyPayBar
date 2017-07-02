@@ -1,5 +1,7 @@
 package com.example.henryf.pryeasypaybar.MenuProveedor;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
@@ -16,6 +18,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.example.henryf.pryeasypaybar.DetalleProducto.Detalleproducto;
 import com.example.henryf.pryeasypaybar.R;
 import com.example.henryf.pryeasypaybar.Servicios.ProductoProveedor;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -51,7 +54,7 @@ public class AdaptadorProducto extends RecyclerView.Adapter<AdaptadorProducto.Vi
     }
 
     @Override
-    public void onBindViewHolder(final AdaptadorProducto.ViewHolder holder, int position) {
+    public void onBindViewHolder(final AdaptadorProducto.ViewHolder holder, final int position) {
 
           /*
         FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -96,13 +99,23 @@ public class AdaptadorProducto extends RecyclerView.Adapter<AdaptadorProducto.Vi
                 .listener(new RequestListener<String, GlideDrawable>() {
                     @Override
                     public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-                        holder.progressBar.setVisibility(View.GONE);
+
                         return false;
                     }
 
                     @Override
                     public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
                         holder.progressBar.setVisibility(View.GONE);
+                        holder.imgProducto.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                                Context context = v.getContext();
+                                Intent intent = new Intent(context, Detalleproducto.class);
+                                intent.putExtra( "producto" , mDataset.get(position) );
+                                context.startActivity(intent);
+                            }
+                        });
                         return false;
                     }
                 })
