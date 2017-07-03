@@ -11,8 +11,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.example.henryf.pryeasypaybar.MenuProveedor.MenuProveedor;
 import com.example.henryf.pryeasypaybar.Servicios.ProveedorServicio;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -44,6 +50,8 @@ public class AdaptadorInicio
         //public Switch switch_afiliacion;
         private ImageView imgAfiliar;
         private ImageView imgCategoria;
+        private RelativeLayout loading;
+        private ProgressBar progressBar;
 
 
         public ViewHolder(View v) {
@@ -54,6 +62,8 @@ public class AdaptadorInicio
             imagenProveedor = (ImageView) v.findViewById(R.id.img_proveedor);
             imgAfiliar = (ImageView) v.findViewById(R.id.ic_afiliar);
             imgCategoria = (ImageView) v.findViewById(R.id.btnMenu);
+            loading = (RelativeLayout) v.findViewById(R.id.loadingPanel);
+            progressBar = (ProgressBar) itemView.findViewById(R.id.progressBarInico);
 
 
         }
@@ -82,6 +92,7 @@ public class AdaptadorInicio
 
         final ProveedorServicio item = FragmentoInicio.Lista_Proveedor.get(i);
 
+        /*
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReferenceFromUrl("gs://easypaybar.appspot.com/")
                 .child(item.getImagen());
@@ -99,6 +110,23 @@ public class AdaptadorInicio
         } catch (IOException e) {
             e.printStackTrace();
         }
+        */
+        Glide.with(viewHolder.itemView.getContext()).load(item.getImagenURL().toString())
+                .listener(new RequestListener<String, GlideDrawable>() {
+                    @Override
+                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                        viewHolder.progressBar.setVisibility(View.GONE);
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                        viewHolder.progressBar.setVisibility(View.GONE);
+                        return false;
+                    }
+                })
+
+                .into(viewHolder.imagenProveedor);
 
         viewHolder.nombre.setText("Proveedor: "+item.getNombre_proveedor());
         viewHolder.bar.setText(item.getBar_proveedor());

@@ -39,9 +39,15 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import org.w3c.dom.Text;
+
+import java.text.DateFormat;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -50,22 +56,72 @@ public class MainActivity extends AppCompatActivity {
     private String userId;
     private DrawerLayout drawerLayout;
     private FirebaseUser usuario;
+    private DatabaseReference mFirebaseDatabase;
+    private FirebaseDatabase mFirebaseInstance;
 
     private String name;
+    private  String fechaAf;
+
+    public void setFechaAf(String fechaAf) {
+        this.fechaAf = fechaAf;
+    }
+
+    public String getFechaAf() {
+        return fechaAf;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View hView =  navigationView.getHeaderView(0);
+        final TextView fechaAfiliacion = (TextView) hView.findViewById(R.id.fechaAf);
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+
+
 
 
         if (user != null) {
+            mFirebaseInstance = FirebaseDatabase.getInstance();
+            mFirebaseDatabase = mFirebaseInstance.getReference();
+            mFirebaseDatabase.child("cliente").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                    for(DataSnapshot cliente: dataSnapshot.getChildren()){
+                        if((cliente.child("codigoQR").getValue().toString()).equals(user.getUid().toString())){
+                            Date date = new Date();
+                            try {
+                                Date date1 = new SimpleDateFormat("dd/MM/yyyy").parse(cliente.child("fecha_Afiliacion").getValue().toString());
+                                long diferencia = (date.getTime()-date1.getTime())/86400000;
+                                long años = diferencia / 365;
+                                long meses = (diferencia - (años * 365)) / 30;
+                                long dias = diferencia - (años * 365) - (meses * 30);
+                                fechaAfiliacion.setText( dias +" dias," +meses +" meses, "+años+" años");
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+
+                    }
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
             name = user.getDisplayName();
             String email = user.getEmail();
             Uri photoUrl = user.getPhotoUrl();
             String uid = user.getUid();
             usuario = user;
+
+
 
         } else {
             goLoginScreen();
@@ -74,16 +130,19 @@ public class MainActivity extends AppCompatActivity {
         agregarToolbar();
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+
 
 
 
         //Insertar imagen redondeada
-        View hView =  navigationView.getHeaderView(0);
+
         //Insertar Nombre de usuario
-        System.out.println("problema"+name);
+
+
         final TextView nombre_Usuario = (TextView) hView.findViewById(R.id.nombre_Usuario);
         nombre_Usuario.setText(name);
+
+
         final ImageView nav_img = (ImageView) hView.findViewById(R.id.imagen_Cliente);
         String facebookUserId="";
         for(UserInfo profile : user.getProviderData()) {

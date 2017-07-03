@@ -26,7 +26,8 @@
             android:name=".MainActivity"
             android:label="@string/title_activity_welcome" />
         <activity android:name=".LoginActivity" />
-        <activity android:name=".MenuProveedor.MenuProveedor"></activity>
+        <activity android:name=".MenuProveedor.MenuProveedor" />
+        <activity android:name=".DetalleProducto.Detalleproducto"></activity>
     </application>
 
 </manifest>

@@ -112,7 +112,7 @@ public class FragmentoRecargas extends Fragment {
                                 Recarga recarga = detalleRecarga.getValue(Recarga.class);
                                 System.out.println("Recarga"+ recarga.getFecha_Recarga());
                                 System.out.println("DetalleRecarga: "+detalleRecarga.getValue());
-                                listDetalle.add("Fecha: "+recarga.getFecha_Recarga() +"           "+ recarga.getValor()+" $");
+                                listDetalle.add(""+recarga.getFecha_Recarga() +"           "+ recarga.getValor()+" $");
                             }
 
 
@@ -125,7 +125,9 @@ public class FragmentoRecargas extends Fragment {
                                             proveedor.child("codigoQR").getValue().toString(),
                                             listDetalle,
                                             true,
-                                             null
+                                            null,
+                                            proveedor.child("imagenURL").getValue().toString()
+
                             ));
 
                             System.out.println("ListaViewRecarga"+listDetalle);
