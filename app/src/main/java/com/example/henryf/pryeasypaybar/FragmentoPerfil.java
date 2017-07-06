@@ -69,8 +69,8 @@ public class FragmentoPerfil extends Fragment {
                     public void onSuccess() {
                         Bitmap imageBitmap = ((BitmapDrawable) viewfoto.getDrawable()).getBitmap();
                         RoundedBitmapDrawable imageDrawable = RoundedBitmapDrawableFactory.create(getResources(), imageBitmap);
-                        imageDrawable.setCircular(true);
-                        imageDrawable.setCornerRadius(Math.max(imageBitmap.getWidth(), imageBitmap.getHeight()) / 2.0f);
+
+
                         viewfoto.setImageDrawable(imageDrawable);
                     }
                     @Override
