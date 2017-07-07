@@ -106,7 +106,9 @@ public class FragmentoInicio extends Fragment {
                                         producto.child("precio").getValue().toString(),
                                         producto.child("imagen").getValue().toString(),
                                         producto.child("veces").getValue().toString(),
-                                        producto.child("imagenURL").getValue().toString()
+                                        producto.child("imagenURL").getValue().toString(),
+                                        producto.getKey().toString(),
+                                        proveedor.getKey().toString()
                                 ));
 
 
