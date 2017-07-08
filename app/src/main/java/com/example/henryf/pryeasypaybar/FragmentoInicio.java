@@ -95,6 +95,7 @@ public class FragmentoInicio extends Fragment {
                         }
                         ArrayList<CategoriaProveedor> listCategoria = new ArrayList<CategoriaProveedor>();
                         for(DataSnapshot categorias: proveedor.child("categoria").getChildren()){
+
                             CategoriaProveedor categ = categorias.getValue(CategoriaProveedor.class);
                             System.out.println("Descripcion:"+ categ.getDescripcion().toString());
                             System.out.println("DetalleRecarga: "+categ.getNombre());
@@ -114,6 +115,7 @@ public class FragmentoInicio extends Fragment {
 
                             }
                             categ.setProductoProveedores(listProductos);
+                            categ.setKey(categorias.getKey());
                             listCategoria.add(categ);
                         }
                         System.out.println("BarAfiliados = "+proveedor.child("afiliados").child(user.getUid()).getValue());

@@ -40,9 +40,11 @@ public class AdaptadorProducto extends RecyclerView.Adapter<AdaptadorProducto.Vi
 
 
     private ArrayList<ProductoProveedor> mDataset;
+    private String keyCategoria;
 
-    public AdaptadorProducto(ArrayList<ProductoProveedor> mDataset) {
+    public AdaptadorProducto(ArrayList<ProductoProveedor> mDataset, String keyCategoria) {
         this.mDataset = mDataset;
+        this.keyCategoria = keyCategoria;
     }
 
     @Override
@@ -56,44 +58,7 @@ public class AdaptadorProducto extends RecyclerView.Adapter<AdaptadorProducto.Vi
     @Override
     public void onBindViewHolder(final AdaptadorProducto.ViewHolder holder, final int position) {
 
-          /*
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageRef = storage.getReferenceFromUrl("gs://easypaybar.appspot.com/")
-                .child(mDataset.get(position).getImagen());
 
-      final File localFile;
-        try {
-            localFile = File.createTempFile(mDataset.get(position).getNombre(), "jpg");
-            storageRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
-                    holder.imgProducto.setImageBitmap(bitmap);
-                }
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        */
-
-        /*
-
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageRef = storage.getReferenceFromUrl("gs://easypaybar.appspot.com/");
-        storageRef.child(mDataset.get(position).getImagen()).getBytes(Long.MAX_VALUE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-        @Override
-        public void onSuccess(byte[] bytes) {
-            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-            holder.imgProducto.setImageBitmap(bitmap);
-
-        }
-        }).addOnFailureListener(new OnFailureListener() {
-        @Override
-        public void onFailure(@NonNull Exception exception) {
-        }
-        });
-        */
         Glide.with(holder.itemView.getContext())
                 .load(mDataset.get(position).getImagenURL().toString())
                 .listener(new RequestListener<String, GlideDrawable>() {
@@ -113,6 +78,7 @@ public class AdaptadorProducto extends RecyclerView.Adapter<AdaptadorProducto.Vi
                                 Context context = v.getContext();
                                 Intent intent = new Intent(context, Detalleproducto.class);
                                 intent.putExtra( "producto" , mDataset.get(position) );
+                                intent.putExtra("keyCategoria", keyCategoria);
                                 context.startActivity(intent);
                             }
                         });
@@ -142,8 +108,6 @@ public class AdaptadorProducto extends RecyclerView.Adapter<AdaptadorProducto.Vi
             titulo = (TextView) itemView.findViewById(R.id.titulo);
             imgProducto = (ImageView) itemView.findViewById(R.id.imagenProducto);
             progressBar = (ProgressBar) itemView.findViewById(R.id.progressBarProductos);
-
-
 
         }
     }

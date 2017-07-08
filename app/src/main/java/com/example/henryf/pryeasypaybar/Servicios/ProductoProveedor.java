@@ -99,33 +99,14 @@ public class ProductoProveedor implements Serializable {
     }
 
 
-    public void Comentar(final String cuerpo, final String uid_Proveedor, final String uid_Producto){
+    public void Comentar(final String cuerpo, final String uid_Proveedor, final String uid_Producto, final String uid_categoria){
         final Calendar fecha=Calendar.getInstance();
         final SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
         firebaseAuth = FirebaseAuth.getInstance();
         final FirebaseUser user = firebaseAuth.getCurrentUser();
         mFirebaseInstance = FirebaseDatabase.getInstance();
         mFirebaseDatabase = mFirebaseInstance.getReference();
-        Query queryCliente = mFirebaseDatabase.child("proveedor").orderByChild("codigoQR").equalTo(uid_Proveedor);
-        queryCliente.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    for(DataSnapshot child: dataSnapshot.child(uid_Proveedor).child("categoria").getChildren()){
-                        String idcomentario=mFirebaseDatabase.push().getKey();
-                        mFirebaseDatabase=child.child("producto").child(uid_Producto).getRef();
-                        mFirebaseDatabase.child("comentario").child(idcomentario).child("usuario").setValue(user.getUid());
-                        mFirebaseDatabase.child("comentario").child(idcomentario).child("cuerpo").setValue(cuerpo);
-                        mFirebaseDatabase.child("comentario").child(idcomentario).child("fecha").setValue(formato.format(fecha.getTime()));
-                    }
-                    //Si encuentra regitro no hace nada mas
-                }
-            }
+        mFirebaseDatabase.child("proveedor").child(uid_Proveedor).child("categoria").child(uid_categoria).child("producto").child(uid_Producto).child("comentario").push().setValue(new ComentarioProducto(cuerpo,formato.format(fecha.getTime()),user.getUid()));
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
     }
 }
