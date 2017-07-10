@@ -70,26 +70,6 @@ public class MenuProveedor extends AppCompatActivity {
         progressBar = (ProgressBar) findViewById(R.id.progressBarMenu);
         collapsingToolbarLayout =   (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
 
-        /*
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageRef = storage.getReferenceFromUrl("gs://easypaybar.appspot.com/")
-                .child(proveedorServicio.getImagen());
-
-        final File localFile;
-        try {
-            localFile = File.createTempFile(proveedorServicio.getNombre_proveedor().toString(), "jpg");
-            storageRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
-                    imgProveedor.setImageBitmap(bitmap);
-                }
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        */
-
         Glide.with(this).load(proveedorServicio.getImagenURL())
                 .listener(new RequestListener<String, GlideDrawable>() {
                     @Override

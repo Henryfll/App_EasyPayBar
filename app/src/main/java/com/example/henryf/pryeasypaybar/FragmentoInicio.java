@@ -76,10 +76,8 @@ public class FragmentoInicio extends Fragment {
         mFirebaseInstance = FirebaseDatabase.getInstance();
         mFirebaseDatabase = mFirebaseInstance.getReference();
         firebaseAuth = FirebaseAuth.getInstance();
-
-
-
         final FirebaseUser user = firebaseAuth.getCurrentUser();
+
         //Consulta todos los proveedores
         final ArrayList<ProveedorServicio> lista_prove= new ArrayList<ProveedorServicio>();
         mFirebaseDatabase.child("proveedor").addListenerForSingleValueEvent(new ValueEventListener() {
