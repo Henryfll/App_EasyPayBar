@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/fragmento_inicio"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:weightSum="1">
     <RelativeLayout
 
         android:layout_width="match_parent"
@@ -55,9 +56,31 @@
         android:layout_gravity="center"
         />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="116dp"
+        android:orientation="horizontal"
+        android:weightSum="1">
 
+        <EditText
+            android:id="@+id/txt_comentario"
+            android:layout_width="287dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:ems="10"
+            android:hint="Escriba su comentario..."
+            android:inputType="textMultiLine"
+            android:textColorHint="@color/bg_screen1" />
 
+        <Button
+            android:id="@+id/btn_comentar"
+            style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:background="@android:drawable/ic_menu_send"
+            android:backgroundTint="@color/bg_screen1" />
 
+    </LinearLayout>
 
 
 </LinearLayout>

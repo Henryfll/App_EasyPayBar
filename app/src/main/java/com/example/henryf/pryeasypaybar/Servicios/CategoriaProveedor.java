@@ -14,6 +14,7 @@ public class CategoriaProveedor implements Serializable{
 
     private String descripcion;
     private String nombre;
+    private String key;
 
     private ArrayList<ProductoProveedor> productoProveedores = new ArrayList<ProductoProveedor>();
 
@@ -21,7 +22,17 @@ public class CategoriaProveedor implements Serializable{
     public CategoriaProveedor(){
     }
 
-    public CategoriaProveedor(String descripcion, String nombreCategoria, ArrayList<ProductoProveedor> productoProveedores) {
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    public CategoriaProveedor(String key , String descripcion, String nombreCategoria, ArrayList<ProductoProveedor> productoProveedores) {
+        this.key = key;
+
         this.descripcion = descripcion;
         this.nombre= nombreCategoria;
         this.productoProveedores = productoProveedores;

@@ -8,7 +8,7 @@
     <!-- Contenido Principal -->
 
     <include layout="@layout/contenido_principal" />
-    <!-- Menú Deslizante -->cabecer
+    <!-- Menú Deslizante -->
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"

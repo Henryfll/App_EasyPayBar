@@ -33,6 +33,7 @@ public class AdaptadorMenuP extends RecyclerView.Adapter<AdaptadorMenuP.ViewHold
         private RecyclerView.LayoutManager mLayoutManager;
         private ArrayList<String> mDataset;
         private ArrayList<ProductoProveedor> mDataProveedor;
+        private String keyCategoria;
 
 
 
@@ -64,11 +65,11 @@ public class AdaptadorMenuP extends RecyclerView.Adapter<AdaptadorMenuP.ViewHold
 
         holder.tituloCategoria.setText(item.getNombre());
         holder.mDataProveedor = item.getProductoProveedores();
-
+        holder.keyCategoria = item.getKey();
         holder.mRecyclerView.setHasFixedSize(true);
         holder.mLayoutManager = new LinearLayoutManager(holder.itemView.getContext(), LinearLayoutManager.HORIZONTAL, false);
         holder.mRecyclerView.setLayoutManager(holder.mLayoutManager);
-        holder.mAdapter = new AdaptadorProducto(holder.mDataProveedor);
+        holder.mAdapter = new AdaptadorProducto(holder.mDataProveedor, holder.keyCategoria);
         holder.mRecyclerView.setAdapter(holder.mAdapter);
     }
 
