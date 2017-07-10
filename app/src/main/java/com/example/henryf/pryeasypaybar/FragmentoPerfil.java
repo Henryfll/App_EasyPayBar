@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
-import android.text.Layout;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,9 +21,6 @@ import com.google.firebase.auth.UserInfo;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
-
-import static com.example.henryf.pryeasypaybar.R.id.imageView;
-
 /**
  * Fragmento para la pestaña "PERFIL" De la sección "Mi Cuenta"
  */
@@ -34,6 +30,9 @@ public class FragmentoPerfil extends Fragment {
     private TextView lblcorreo;
     private ImageView viewfoto;
     private FirebaseAuth firebaseAuth;
+    private TextView lblfecha;
+    private TextView lblproducto;
+    private TextView lblcosto;
 
     public FragmentoPerfil() {
     }
@@ -41,12 +40,18 @@ public class FragmentoPerfil extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View fragmentoView = inflater.inflate(R.layout.fragmento_perfil, container, false);
         firebaseAuth = FirebaseAuth.getInstance();
         final FirebaseUser user = firebaseAuth.getCurrentUser();
+        View fragmentoView = inflater.inflate(R.layout.fragmento_perfil, container, false);
         lblnombre = (TextView) fragmentoView.findViewById(R.id.texto_nombre);
         lblcorreo = (TextView) fragmentoView.findViewById(R.id.texto_email);
         viewfoto = (ImageView) fragmentoView.findViewById(R.id.foto);
+
+        /*View fragmentoCompras = inflater.inflate(R.layout.item_lista_compras, container, false);
+        lblfecha = (TextView) fragmentoCompras.findViewById(R.id.fecha);
+        lblproducto = (TextView) fragmentoCompras.findViewById((R.id.producto));
+        lblcosto = (TextView) fragmentoCompras.findViewById(R.id.costo);*/
+
         //System.out.println("problema: "+R.id.texto_nombre);
         lblnombre.setText(user.getDisplayName());
         lblcorreo.setText(user.getEmail());
@@ -78,14 +83,7 @@ public class FragmentoPerfil extends Fragment {
                         //viewfoto.setImageResource(R.drawable.default_image);
                     }
                 });
-        /*BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-        System.out.println("problema: "+user.getPhotoUrl().toString());
-        Bitmap imagen = BitmapFactory.decodeFile(user.getPhotoUrl().toString(), options);
-        Bitmap imagen = BitmapFactory.decodeFile(user.getPhotoUrl().getPath());
-        viewfoto.setImageBitmap(imagen);*/
-        //viewfoto.setImageURI(user.getPhotoUrl());
-        //System.out.println("problema: "+nombre+" "+correo);
+
         return fragmentoView;
     }
 

@@ -26,7 +26,6 @@ public class FragmentoGrafica extends Fragment {
 
     private float saldoTotal = 0;
 
-
     public FragmentoGrafica() {
         // Required empty public constructor
     }
@@ -45,6 +44,10 @@ public class FragmentoGrafica extends Fragment {
         pieChart.setDrawXValues(true);
         pieChart.setRotationEnabled(true);
         pieChart.animateXY(1500, 1500);
+
+        Cliente cliente = new Cliente();
+        cliente.Consulta();
+        System.out.println("Inicia"+cliente.getProveedoresAfiliados().size());
 
 
         /*creamos una lista de colores*/
@@ -65,7 +68,7 @@ public class FragmentoGrafica extends Fragment {
         /*creamos una lista para los valores X*/
         final ArrayList<String> valsX = new ArrayList<String>();
 
-        int cont=0;
+        /*int cont=0;
         for (ProveedorServicio lista: FragmentoRecargas.lista_result
              ) {
             valsX.add(lista.getBar_proveedor());
@@ -74,11 +77,24 @@ public class FragmentoGrafica extends Fragment {
             saldoTotal=saldoTotal+Float.parseFloat(lista.getSaldo_cliente());
             cont++;
 
+        }*/
+        for (String item: cliente.getProveedoresAfiliados()) {
+            valsX.add(item);
+        }
+        int cont1=0;
+        for (float saldo: cliente.getTotalSaldo()) {
+            valsY.add(new Entry(saldo,cont1));
+            cont1++;
+        }
+        int cont2=0;
+        for (float recarga: cliente.getTotalRecargas()) {
+            entries.add(new BarEntry(recarga,cont2));
+            cont2++;
         }
 
             /*seteamos los valores de Y y los colores*/
         PieDataSet set1 = new PieDataSet(valsY, "Resultados");
-        BarDataSet dataset = new BarDataSet(entries, "Saldo por proveedor");
+        BarDataSet dataset = new BarDataSet(entries, "Total recargas por proveedor");
         dataset.setColors(colors);
         BarData dataBarras = new BarData(valsX, dataset);
         // dataset.setColors(ColorTemplate.COLORFUL_COLORS); //
