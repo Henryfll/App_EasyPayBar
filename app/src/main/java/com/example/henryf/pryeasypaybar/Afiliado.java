@@ -26,4 +26,5 @@ public class Afiliado {
         this.nombre = nombre;
         this.saldo = 0;
     }
+
 }

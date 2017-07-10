@@ -86,7 +86,10 @@
                     android:textAppearance="?android:attr/textAppearanceSmall" />
             </GridLayout>
         </android.support.v7.widget.CardView>
+
     </LinearLayout>
+
+
 
 
     <android.support.v7.widget.CardView

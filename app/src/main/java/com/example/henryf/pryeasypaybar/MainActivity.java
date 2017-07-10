@@ -131,18 +131,11 @@ public class MainActivity extends AppCompatActivity {
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-
-
-
-        //Insertar imagen redondeada
-
         //Insertar Nombre de usuario
-
-
         final TextView nombre_Usuario = (TextView) hView.findViewById(R.id.nombre_Usuario);
         nombre_Usuario.setText(name);
 
-
+        //Insertar imagen redondeada
         final ImageView nav_img = (ImageView) hView.findViewById(R.id.imagen_Cliente);
         String facebookUserId="";
         for(UserInfo profile : user.getProviderData()) {

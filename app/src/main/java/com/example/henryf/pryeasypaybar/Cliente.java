@@ -1,5 +1,6 @@
 package com.example.henryf.pryeasypaybar;
 
+import com.example.henryf.pryeasypaybar.Servicios.ProveedorServicio;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -9,10 +10,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.sql.SQLOutput;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  * Created by Diego Claudio on 27/02/2017.
@@ -28,6 +33,9 @@ public class Cliente {
     private FirebaseAuth firebaseAuth;
     private DatabaseReference mFirebaseDatabase;
     private FirebaseDatabase mFirebaseInstance;
+    public static ArrayList<String> proveedoresAfiliados = new ArrayList<>();
+    public static ArrayList<Float> totalRecargas = new ArrayList<>();
+    public static ArrayList<Float> totalSaldo = new ArrayList<>();
 
 
 
@@ -94,20 +102,45 @@ public class Cliente {
         this.proveedor = proveedor;
     }
 
-    public void recuperarDatos(){
+    public ArrayList<String> getProveedoresAfiliados() {
+        return proveedoresAfiliados;
+    }
+
+    public void setProveedoresAfiliados(ArrayList<String> proveedoresAfiliados) {
+        this.proveedoresAfiliados = proveedoresAfiliados;
+    }
+
+    public ArrayList<Float> getTotalRecargas() {
+        return totalRecargas;
+    }
+
+    public void setTotalRecargas(ArrayList<Float> totalRecargas) {
+        this.totalRecargas = totalRecargas;
+    }
+
+    public ArrayList<Float> getTotalSaldo() {
+        return totalSaldo;
+    }
+
+    public void setTotalSaldo(ArrayList<Float> totalSaldo) {
+        this.totalSaldo = totalSaldo;
+    }
+
+    public String fecha_Inicio(){
         firebaseAuth = FirebaseAuth.getInstance();
         final FirebaseUser user = firebaseAuth.getCurrentUser();
         mFirebaseInstance = FirebaseDatabase.getInstance();
         mFirebaseDatabase = mFirebaseInstance.getReference();
         //Busca el registro del cliente con el Uid del mismo
+
         Query queryCliente = mFirebaseDatabase.child("cliente").orderByChild("codigoQR").equalTo(user.getUid());
         queryCliente.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    Cliente cli = dataSnapshot.getValue(Cliente.class);
-
+                for (DataSnapshot child : dataSnapshot.getChildren()) {
+                    fecha_Afiliacion = child.child("fecha_Afiliacion").getValue().toString();
                 }
+                setFecha_Afiliacion(fecha_Afiliacion);
             }
 
             @Override
@@ -115,5 +148,99 @@ public class Cliente {
 
             }
         });
+        return getFecha_Afiliacion();
     }
+
+    public String recuperarDatos(){
+
+        try {
+            SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+            System.out.println("problema 1"+fecha_Inicio());
+            long afiliacion = formato.parse(fecha_Inicio()).getTime();
+            long diferenciaEn_ms = Calendar.getInstance().getTimeInMillis() - afiliacion;
+            long dias = diferenciaEn_ms / (1000 * 60 * 60 * 24);
+            return "" + dias;
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+
+    }
+/*
+    public ArrayList<Date> get_OchoUltimos() {
+        Calendar fecha = Calendar.getInstance();
+        ArrayList<Date> lista_Dias = new ArrayList<Date>();
+        //for para los 8 dias
+        for (int i =8; i>0; i--){
+            lista_Dias.add(fecha.getTime());//guardo las fechas
+            fecha.add(Calendar.DAY_OF_YEAR, -1);//resto un dia
+        }
+        return lista_Dias;
+    }*/
+
+    public void Consulta(){
+        firebaseAuth = FirebaseAuth.getInstance();
+        final FirebaseUser user = firebaseAuth.getCurrentUser();
+        mFirebaseInstance = FirebaseDatabase.getInstance();
+        mFirebaseDatabase = mFirebaseInstance.getReference();
+        //Busca el registro del cliente con el Uid del mismo
+
+            mFirebaseDatabase.child("proveedor").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    ArrayList<String> proveedores = new ArrayList<String>();
+                    ArrayList<Float> saldo = new ArrayList<>();
+                    ArrayList<Float> recarga = new ArrayList<>();
+                    for (DataSnapshot child : dataSnapshot.getChildren()) {
+                        if(child.child("afiliados").child(user.getUid()).exists()){
+                            float recargaTotal = 0;
+                            for (DataSnapshot item : child.child("afiliados").child(user.getUid()).child("recarga").getChildren()) {
+                                recargaTotal = recargaTotal+Float.parseFloat(item.child("valor").getValue().toString());
+                            }
+                            proveedores.add(child.child("bar").getValue().toString());
+                            recarga.add(recargaTotal);
+                            saldo.add(Float.parseFloat(child.child("afiliados").child(user.getUid()).child("saldo").getValue().toString()));
+                            /*for (DataSnapshot compra : child.child("afiliados").child(user.getUid()).child("compras").getChildren()) {
+                                String fecha_compra = compra.child("fecha_Compra").getValue().toString();
+                                if(Comparar_Fechas(fecha_compra)) {
+                                    System.out.println("compras"+compra.child("fecha_Compra").getValue());
+                                }
+
+                            }*/
+                        }
+                    }
+                    setProveedoresAfiliados(proveedores);
+                    setTotalRecargas(recarga);
+                    setTotalSaldo(saldo);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+    }
+
+   /* public Boolean Comparar_Fechas(String fecha){
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            long fecha_Transformada = formato.parse(fecha).getTime();
+            Calendar fecha_Actual = Calendar.getInstance();
+            fecha_Actual.add(Calendar.DAY_OF_YEAR, -7);
+
+            if(fecha_Transformada >= fecha_Actual.getTimeInMillis()){
+                return true;
+            }else {
+                return false;
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return false;
+        }//
+
+    }*/
+
+
+
 }
