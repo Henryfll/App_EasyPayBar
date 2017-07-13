@@ -221,26 +221,4 @@ public class Cliente {
                 }
             });
     }
-
-   /* public Boolean Comparar_Fechas(String fecha){
-        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-        try {
-            long fecha_Transformada = formato.parse(fecha).getTime();
-            Calendar fecha_Actual = Calendar.getInstance();
-            fecha_Actual.add(Calendar.DAY_OF_YEAR, -7);
-
-            if(fecha_Transformada >= fecha_Actual.getTimeInMillis()){
-                return true;
-            }else {
-                return false;
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return false;
-        }//
-
-    }*/
-
-
-
 }

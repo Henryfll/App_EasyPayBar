@@ -1,7 +1,10 @@
 package com.example.henryf.pryeasypaybar;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +26,7 @@ import java.util.ArrayList;
 public class FragmentoGrafica extends Fragment {
     private PieChart pieChart;
     private BarChart barChart;
-
+    private FloatingActionButton btnFlotante;
     private float saldoTotal = 0;
 
     public FragmentoGrafica() {
@@ -34,7 +37,7 @@ public class FragmentoGrafica extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View fragmentoView = inflater.inflate(R.layout.fragmento_grafica, container, false);
+        final View fragmentoView = inflater.inflate(R.layout.fragmento_grafica, container, false);
         pieChart = (PieChart) fragmentoView.findViewById(R.id.pieChart);
         barChart = (BarChart) fragmentoView.findViewById(R.id.chart);
 
@@ -45,19 +48,20 @@ public class FragmentoGrafica extends Fragment {
         pieChart.setRotationEnabled(true);
         pieChart.animateXY(1500, 1500);
 
-        Cliente cliente = new Cliente();
-        cliente.Consulta();
-        System.out.println("Inicia"+cliente.getProveedoresAfiliados().size());
+
+        final Cliente cliente = new Cliente();
+
+        //System.out.println("Inicia"+cliente.getProveedoresAfiliados().size());
 
 
         /*creamos una lista de colores*/
         ArrayList<Integer> colors = new ArrayList<Integer>();
         colors.add(getResources().getColor(R.color.bg_screen1));
         colors.add(getResources().getColor(R.color.graf_celeste));
-        colors.add(getResources().getColor(R.color.graf_verde));
         colors.add(getResources().getColor(R.color.graf_morado));
         colors.add(getResources().getColor(R.color.graf_verdeClaro));
         colors.add(getResources().getColor(R.color.graf_amarillo));
+        colors.add(getResources().getColor(R.color.graf_verde));
         colors.add(getResources().getColor(R.color.graf_azul));
         colors.add(getResources().getColor(R.color.graf_rojo));
 
@@ -99,9 +103,11 @@ public class FragmentoGrafica extends Fragment {
         BarData dataBarras = new BarData(valsX, dataset);
         // dataset.setColors(ColorTemplate.COLORFUL_COLORS); //
         barChart.setData(dataBarras);
-        barChart.animateY(5000);
+        //barChart.animateY(5000);
         barChart.highlightValues(null);
         barChart.invalidate();
+        barChart.setDrawLegend(true);
+        barChart.setDescription("Recargas por Proveedor");
 
         set1.setSliceSpace(3f);
         set1.setColors(colors);
@@ -111,11 +117,23 @@ public class FragmentoGrafica extends Fragment {
         pieChart.setData(dataPastel);
         pieChart.highlightValues(null);
         pieChart.invalidate();
+        pieChart.setValueTextColor(R.color.dot_dark_screen1);
 
-        //Ocutar descripcion
+        //Mostrar descripcion
         pieChart.setDescription("Saldo por Proveedor");
-        //Ocultar leyenda
-        pieChart.setDrawLegend(false);
+        //Mostrar leyenda
+        pieChart.setDrawLegend(true);
+
+        btnFlotante = (FloatingActionButton) fragmentoView.findViewById(R.id.btnFlotante);
+        btnFlotante.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cliente.Consulta();
+                fragmentoView.refreshDrawableState();
+            }
+        });
+
+
         return fragmentoView;
     }
 
