@@ -40,14 +40,14 @@ public class Detalleproducto extends AppCompatActivity {
     private DatabaseReference mFirebaseDatabase;
     private FirebaseDatabase mFirebaseInstance;
     private FirebaseAuth firebaseAuth;
-    private static ArrayList<ComentarioProducto> comentarioProductos;
+    public static ArrayList<ComentarioProducto> ComentarioProductos;
 
     public static ArrayList<ComentarioProducto> getComentarioProductos() {
-        return comentarioProductos;
+        return ComentarioProductos;
     }
 
     public static void setComentarioProductos(ArrayList<ComentarioProducto> comentarioProductos) {
-        Detalleproducto.comentarioProductos = comentarioProductos;
+        ComentarioProductos = comentarioProductos;
     }
 
     @Override
@@ -94,11 +94,12 @@ public class Detalleproducto extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         final FirebaseUser user = firebaseAuth.getCurrentUser();
         //Consulta todos los comentarios
-        final ArrayList<ComentarioProducto> lista_coment= new ArrayList<ComentarioProducto>();
+
         mFirebaseDatabase.child("proveedor").child(uid_Proveedor).child("categoria").child(uid_categoria).child("producto").child(uid_Producto).child("comentario").addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<ComentarioProducto> lista_coment= new ArrayList<ComentarioProducto>();
                 for (DataSnapshot comentario : dataSnapshot.getChildren()) {
                     System.out.print("Cuerpo"+comentario.child("cuerpo").getValue().toString());
                     lista_coment.add(new ComentarioProducto(
@@ -108,6 +109,7 @@ public class Detalleproducto extends AppCompatActivity {
                     ));
                 }
                 setComentarioProductos(lista_coment);
+                System.out.println("comentarios2:"+lista_coment.size());
             }
 
             @Override

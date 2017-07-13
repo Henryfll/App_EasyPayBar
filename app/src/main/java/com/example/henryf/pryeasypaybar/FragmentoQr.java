@@ -27,6 +27,7 @@ import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.integration.android.IntentIntegrator;
+import com.journeyapps.barcodescanner.BarcodeEncoder;
 
 
 /**
@@ -35,11 +36,10 @@ import com.google.zxing.integration.android.IntentIntegrator;
 public class FragmentoQr extends Fragment{
 
     ImageView imageView;
-    Button btn_generear;
+
     public final static int QRcodeWidth = 500 ;
     Bitmap bitmap ;
-    private FirebaseUser usuario;
-    private  String var_value;
+
     private ProgressBar progressBar;
     private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     final FirebaseUser user = firebaseAuth.getCurrentUser();
@@ -54,76 +54,42 @@ public class FragmentoQr extends Fragment{
        // write(container);
         View rootView = inflater.inflate(R.layout.fragmento_qr, container, false);
         imageView = (ImageView)  rootView.findViewById(R.id.imageView);
-
         progressBar = (ProgressBar) rootView.findViewById(R.id.progressBarQR);
         progressBar.setVisibility(View.GONE);
-
-
+       /* Creacion de hilo */
         Async qrAsync = new Async();
         qrAsync.execute();
-
-
-
-
-        System.out.println("CodigoQR");
         return rootView;
     }
 
-
-    Bitmap TextToImageEncode(String Value) throws WriterException {
-        BitMatrix bitMatrix;
+    Bitmap TextoToQr(String string)
+    {
+        MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
         try {
-            bitMatrix = new MultiFormatWriter().encode(
-                    Value,
-                    BarcodeFormat.DATA_MATRIX.QR_CODE,
-                    QRcodeWidth, QRcodeWidth, null
-            );
-
-        } catch (IllegalArgumentException Illegalargumentexception) {
-
+            BitMatrix bitMatrix = multiFormatWriter.encode(string, BarcodeFormat.QR_CODE,200,200);
+            BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
+            Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
+            return  bitmap;
+        } catch (WriterException e) {
+            e.printStackTrace();
             return null;
         }
-        int bitMatrixWidth = bitMatrix.getWidth();
-
-        int bitMatrixHeight = bitMatrix.getHeight();
-
-        int[] pixels = new int[bitMatrixWidth * bitMatrixHeight];
-
-        for (int y = 0; y < bitMatrixHeight; y++) {
-            int offset = y * bitMatrixWidth;
-
-            for (int x = 0; x < bitMatrixWidth; x++) {
-
-                pixels[offset + x] = bitMatrix.get(x, y) ?
-                        getResources().getColor(R.color.QRCodeBlackColor):getResources().getColor(R.color.QRCodeWhiteColor);
-            }
-        }
-        Bitmap bitmap = Bitmap.createBitmap(bitMatrixWidth, bitMatrixHeight, Bitmap.Config.ARGB_4444);
-
-        bitmap.setPixels(pixels, 0, 500 , 0, 0, bitMatrixWidth, bitMatrixHeight);
-        return bitmap;
     }
 
+    /*Implementacion de Metodos de hilo  para crear Codigo QR*/
 
     private class Async extends AsyncTask<Void, Integer, Void>{
 
         @Override
         protected Void doInBackground(Void... params) {
-            try {
-                bitmap = TextToImageEncode(user.getUid());
-                } catch (WriterException e) {
-                e.printStackTrace();
-            }
+           bitmap =  TextoToQr(user.getUid());
             return null;
         }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            Bundle argsBundle =  getArguments();
             progressBar.setVisibility(View.VISIBLE);
-
-
         }
 
         @Override
@@ -132,6 +98,11 @@ public class FragmentoQr extends Fragment{
             progressBar.setVisibility(View.GONE);
             imageView.setImageBitmap(bitmap);
         }
+        @Override
+        protected void onCancelled() {
+            
+        }
+
     }
 
 

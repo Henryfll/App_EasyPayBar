@@ -95,8 +95,6 @@ public class FragmentoRecargas extends Fragment {
         mFirebaseDatabase = mFirebaseInstance.getReference();
         firebaseAuth = FirebaseAuth.getInstance();
 
-
-
         final FirebaseUser user = firebaseAuth.getCurrentUser();
         //Consulta todos los proveedores
         mFirebaseDatabase.child("proveedor").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -130,7 +128,7 @@ public class FragmentoRecargas extends Fragment {
 
                             ));
 
-                            System.out.println("ListaViewRecarga"+listDetalle);
+
                         }
 
                     }catch (Exception e){
@@ -148,13 +146,9 @@ public class FragmentoRecargas extends Fragment {
             }
         });
 
-
-
     }
 
-    public void detalle(){
 
-    }
 
 
 

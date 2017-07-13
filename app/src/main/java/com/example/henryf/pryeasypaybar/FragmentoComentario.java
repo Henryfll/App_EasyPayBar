@@ -15,8 +15,6 @@ public class FragmentoComentario extends Fragment {
     private AdaptadorComentario adaptador;
 
 
-    public FragmentoComentario() {
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

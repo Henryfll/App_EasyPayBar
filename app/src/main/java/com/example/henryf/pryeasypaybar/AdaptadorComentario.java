@@ -35,7 +35,7 @@ public class AdaptadorComentario
 
     @Override
     public int getItemCount() {
-        return Detalleproducto.getComentarioProductos().size();
+        return 2;
     }
 
     @Override
@@ -47,7 +47,7 @@ public class AdaptadorComentario
 
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, int contador) {
-        final ComentarioProducto item = Detalleproducto.getComentarioProductos().get(contador);
+        final ComentarioProducto item = Detalleproducto.ComentarioProductos.get(contador);
         viewHolder.comentario_cuerpo.setText(item.getCuerpo());
         viewHolder.comentario_fecha.setText(item.getFecha());
     }

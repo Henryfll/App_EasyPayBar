@@ -1,7 +1,9 @@
 package com.example.henryf.pryeasypaybar;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -20,6 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Random;
 /**
  * Created by HenryF on 03/03/2017.
  */
@@ -37,6 +40,7 @@ public class FragmentoInicio extends Fragment {
     private Bitmap imagen;
     private FirebaseAuth firebaseAuth;
     private ArrayList<CategoriaProveedor> categoriaProveedors;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     public ArrayList<CategoriaProveedor> getCategoriaProveedors() {
         return categoriaProveedors;
@@ -63,6 +67,29 @@ public class FragmentoInicio extends Fragment {
         View view = inflater.inflate(R.layout.fragmento_inicio, container, false);
         getListaProveedor();
         reciclador = (RecyclerView) view.findViewById(R.id.recicladorInicio);
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.Swipefragmento_inicio);
+        swipeRefreshLayout.setColorSchemeResources(R.color.accentColor, R.color.ap_black,R.color.ap_gray);
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                (new Handler()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        swipeRefreshLayout.setRefreshing(false);
+                        getListaProveedor();
+
+                        layoutManager = new LinearLayoutManager(getActivity());
+                        reciclador.setLayoutManager(layoutManager);
+                        adaptador = new AdaptadorInicio();
+                        reciclador.setAdapter(adaptador);
+
+                    }
+                },2000);
+            }
+        });
+
         layoutManager = new LinearLayoutManager(getActivity());
         reciclador.setLayoutManager(layoutManager);
         adaptador = new AdaptadorInicio();
