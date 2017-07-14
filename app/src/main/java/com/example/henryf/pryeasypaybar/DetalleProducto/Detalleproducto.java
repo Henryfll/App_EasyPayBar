@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.example.henryf.pryeasypaybar.FragmentoComentario;
 import com.example.henryf.pryeasypaybar.R;
 import com.example.henryf.pryeasypaybar.Servicios.ComentarioProducto;
 import com.example.henryf.pryeasypaybar.Servicios.ProductoProveedor;
@@ -61,7 +62,9 @@ public class Detalleproducto extends AppCompatActivity {
         Intent intent = getIntent();
         final ProductoProveedor producto = (ProductoProveedor) intent.getExtras().getSerializable("producto");
         final String keyCategoria = (String) intent.getExtras().getSerializable("keyCategoria");
-        getListaComentarios(producto.getUidproveedor().toString(),producto.getKey(), keyCategoria);
+        FragmentoComentario coment=new FragmentoComentario();
+        getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_comentario,coment).commit();
+
         Glide.with( this)
                 .load(producto.getImagenURL().toString())
                 .listener(new RequestListener<String, GlideDrawable>() {
@@ -73,6 +76,7 @@ public class Detalleproducto extends AppCompatActivity {
 
                     @Override
                     public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                        //getListaComentarios(producto.getUidproveedor().toString(),producto.getKey(), keyCategoria);
                         nombreProducto.setText(producto.getNombre().toString());
 
                         return false;
@@ -88,28 +92,35 @@ public class Detalleproducto extends AppCompatActivity {
             }
         });
     }
+
     public void getListaComentarios(final String uid_Proveedor, final String uid_Producto, final String uid_categoria){
         mFirebaseInstance = FirebaseDatabase.getInstance();
         mFirebaseDatabase = mFirebaseInstance.getReference();
         firebaseAuth = FirebaseAuth.getInstance();
         final FirebaseUser user = firebaseAuth.getCurrentUser();
         //Consulta todos los comentarios
-
         mFirebaseDatabase.child("proveedor").child(uid_Proveedor).child("categoria").child(uid_categoria).child("producto").child(uid_Producto).child("comentario").addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 ArrayList<ComentarioProducto> lista_coment= new ArrayList<ComentarioProducto>();
                 for (DataSnapshot comentario : dataSnapshot.getChildren()) {
-                    System.out.print("Cuerpo"+comentario.child("cuerpo").getValue().toString());
-                    lista_coment.add(new ComentarioProducto(
-                            comentario.child("cuerpo").getValue().toString(),
-                            comentario.child("fecha").getValue().toString(),
-                            comentario.child("usuario").getValue().toString()
-                    ));
+                    if (comentario != null){
+                        System.out.print("Cuerpo: "+comentario.child("cuerpo").getValue().toString()+"-"
+                                +comentario.child("fecha").getValue().toString()+"-"
+                                +comentario.child("usuario").getValue().toString()+"-");
+                        lista_coment.add(new ComentarioProducto(
+                                comentario.child("cuerpo").getValue().toString(),
+                                comentario.child("fecha").getValue().toString(),
+                                comentario.child("usuario").getValue().toString()
+                        ));
+                    }
                 }
                 setComentarioProductos(lista_coment);
-                System.out.println("comentarios2:"+lista_coment.size());
+                System.out.println("comentarios  :"+lista_coment.size());
+                if (lista_coment.size()==0) {
+                    System.out.println("Lista Vacia");
+                }
             }
 
             @Override
@@ -118,5 +129,7 @@ public class Detalleproducto extends AppCompatActivity {
             }
         });
     }
+
+
 }
 

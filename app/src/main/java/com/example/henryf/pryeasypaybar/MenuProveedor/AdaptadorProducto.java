@@ -57,8 +57,6 @@ public class AdaptadorProducto extends RecyclerView.Adapter<AdaptadorProducto.Vi
 
     @Override
     public void onBindViewHolder(final AdaptadorProducto.ViewHolder holder, final int position) {
-
-
         Glide.with(holder.itemView.getContext())
                 .load(mDataset.get(position).getImagenURL().toString())
                 .listener(new RequestListener<String, GlideDrawable>() {
@@ -74,7 +72,8 @@ public class AdaptadorProducto extends RecyclerView.Adapter<AdaptadorProducto.Vi
                         holder.imgProducto.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-
+                                Detalleproducto comment=new Detalleproducto();
+                                comment.getListaComentarios(mDataset.get(position).getUidproveedor(),mDataset.get(position).getKey(),keyCategoria);
                                 Context context = v.getContext();
                                 Intent intent = new Intent(context, Detalleproducto.class);
                                 intent.putExtra( "producto" , mDataset.get(position) );
@@ -87,9 +86,6 @@ public class AdaptadorProducto extends RecyclerView.Adapter<AdaptadorProducto.Vi
                 })
                 .into(holder.imgProducto);
         holder.titulo.setText(mDataset.get(position).getNombre());
-
-
-
     }
 
     @Override
@@ -108,7 +104,6 @@ public class AdaptadorProducto extends RecyclerView.Adapter<AdaptadorProducto.Vi
             titulo = (TextView) itemView.findViewById(R.id.titulo);
             imgProducto = (ImageView) itemView.findViewById(R.id.imagenProducto);
             progressBar = (ProgressBar) itemView.findViewById(R.id.progressBarProductos);
-
         }
     }
 }

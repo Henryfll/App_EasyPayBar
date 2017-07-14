@@ -81,16 +81,10 @@
             android:backgroundTint="@color/bg_screen1" />
 
     </LinearLayout>
-    <android.support.v4.widget.NestedScrollView
+
+    <RelativeLayout
+        android:id="@+id/contenedor_comentario"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-        <fragment
-            android:id="@+id/listcomentario"
-            android:name="com.example.henryf.pryeasypaybar.FragmentoComentario"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-    </android.support.v4.widget.NestedScrollView>
+        android:layout_height="match_parent" />
 
 </LinearLayout>

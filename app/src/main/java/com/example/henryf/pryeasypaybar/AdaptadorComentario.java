@@ -35,7 +35,7 @@ public class AdaptadorComentario
 
     @Override
     public int getItemCount() {
-        return 2;
+        return Detalleproducto.getComentarioProductos().size();
     }
 
     @Override
