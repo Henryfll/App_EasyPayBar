@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseUser usuario;
     private DatabaseReference mFirebaseDatabase;
     private FirebaseDatabase mFirebaseInstance;
+    final Cliente cliente = new Cliente();
 
     private String name;
     private  String fechaAf;
@@ -78,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         View hView =  navigationView.getHeaderView(0);
         final TextView fechaAfiliacion = (TextView) hView.findViewById(R.id.fechaAf);
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
+        cliente.Consulta();
 
 
 

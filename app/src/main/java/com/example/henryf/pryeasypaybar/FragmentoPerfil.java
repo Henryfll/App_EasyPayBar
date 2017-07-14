@@ -64,25 +64,14 @@ public class FragmentoPerfil extends Fragment {
 
         }
         //System.out.println("uid :"+facebookUserId);
-        String url = "https://graph.facebook.com/" + facebookUserId + "/picture?height=500";
-        Picasso.with(getContext())
-                .load(url)
-                .centerCrop()
-                .resize(display.getWidth()/3, display.getHeight()/5)
-                .into(viewfoto, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        Bitmap imageBitmap = ((BitmapDrawable) viewfoto.getDrawable()).getBitmap();
-                        RoundedBitmapDrawable imageDrawable = RoundedBitmapDrawableFactory.create(getResources(), imageBitmap);
 
+            String url = "https://graph.facebook.com/" + facebookUserId + "/picture?height=500";
+            Picasso.with(getContext())
+                    .load(url)
+                    .centerCrop()
+                    .resize(display.getWidth()/3, display.getHeight()/5)
+                    .into(viewfoto);
 
-                        viewfoto.setImageDrawable(imageDrawable);
-                    }
-                    @Override
-                    public void onError() {
-                        //viewfoto.setImageResource(R.drawable.default_image);
-                    }
-                });
 
         return fragmentoView;
     }
