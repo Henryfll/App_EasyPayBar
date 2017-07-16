@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -72,8 +73,12 @@ public class AdaptadorProducto extends RecyclerView.Adapter<AdaptadorProducto.Vi
                         holder.imgProducto.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Detalleproducto comment=new Detalleproducto();
-                                comment.getListaComentarios(mDataset.get(position).getUidproveedor(),mDataset.get(position).getKey(),keyCategoria);
+                               // Detalleproducto comment=new Detalleproducto();
+                                //comment.getListaComentarios(mDataset.get(position).getUidproveedor(),mDataset.get(position).getKey(),keyCategoria);
+                                String uidopro= mDataset.get(position).getUidproveedor();
+                                String prod=mDataset.get(position).getKey();
+                                String cat=keyCategoria;
+                                hilo(uidopro,prod);
                                 Context context = v.getContext();
                                 Intent intent = new Intent(context, Detalleproducto.class);
                                 intent.putExtra( "producto" , mDataset.get(position) );
@@ -87,7 +92,18 @@ public class AdaptadorProducto extends RecyclerView.Adapter<AdaptadorProducto.Vi
                 .into(holder.imgProducto);
         holder.titulo.setText(mDataset.get(position).getNombre());
     }
+public void hilo(final String uid, final String pro){
 
+    new Thread(new Runnable() {
+        @Override
+        public void run() {
+            System.out.println("Cuerpo variables"+uid+"-"+pro+"-"+keyCategoria);
+            Detalleproducto comment=new Detalleproducto();
+            comment.getListaComentarios(uid,pro,keyCategoria);
+
+        }
+    });
+}
     @Override
     public int getItemCount() {
         return mDataset.size();
@@ -105,5 +121,55 @@ public class AdaptadorProducto extends RecyclerView.Adapter<AdaptadorProducto.Vi
             imgProducto = (ImageView) itemView.findViewById(R.id.imagenProducto);
             progressBar = (ProgressBar) itemView.findViewById(R.id.progressBarProductos);
         }
+    }
+     //Implementacion de Metodos de hilo  para crear leer comentarios
+
+    private class SimpleTask extends AsyncTask<String , Integer, Void> {
+
+
+        @Override
+        protected void onPreExecute() {
+            System.out.println("Cuerpo inicio");
+        }
+
+        /*
+        Ejecución del ordenamiento y transmision de progreso
+         */
+        @Override
+        protected Void doInBackground(String... params) {
+            Detalleproducto comment=new Detalleproducto();
+            comment.getListaComentarios(params[0],params[1],params[2]);
+            return null;
+        }
+
+        /*
+         Se informa en progressLabel que se canceló la tarea y
+         se hace invisile el botón "Cancelar"
+          */
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+
+        }
+
+        /*
+        Impresión del progreso en tiempo real
+          */
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+
+        }
+
+        /*
+        Se notifica que se completó el ordenamiento y se habilita
+        de nuevo el botón "Ordenar"
+         */
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            System.out.println("Cuerpo de Comentarios finalizada");
+        }
+
     }
 }
