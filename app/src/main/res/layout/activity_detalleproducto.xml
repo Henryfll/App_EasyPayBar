@@ -58,7 +58,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="79dp"
+        android:layout_height="59dp"
         android:orientation="horizontal"
         android:weightSum="1">
 
@@ -81,6 +81,17 @@
             android:backgroundTint="@color/bg_screen1" />
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="37dp"
+        android:text="Comentarios:"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/black"/>
 
     <RelativeLayout
         android:id="@+id/contenedor_comentario"

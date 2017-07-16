@@ -9,6 +9,8 @@ import android.widget.TextView;
 import com.example.henryf.pryeasypaybar.DetalleProducto.Detalleproducto;
 import com.example.henryf.pryeasypaybar.Servicios.ComentarioProducto;
 
+import java.util.ArrayList;
+
 /**
  * Created by HenryF on 10/7/2017.
  */
@@ -35,6 +37,11 @@ public class AdaptadorComentario
 
     @Override
     public int getItemCount() {
+        if  (Detalleproducto.getComentarioProductos().size()==0){
+            ArrayList<ComentarioProducto> lista_coment= new ArrayList<ComentarioProducto>();
+            lista_coment.add(new ComentarioProducto("Sin Comentarios","",""));
+            Detalleproducto.setComentarioProductos(lista_coment);
+        }
         return Detalleproducto.getComentarioProductos().size();
     }
 
