@@ -54,6 +54,7 @@ public class Detalleproducto extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_detalleproducto);
         imgProducto = (ImageView) findViewById(R.id.imgProducto);
         nombreProducto = (TextView) findViewById(R.id.nombreProducto);
@@ -62,8 +63,6 @@ public class Detalleproducto extends AppCompatActivity {
         Intent intent = getIntent();
         final ProductoProveedor producto = (ProductoProveedor) intent.getExtras().getSerializable("producto");
         final String keyCategoria = (String) intent.getExtras().getSerializable("keyCategoria");
-        FragmentoComentario coment=new FragmentoComentario();
-        getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_comentario,coment).commit();
 
         Glide.with( this)
                 .load(producto.getImagenURL().toString())
@@ -78,7 +77,9 @@ public class Detalleproducto extends AppCompatActivity {
                     public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
                         //getListaComentarios(producto.getUidproveedor().toString(),producto.getKey(), keyCategoria);
                         nombreProducto.setText(producto.getNombre().toString());
-
+                        //ComentarioProductos.add(new ComentarioProducto("vacio","vacio","vacio"));
+                        FragmentoComentario coment=new FragmentoComentario();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_comentario,coment).commit();
                         return false;
                     }
                 })

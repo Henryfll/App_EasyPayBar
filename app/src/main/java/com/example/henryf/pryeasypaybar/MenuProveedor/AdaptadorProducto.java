@@ -73,12 +73,12 @@ public class AdaptadorProducto extends RecyclerView.Adapter<AdaptadorProducto.Vi
                         holder.imgProducto.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                               // Detalleproducto comment=new Detalleproducto();
-                                //comment.getListaComentarios(mDataset.get(position).getUidproveedor(),mDataset.get(position).getKey(),keyCategoria);
-                                String uidopro= mDataset.get(position).getUidproveedor();
-                                String prod=mDataset.get(position).getKey();
-                                String cat=keyCategoria;
-                                hilo(uidopro,prod);
+                                Detalleproducto comment=new Detalleproducto();
+                                comment.getListaComentarios(mDataset.get(position).getUidproveedor(),mDataset.get(position).getKey(),keyCategoria);
+                               // String uidopro= mDataset.get(position).getUidproveedor();
+                                //String prod=mDataset.get(position).getKey();
+                               // String cat=keyCategoria;
+                                //hilo(uidopro,prod);
                                 Context context = v.getContext();
                                 Intent intent = new Intent(context, Detalleproducto.class);
                                 intent.putExtra( "producto" , mDataset.get(position) );
