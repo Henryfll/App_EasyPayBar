@@ -73,8 +73,8 @@ public class AdaptadorProducto extends RecyclerView.Adapter<AdaptadorProducto.Vi
                         holder.imgProducto.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Detalleproducto comment=new Detalleproducto();
-                                comment.getListaComentarios(mDataset.get(position).getUidproveedor(),mDataset.get(position).getKey(),keyCategoria);
+                               // Detalleproducto comment=new Detalleproducto();
+                               // comment.getListaComentarios(mDataset.get(position).getUidproveedor(),mDataset.get(position).getKey(),keyCategoria);
                                // String uidopro= mDataset.get(position).getUidproveedor();
                                 //String prod=mDataset.get(position).getKey();
                                // String cat=keyCategoria;
@@ -92,18 +92,20 @@ public class AdaptadorProducto extends RecyclerView.Adapter<AdaptadorProducto.Vi
                 .into(holder.imgProducto);
         holder.titulo.setText(mDataset.get(position).getNombre());
     }
-public void hilo(final String uid, final String pro){
+    /*
+    public void hilo(final String uid, final String pro){
 
-    new Thread(new Runnable() {
-        @Override
-        public void run() {
-            System.out.println("Cuerpo variables"+uid+"-"+pro+"-"+keyCategoria);
-            Detalleproducto comment=new Detalleproducto();
-            comment.getListaComentarios(uid,pro,keyCategoria);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("Cuerpo variables"+uid+"-"+pro+"-"+keyCategoria);
+                Detalleproducto comment=new Detalleproducto();
+                comment.getListaComentarios(uid,pro,keyCategoria);
 
-        }
-    });
-}
+            }
+        });
+    }
+    */
     @Override
     public int getItemCount() {
         return mDataset.size();
@@ -124,6 +126,8 @@ public void hilo(final String uid, final String pro){
     }
      //Implementacion de Metodos de hilo  para crear leer comentarios
 
+
+
     private class SimpleTask extends AsyncTask<String , Integer, Void> {
 
 
@@ -138,7 +142,7 @@ public void hilo(final String uid, final String pro){
         @Override
         protected Void doInBackground(String... params) {
             Detalleproducto comment=new Detalleproducto();
-            comment.getListaComentarios(params[0],params[1],params[2]);
+            //comment.getListaComentarios(params[0],params[1],params[2]);
             return null;
         }
 
@@ -172,4 +176,5 @@ public void hilo(final String uid, final String pro){
         }
 
     }
+
 }

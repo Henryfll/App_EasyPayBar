@@ -45,22 +45,8 @@ public class AdaptadorRecargas
 
     private static ArrayList<ArrayList<String>>  itemsRecargas = new ArrayList<ArrayList<String>>();
     private static ArrayList<ArrayList<String>>  itemsRecargasfinal = new ArrayList<ArrayList<String>>();
-    private static ArrayList<String> listaDetalle = new ArrayList<>();
-    public static ArrayList<ArrayList<String>> getItemsRecargasfinal() {
-        return itemsRecargasfinal;
-    }
+    private static ArrayList<ProveedorServicio> listaRecargas ;
 
-    public static void setItemsRecargasfinal(ArrayList<ArrayList<String>> itemsRecargasfinal) {
-        AdaptadorRecargas.itemsRecargasfinal = itemsRecargasfinal;
-    }
-
-    public static ArrayList<ArrayList<String>> getItemsRecargas() {
-        return itemsRecargas;
-    }
-
-    public static void setItemsRecargas(ArrayList<String> itemsRecargas) {
-        AdaptadorRecargas.itemsRecargas.add(itemsRecargas);
-    }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView nombre_proveedor;
@@ -90,14 +76,14 @@ public class AdaptadorRecargas
     }
 
 
-    public AdaptadorRecargas() {
-
+    public AdaptadorRecargas(ArrayList<ProveedorServicio> listaRecargas) {
+        this.listaRecargas = listaRecargas;
     }
 
     @Override
     public int getItemCount() {
 
-              return FragmentoRecargas.lista_result.size() ;
+              return listaRecargas.size() ;
     }
 
     @Override
@@ -112,32 +98,7 @@ public class AdaptadorRecargas
     public void onBindViewHolder(final ViewHolder viewHolder, int contador) {
 
         viewHolder.detalleRecarga.setVisibility(View.GONE);
-        ProveedorServicio item = FragmentoRecargas.lista_result.get(contador);
-
-       /* FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageRef = storage.getReferenceFromUrl("gs://easypaybar.appspot.com/")
-                .child(item.getImagen());
-
-        final File localFile;
-        try {
-            localFile = File.createTempFile("images"+item.getNombre_proveedor().toString(), "jpg");
-            final ViewHolder viewHolderAuxi = viewHolder;
-            storageRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-
-                @Override
-                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-
-                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
-
-                        viewHolderAuxi.imagenProveedor.setImageBitmap(bitmap);
-                }
-
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-*/
+        ProveedorServicio item = listaRecargas.get(contador);
 
         Glide.with(viewHolder.itemView.getContext()).load(item.getImagenURL().toString())
                 .listener(new RequestListener<String, GlideDrawable>() {

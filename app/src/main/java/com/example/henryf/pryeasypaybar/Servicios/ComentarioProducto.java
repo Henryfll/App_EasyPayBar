@@ -10,12 +10,27 @@ public class ComentarioProducto {
     private String cuerpo;
     private String fecha;
     private String usuario;
+    private String imagenUrl;
+    private String nombreUsuario;
 
-    public ComentarioProducto(String cuerpo, String fecha, String usuario) {
+
+
+    public ComentarioProducto(String cuerpo, String fecha, String usuario, String nombreUsuario , String imagenUrl) {
         this.cuerpo = cuerpo;
         this.fecha = fecha;
         this.usuario = usuario;
+        this.nombreUsuario = nombreUsuario;
+        this.imagenUrl = imagenUrl;
     }
+
+    public String getImagenUrl() {
+        return imagenUrl;
+    }
+
+    public String getNombreUsuario() {
+        return nombreUsuario;
+    }
+
 
     public String getCuerpo() {
         return cuerpo;

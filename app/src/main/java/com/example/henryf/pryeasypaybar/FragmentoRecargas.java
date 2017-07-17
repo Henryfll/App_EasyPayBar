@@ -4,7 +4,7 @@ package com.example.henryf.pryeasypaybar;
  * Created by HenryF on 23/05/2017.
  */
 
-import android.graphics.Bitmap;
+
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -25,26 +25,14 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 
 /**
        * Fragmento para la pestaña "DIRECCIONES" De la sección "Mi Cuenta"
         */
 public class FragmentoRecargas extends Fragment {
     private RecyclerView recyclerView;
-    private FloatingActionButton fab;
-    private LinearLayoutManager layoutManager;
     public static AdaptadorRecargas adaptador;
 
-    private LinearLayoutManager linearLayout;
-    private DatabaseReference mFirebaseDatabase;
-    private FirebaseDatabase mFirebaseInstance;
-    private FirebaseAuth firebaseAuth;
-    private Bitmap imagen;
-
-    public void setImagen(Bitmap imagen) {
-        this.imagen = imagen;
-    }
 
     public static void setLista_result(ArrayList<ProveedorServicio> lista_result) {
         FragmentoRecargas.lista_result = lista_result;
@@ -65,35 +53,17 @@ public class FragmentoRecargas extends Fragment {
 
 
         View view = inflater.inflate(R.layout.fragmento_recarga, container, false);
-        fab = (FloatingActionButton) view.findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
         recyclerView = (RecyclerView) view.findViewById(R.id.recicladorRecarg);
-        layoutManager = new LinearLayoutManager(getActivity());
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
-        adaptador = new AdaptadorRecargas();
-        recyclerView.setAdapter(adaptador);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getListRecargas();
-
-                recyclerView.setAdapter(adaptador);
-            }
-        });
-
-        getListRecargas();
-
-        return view;
-    }
 
 
 
-
-
-    public void getListRecargas(){
         final ArrayList<ProveedorServicio> lista_recargas = new ArrayList<>();
-        mFirebaseInstance = FirebaseDatabase.getInstance();
-        mFirebaseDatabase = mFirebaseInstance.getReference();
-        firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseDatabase mFirebaseInstance = FirebaseDatabase.getInstance();
+        DatabaseReference mFirebaseDatabase = mFirebaseInstance.getReference();
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
         final FirebaseUser user = firebaseAuth.getCurrentUser();
         //Consulta todos los proveedores
@@ -116,15 +86,15 @@ public class FragmentoRecargas extends Fragment {
 
                             lista_recargas.add(new
                                     ProveedorServicio(
-                                            proveedor.child("nombre").getValue().toString(),
-                                            proveedor.child("afiliados").child(user.getUid()).child("saldo").getValue().toString(),
-                                            proveedor.child("bar").getValue().toString(),
-                                            proveedor.child("imagen").getValue().toString(),
-                                            proveedor.child("codigoQR").getValue().toString(),
-                                            listDetalle,
-                                            true,
-                                            null,
-                                            proveedor.child("imagenURL").getValue().toString()
+                                    proveedor.child("nombre").getValue().toString(),
+                                    proveedor.child("afiliados").child(user.getUid()).child("saldo").getValue().toString(),
+                                    proveedor.child("bar").getValue().toString(),
+                                    proveedor.child("imagen").getValue().toString(),
+                                    proveedor.child("codigoQR").getValue().toString(),
+                                    listDetalle,
+                                    true,
+                                    null,
+                                    proveedor.child("imagenURL").getValue().toString()
 
                             ));
 
@@ -137,7 +107,8 @@ public class FragmentoRecargas extends Fragment {
 
                 }
 
-                setLista_result(lista_recargas);
+                adaptador = new AdaptadorRecargas(lista_recargas);
+                recyclerView.setAdapter(adaptador);
             }
 
             @Override
@@ -146,12 +117,7 @@ public class FragmentoRecargas extends Fragment {
             }
         });
 
+        return view;
     }
-
-
-
-
-
-
 
 }

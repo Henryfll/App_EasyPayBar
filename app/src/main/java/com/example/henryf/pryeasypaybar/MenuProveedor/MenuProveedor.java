@@ -24,8 +24,14 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.example.henryf.pryeasypaybar.R;
 import com.example.henryf.pryeasypaybar.Servicios.CategoriaProveedor;
+import com.example.henryf.pryeasypaybar.Servicios.ProductoProveedor;
 import com.example.henryf.pryeasypaybar.Servicios.ProveedorServicio;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -38,7 +44,7 @@ public class MenuProveedor extends AppCompatActivity {
 
     private ImageView imgProveedor;
     private Toolbar titulo;
-    private RecyclerView reciclador;
+    private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
     private static ArrayList<CategoriaProveedor> categoriasProveedor;
     private ProgressBar progressBar;
@@ -57,10 +63,13 @@ public class MenuProveedor extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_proveedor);
-
+        recyclerView = (RecyclerView) findViewById(R.id.categoriasRV);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         Intent intent = getIntent();
-        ProveedorServicio proveedorServicio = (ProveedorServicio) intent.getExtras().getSerializable("proveedor");
+        final ProveedorServicio proveedorServicio = (ProveedorServicio) intent.getExtras().getSerializable("proveedor");
+        final ArrayList<CategoriaProveedor> categoriaProveedorsList = new ArrayList<>();
 
         setCategoriasProveedor(proveedorServicio.getCategoriaProveedors());
         imgProveedor = (ImageView) findViewById(R.id.imagenProveedorMenu);
@@ -84,6 +93,55 @@ public class MenuProveedor extends AppCompatActivity {
                         return false;
                     }
                 }).into(imgProveedor);
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("proveedor").child(proveedorServicio.getUid_Proveedor());
 
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot categorias: dataSnapshot.child("categoria").getChildren()){
+                    ArrayList<ProductoProveedor> listProductos = new ArrayList<ProductoProveedor>();
+                    for(DataSnapshot producto: categorias.child("producto").getChildren()){
+
+                        listProductos.add(new ProductoProveedor(
+                                producto.child("nombre").getValue().toString(),
+                                producto.child("precio").getValue().toString(),
+                                producto.child("imagen").getValue().toString(),
+                                producto.child("veces").getValue().toString(),
+                                producto.child("imagenURL").getValue().toString(),
+                                producto.getKey().toString(),
+                                proveedorServicio.getUid_Proveedor()
+                        ));
+
+
+                    }
+
+                    categoriaProveedorsList.add(new CategoriaProveedor(
+                            categorias.getKey().toString(),
+                            categorias.child("descripcion").getValue().toString(),
+                            categorias.child("nombre").getValue().toString(),
+                            listProductos));
+
+                }
+
+                proveedorServicio.setCategoriaProveedors(categoriaProveedorsList);
+                recyclerView.setAdapter(new AdaptadorMenuP(categoriaProveedorsList));
+
+            }
+
+
+
+            @Override
+
+            public void onCancelled(DatabaseError error) {
+
+                // Failed to read value
+
+                System.out.println("Failed to read value." + error.toException());
+
+            }
+
+        });
     }
 }

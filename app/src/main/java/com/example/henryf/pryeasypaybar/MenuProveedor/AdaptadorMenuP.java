@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.example.henryf.pryeasypaybar.R;
 import com.example.henryf.pryeasypaybar.Servicios.CategoriaProveedor;
 import com.example.henryf.pryeasypaybar.Servicios.ProductoProveedor;
+import com.example.henryf.pryeasypaybar.Servicios.ProveedorServicio;
 
 import java.util.ArrayList;
 
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 
 public class AdaptadorMenuP extends RecyclerView.Adapter<AdaptadorMenuP.ViewHolder> {
 
+    private ArrayList<CategoriaProveedor> categoriaProveedors = new ArrayList<>();
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -46,7 +48,8 @@ public class AdaptadorMenuP extends RecyclerView.Adapter<AdaptadorMenuP.ViewHold
         }
     }
 
-    public AdaptadorMenuP() {
+    public AdaptadorMenuP(ArrayList<CategoriaProveedor> categoriaProveedors) {
+        this.categoriaProveedors = categoriaProveedors;
     }
 
 
@@ -60,7 +63,7 @@ public class AdaptadorMenuP extends RecyclerView.Adapter<AdaptadorMenuP.ViewHold
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final CategoriaProveedor item = MenuProveedor.getCategoriasProveedor().get(position);
+        final CategoriaProveedor item =categoriaProveedors.get(position);
 
 
         holder.tituloCategoria.setText(item.getNombre());
@@ -77,6 +80,6 @@ public class AdaptadorMenuP extends RecyclerView.Adapter<AdaptadorMenuP.ViewHold
 
     @Override
     public int getItemCount() {
-        return MenuProveedor.getCategoriasProveedor().size();
+        return categoriaProveedors.size();
     }
 }

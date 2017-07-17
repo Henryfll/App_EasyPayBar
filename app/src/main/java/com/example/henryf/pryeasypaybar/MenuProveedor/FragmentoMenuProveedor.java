@@ -23,12 +23,13 @@ public class FragmentoMenuProveedor extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragmento_menu, container, false);
-
+/*
         reciclador = (RecyclerView) view.findViewById(R.id.recyclerViewCategoria);
         layoutManager = new LinearLayoutManager(getActivity());
         reciclador.setLayoutManager(layoutManager);
         adaptador = new AdaptadorMenuP();
         reciclador.setAdapter(adaptador);
+        */
         return view;
 
     }

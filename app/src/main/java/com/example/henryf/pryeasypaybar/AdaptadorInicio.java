@@ -28,6 +28,7 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Created by HenryF on 03/03/2017.
@@ -38,7 +39,7 @@ import java.io.IOException;
  */
 public class AdaptadorInicio
         extends RecyclerView.Adapter<AdaptadorInicio.ViewHolder> {
-
+    private ArrayList<ProveedorServicio> proveedorServiciosList ;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         // Campos respectivos de un item
@@ -46,14 +47,10 @@ public class AdaptadorInicio
         public TextView nombre;
         public TextView bar;
         public ImageView imagenProveedor;
-        private RecyclerView reciclador;
-        //public Switch switch_afiliacion;
         private ImageView imgAfiliar;
         private ImageView imgCategoria;
         private RelativeLayout loading;
         private ProgressBar progressBar;
-
-
         public ViewHolder(View v) {
             super(v);
 
@@ -69,14 +66,13 @@ public class AdaptadorInicio
         }
     }
 
-    public AdaptadorInicio() {
-
+    public AdaptadorInicio(ArrayList<ProveedorServicio> proveedorServicios) {
+        this.proveedorServiciosList = proveedorServicios;
     }
 
     @Override
     public int getItemCount() {
-        //System.out.println("tama;o del array= "+FragmentoInicio.Lista_Proveedor.size());
-        return FragmentoInicio.Lista_Proveedor.size();
+        return proveedorServiciosList.size();
     }
 
     @Override
@@ -90,27 +86,11 @@ public class AdaptadorInicio
     public void onBindViewHolder(final ViewHolder viewHolder, int i) {
 
 
-        final ProveedorServicio item = FragmentoInicio.Lista_Proveedor.get(i);
+        final ProveedorServicio item = proveedorServiciosList.get(i);
+        viewHolder.nombre.setText("Proveedor: "+item.getNombre_proveedor());
+        viewHolder.bar.setText(item.getBar_proveedor());
 
-        /*
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageRef = storage.getReferenceFromUrl("gs://easypaybar.appspot.com/")
-                .child(item.getImagen());
-
-        final File localFile;
-        try {
-            localFile = File.createTempFile(item.getNombre_proveedor().toString(), "jpg");
-            storageRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
-                    viewHolder.imagenProveedor.setImageBitmap(bitmap);
-                                                                       }
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        */
+        // Carga de la imagen de Cada proveedor con un spiner en el tiempo de espera
         Glide.with(viewHolder.itemView.getContext()).load(item.getImagenURL().toString())
                 .listener(new RequestListener<String, GlideDrawable>() {
                     @Override
@@ -123,26 +103,15 @@ public class AdaptadorInicio
                     public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
                         viewHolder.progressBar.setVisibility(View.GONE);
                         return false;
-                    }
-                })
+                    }}).into(viewHolder.imagenProveedor);
 
-                .into(viewHolder.imagenProveedor);
 
-        viewHolder.nombre.setText("Proveedor: "+item.getNombre_proveedor());
-        viewHolder.bar.setText(item.getBar_proveedor());
 
-        /*viewHolder.switch_afiliacion.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                ProveedorServicio prov=new ProveedorServicio();
-                prov.Afiliarse(item.getUid_Proveedor());
-            }
-        });*/
         /**
          * Nuevo fragmento para categoria
          */
         viewHolder.imgCategoria.setOnClickListener(new View.OnClickListener() {
-            ProveedorServicio itemAxi = item;
+
             @Override
             public void onClick(View v) {
 

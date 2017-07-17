@@ -1,5 +1,7 @@
 package com.example.henryf.pryeasypaybar.Servicios;
 
+import android.net.Uri;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -99,14 +101,14 @@ public class ProductoProveedor implements Serializable {
     }
 
 
-    public void Comentar(final String cuerpo, final String uid_Proveedor, final String uid_Producto, final String uid_categoria){
+    public void Comentar(final String cuerpo, final String uid_Proveedor, final String uid_Producto, final String uid_categoria , String nombreUsuario , String urlImagen){
         final Calendar fecha=Calendar.getInstance();
         final SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
         firebaseAuth = FirebaseAuth.getInstance();
         final FirebaseUser user = firebaseAuth.getCurrentUser();
         mFirebaseInstance = FirebaseDatabase.getInstance();
         mFirebaseDatabase = mFirebaseInstance.getReference();
-        mFirebaseDatabase.child("proveedor").child(uid_Proveedor).child("categoria").child(uid_categoria).child("producto").child(uid_Producto).child("comentario").push().setValue(new ComentarioProducto(cuerpo,formato.format(fecha.getTime()),user.getUid()));
+        mFirebaseDatabase.child("proveedor").child(uid_Proveedor).child("categoria").child(uid_categoria).child("producto").child(uid_Producto).child("comentario").push().setValue(new ComentarioProducto(cuerpo,formato.format(fecha.getTime()),user.getUid(),nombreUsuario,urlImagen.toString()));
 
     }
 }

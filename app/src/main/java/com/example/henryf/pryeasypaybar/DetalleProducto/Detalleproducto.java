@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,13 +17,15 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
-import com.example.henryf.pryeasypaybar.FragmentoComentario;
+import com.example.henryf.pryeasypaybar.AdaptadorComentario;
+
 import com.example.henryf.pryeasypaybar.R;
 import com.example.henryf.pryeasypaybar.Servicios.ComentarioProducto;
 import com.example.henryf.pryeasypaybar.Servicios.ProductoProveedor;
 import com.example.henryf.pryeasypaybar.Servicios.ProveedorServicio;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,23 +43,19 @@ public class Detalleproducto extends AppCompatActivity {
     private Button btn_comentar;
     private EditText txt_comentario;
     private DatabaseReference mFirebaseDatabase;
-    private FirebaseDatabase mFirebaseInstance;
     private FirebaseAuth firebaseAuth;
     public static ArrayList<ComentarioProducto> ComentarioProductos;
+    private RecyclerView recyclerView;
 
-    public static ArrayList<ComentarioProducto> getComentarioProductos() {
-        return ComentarioProductos;
-    }
-
-    public static void setComentarioProductos(ArrayList<ComentarioProducto> comentarioProductos) {
-        ComentarioProductos = comentarioProductos;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_detalleproducto);
+        recyclerView = (RecyclerView) findViewById(R.id.comentarioRV);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         imgProducto = (ImageView) findViewById(R.id.imgProducto);
         nombreProducto = (TextView) findViewById(R.id.nombreProducto);
         btn_comentar=(Button) findViewById(R.id.btn_comentar);
@@ -64,8 +64,9 @@ public class Detalleproducto extends AppCompatActivity {
         final ProductoProveedor producto = (ProductoProveedor) intent.getExtras().getSerializable("producto");
         final String keyCategoria = (String) intent.getExtras().getSerializable("keyCategoria");
 
+        assert producto != null;
         Glide.with( this)
-                .load(producto.getImagenURL().toString())
+                .load(producto.getImagenURL())
                 .listener(new RequestListener<String, GlideDrawable>() {
                     @Override
                     public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
@@ -75,11 +76,9 @@ public class Detalleproducto extends AppCompatActivity {
 
                     @Override
                     public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                        //getListaComentarios(producto.getUidproveedor().toString(),producto.getKey(), keyCategoria);
-                        nombreProducto.setText(producto.getNombre().toString());
-                        //ComentarioProductos.add(new ComentarioProducto("vacio","vacio","vacio"));
-                        FragmentoComentario coment=new FragmentoComentario();
-                        getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_comentario,coment).commit();
+
+                        nombreProducto.setText(producto.getNombre());
+
                         return false;
                     }
                 })
@@ -88,40 +87,59 @@ public class Detalleproducto extends AppCompatActivity {
         btn_comentar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                producto.Comentar(txt_comentario.getText().toString(),producto.getUidproveedor().toString(),producto.getKey(), keyCategoria);
+                final FirebaseUser user = firebaseAuth.getCurrentUser();
+                String facebookUserId="";
+                for(UserInfo profile : user.getProviderData()) {
+                    facebookUserId = profile.getUid();
+
+                }
+
+
+                String url = "https://graph.facebook.com/" + facebookUserId + "/picture?height=500";
+                producto.Comentar(txt_comentario.getText().toString(), producto.getUidproveedor(),producto.getKey(), keyCategoria ,user.getDisplayName() , url);
                 txt_comentario.setText(null);
             }
         });
-    }
 
-    public void getListaComentarios(final String uid_Proveedor, final String uid_Producto, final String uid_categoria){
-        mFirebaseInstance = FirebaseDatabase.getInstance();
+        FirebaseDatabase mFirebaseInstance = FirebaseDatabase.getInstance();
         mFirebaseDatabase = mFirebaseInstance.getReference();
         firebaseAuth = FirebaseAuth.getInstance();
         final FirebaseUser user = firebaseAuth.getCurrentUser();
         //Consulta todos los comentarios
-        mFirebaseDatabase.child("proveedor").child(uid_Proveedor).child("categoria").child(uid_categoria).child("producto").child(uid_Producto).child("comentario").addListenerForSingleValueEvent(new ValueEventListener() {
+        assert keyCategoria != null;
+        final ArrayList<ComentarioProducto> lista_coment= new ArrayList<ComentarioProducto>();
+        mFirebaseDatabase.child("proveedor").child(producto.getUidproveedor()).child("categoria").child(keyCategoria).child("producto").child(producto.getKey()).child("comentario").addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                ArrayList<ComentarioProducto> lista_coment= new ArrayList<ComentarioProducto>();
+
+                String nombre = "Anonimo";
+                String imagenUrl ="http://www.ofrases.com/imagenes/anonimo.jpg";
                 for (DataSnapshot comentario : dataSnapshot.getChildren()) {
                     if (comentario != null){
-                        System.out.print("Cuerpo: "+comentario.child("cuerpo").getValue().toString()+"-"
-                                +comentario.child("fecha").getValue().toString()+"-"
-                                +comentario.child("usuario").getValue().toString()+"-");
+
+                        if(comentario.child("nombreUsuario").exists()){
+                            nombre = comentario.child("nombreUsuario").getValue().toString();
+                        }
+                        if(comentario.child("imagenUrl").exists()){
+
+
+                            imagenUrl = comentario.child("imagenUrl").getValue().toString();
+                        }
                         lista_coment.add(new ComentarioProducto(
                                 comentario.child("cuerpo").getValue().toString(),
                                 comentario.child("fecha").getValue().toString(),
-                                comentario.child("usuario").getValue().toString()
+                                comentario.child("usuario").getValue().toString(),
+                                nombre,imagenUrl
+
                         ));
                     }
                 }
-                setComentarioProductos(lista_coment);
-                System.out.println("comentarios  :"+lista_coment.size());
-                if (lista_coment.size()==0) {
-                    System.out.println("Lista Vacia");
-                }
+
+
+                recyclerView.setAdapter(new AdaptadorComentario(lista_coment));
+
+
             }
 
             @Override

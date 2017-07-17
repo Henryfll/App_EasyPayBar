@@ -47,11 +47,6 @@ public class FragmentoPerfil extends Fragment {
         lblcorreo = (TextView) fragmentoView.findViewById(R.id.texto_email);
         viewfoto = (ImageView) fragmentoView.findViewById(R.id.foto);
 
-        /*View fragmentoCompras = inflater.inflate(R.layout.item_lista_compras, container, false);
-        lblfecha = (TextView) fragmentoCompras.findViewById(R.id.fecha);
-        lblproducto = (TextView) fragmentoCompras.findViewById((R.id.producto));
-        lblcosto = (TextView) fragmentoCompras.findViewById(R.id.costo);*/
-
         //System.out.println("problema: "+R.id.texto_nombre);
         lblnombre.setText(user.getDisplayName());
         lblcorreo.setText(user.getEmail());
@@ -63,7 +58,7 @@ public class FragmentoPerfil extends Fragment {
             facebookUserId = profile.getUid();
 
         }
-        //System.out.println("uid :"+facebookUserId);
+
 
             String url = "https://graph.facebook.com/" + facebookUserId + "/picture?height=500";
             Picasso.with(getContext())

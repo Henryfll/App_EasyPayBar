@@ -70,12 +70,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
-        <fragment
-            android:id="@+id/list"
-            android:name="com.example.henryf.pryeasypaybar.MenuProveedor.FragmentoMenuProveedor"
+        <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_height="match_parent"
+            android:id="@+id/categoriasRV"
+            android:scrollbars="none">
+
+        </android.support.v7.widget.RecyclerView>
     </android.support.v4.widget.NestedScrollView>
 
 </android.support.design.widget.CoordinatorLayout>

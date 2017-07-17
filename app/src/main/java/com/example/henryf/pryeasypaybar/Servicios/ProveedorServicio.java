@@ -47,6 +47,10 @@ public class ProveedorServicio implements Serializable{
 
     private ArrayList<CategoriaProveedor> categoriaProveedors = new ArrayList<>();
 
+    public void setCategoriaProveedors(ArrayList<CategoriaProveedor> categoriaProveedors) {
+        this.categoriaProveedors = categoriaProveedors;
+    }
+
     public ArrayList<CategoriaProveedor> getCategoriaProveedors() {
         return categoriaProveedors;
     }
