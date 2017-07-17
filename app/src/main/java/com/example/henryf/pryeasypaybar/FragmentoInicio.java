@@ -47,7 +47,7 @@ public class FragmentoInicio extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragmento_inicio, container, false);
         //Lista de proveedores que se encuentra registrados en la aplicacion
-        final ArrayList<ProveedorServicio> lista_prove= new ArrayList<ProveedorServicio>();
+
 
         //Declaracion de recyclerView y Spiner
         reciclador = (RecyclerView) view.findViewById(R.id.recicladorInicio);
@@ -65,6 +65,7 @@ public class FragmentoInicio extends Fragment {
         mFirebaseDatabase.child("proveedor").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                final ArrayList<ProveedorServicio> lista_prove= new ArrayList<ProveedorServicio>();
                 boolean afiliado;
                 for (DataSnapshot proveedor : dataSnapshot.getChildren()) {
                     afiliado = false;

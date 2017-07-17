@@ -69,7 +69,7 @@ public class MenuProveedor extends AppCompatActivity {
 
         Intent intent = getIntent();
         final ProveedorServicio proveedorServicio = (ProveedorServicio) intent.getExtras().getSerializable("proveedor");
-        final ArrayList<CategoriaProveedor> categoriaProveedorsList = new ArrayList<>();
+
 
         setCategoriasProveedor(proveedorServicio.getCategoriaProveedors());
         imgProveedor = (ImageView) findViewById(R.id.imagenProveedorMenu);
@@ -100,6 +100,7 @@ public class MenuProveedor extends AppCompatActivity {
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                final ArrayList<CategoriaProveedor> categoriaProveedorsList = new ArrayList<>();
                 for(DataSnapshot categorias: dataSnapshot.child("categoria").getChildren()){
                     ArrayList<ProductoProveedor> listProductos = new ArrayList<ProductoProveedor>();
                     for(DataSnapshot producto: categorias.child("producto").getChildren()){
@@ -125,7 +126,7 @@ public class MenuProveedor extends AppCompatActivity {
 
                 }
 
-                proveedorServicio.setCategoriaProveedors(categoriaProveedorsList);
+
                 recyclerView.setAdapter(new AdaptadorMenuP(categoriaProveedorsList));
 
             }

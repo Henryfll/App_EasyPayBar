@@ -108,7 +108,7 @@ public class Detalleproducto extends AppCompatActivity {
         //Consulta todos los comentarios
         assert keyCategoria != null;
         final ArrayList<ComentarioProducto> lista_coment= new ArrayList<ComentarioProducto>();
-        mFirebaseDatabase.child("proveedor").child(producto.getUidproveedor()).child("categoria").child(keyCategoria).child("producto").child(producto.getKey()).child("comentario").addListenerForSingleValueEvent(new ValueEventListener() {
+        mFirebaseDatabase.child("proveedor").child(producto.getUidproveedor()).child("categoria").child(keyCategoria).child("producto").child(producto.getKey()).child("comentario").addValueEventListener(new ValueEventListener() {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
