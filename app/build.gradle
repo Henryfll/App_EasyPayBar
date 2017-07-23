@@ -52,5 +52,8 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-beta3'
     compile 'com.journeyapps:zxing-android-embedded:3.2.0@aar'
+
+    compile 'com.rm:longpresspopup:1.0.1'
+
     testCompile 'junit:junit:4.12'
 }

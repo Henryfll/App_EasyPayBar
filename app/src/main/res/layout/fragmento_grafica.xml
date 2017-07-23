@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="800dp"
+    android:configChanges="screenSize|orientation"
     tools:context="com.example.henryf.pryeasypaybar.FragmentoGrafica">
     <ScrollView
         android:layout_width="match_parent"
