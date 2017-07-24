@@ -102,19 +102,28 @@ public class MenuProveedor extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 boolean sePuedeComentar = true;
+                float calificacionPromedio = 0;
+                float numeroCalificaciones = 0;
                 final ArrayList<CategoriaProveedor> categoriaProveedorsList = new ArrayList<>();
                 for(DataSnapshot categorias: dataSnapshot.child("categoria").getChildren()){
 
                     ArrayList<ProductoProveedor> listProductos = new ArrayList<ProductoProveedor>();
 
-
-
                     for(DataSnapshot producto: categorias.child("producto").getChildren()){
-
+                        calificacionPromedio = 0;
+                        numeroCalificaciones = 0;
                         if(producto.child("comentar").exists()){
                             sePuedeComentar = Boolean.parseBoolean(producto.child("comentar").getValue().toString());
                         }
-
+                        if(producto.child("calificacion").exists()){
+                            for(DataSnapshot calificacion: producto.child("calificacion").getChildren()){
+                                calificacionPromedio = calificacionPromedio+Float.parseFloat(calificacion.child("valoracion").getValue().toString());
+                                numeroCalificaciones++;
+                            }
+                        }else{
+                            calificacionPromedio = 3;
+                            numeroCalificaciones = 1;
+                        }
 
                         listProductos.add(new ProductoProveedor(
                                 producto.child("nombre").getValue().toString(),
@@ -124,7 +133,8 @@ public class MenuProveedor extends AppCompatActivity {
                                 producto.child("imagenURL").getValue().toString(),
                                 producto.getKey().toString(),
                                 proveedorServicio.getUid_Proveedor(),
-                                sePuedeComentar
+                                sePuedeComentar,
+                                calificacionPromedio/numeroCalificaciones
                         ));
 
 
