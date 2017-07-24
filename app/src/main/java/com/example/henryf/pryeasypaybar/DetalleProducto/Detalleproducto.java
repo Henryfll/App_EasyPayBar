@@ -118,25 +118,26 @@ public class Detalleproducto extends AppCompatActivity {
 
                 String nombre = "Anonimo";
                 String imagenUrl ="http://www.ofrases.com/imagenes/anonimo.jpg";
+
                 for (DataSnapshot comentario : dataSnapshot.getChildren()) {
-                    if (comentario != null){
+
 
                         if(comentario.child("nombreUsuario").exists()){
                             nombre = comentario.child("nombreUsuario").getValue().toString();
                         }
                         if(comentario.child("imagenUrl").exists()){
-
-
                             imagenUrl = comentario.child("imagenUrl").getValue().toString();
                         }
+
                         lista_coment.add(new ComentarioProducto(
                                 comentario.child("cuerpo").getValue().toString(),
                                 comentario.child("fecha").getValue().toString(),
                                 comentario.child("usuario").getValue().toString(),
                                 nombre,imagenUrl
 
+
                         ));
-                    }
+
                 }
 
 

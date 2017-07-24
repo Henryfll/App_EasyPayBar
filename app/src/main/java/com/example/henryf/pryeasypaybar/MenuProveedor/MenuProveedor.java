@@ -39,6 +39,7 @@ import com.google.firebase.storage.StorageReference;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.function.Consumer;
 
 public class MenuProveedor extends AppCompatActivity {
 
@@ -93,17 +94,27 @@ public class MenuProveedor extends AppCompatActivity {
                         return false;
                     }
                 }).into(imgProveedor);
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("proveedor").child(proveedorServicio.getUid_Proveedor());
 
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                boolean sePuedeComentar = true;
                 final ArrayList<CategoriaProveedor> categoriaProveedorsList = new ArrayList<>();
                 for(DataSnapshot categorias: dataSnapshot.child("categoria").getChildren()){
+
                     ArrayList<ProductoProveedor> listProductos = new ArrayList<ProductoProveedor>();
+
+
+
                     for(DataSnapshot producto: categorias.child("producto").getChildren()){
+
+                        if(producto.child("comentar").exists()){
+                            sePuedeComentar = Boolean.parseBoolean(producto.child("comentar").getValue().toString());
+                        }
+
 
                         listProductos.add(new ProductoProveedor(
                                 producto.child("nombre").getValue().toString(),
@@ -112,7 +123,8 @@ public class MenuProveedor extends AppCompatActivity {
                                 producto.child("veces").getValue().toString(),
                                 producto.child("imagenURL").getValue().toString(),
                                 producto.getKey().toString(),
-                                proveedorServicio.getUid_Proveedor()
+                                proveedorServicio.getUid_Proveedor(),
+                                sePuedeComentar
                         ));
 
 

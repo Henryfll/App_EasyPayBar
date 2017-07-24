@@ -33,12 +33,13 @@ public class ProductoProveedor implements Serializable {
     private String imagenURL;
     private String key;
     private String uidproveedor;
+    private boolean sePuedeComentar;
 
 
     public ProductoProveedor(){
     }
 
-    public ProductoProveedor(String nombre, String precio, String imagen, String veces, String imagenURL, String key, String uidproveedor) {
+    public ProductoProveedor(String nombre, String precio, String imagen, String veces, String imagenURL, String key, String uidproveedor, boolean sePuedeComentar) {
         this.nombre = nombre;
         this.precio = precio;
         this.imagen = imagen;
@@ -46,6 +47,15 @@ public class ProductoProveedor implements Serializable {
         this.imagenURL = imagenURL;
         this.key=key;
         this.uidproveedor=uidproveedor;
+        this.sePuedeComentar = sePuedeComentar;
+    }
+
+    public boolean isSePuedeComentar() {
+        return sePuedeComentar;
+    }
+
+    public void setSePuedeComentar(boolean sePuedeComentar) {
+        this.sePuedeComentar = sePuedeComentar;
     }
 
     public String getKey() {
