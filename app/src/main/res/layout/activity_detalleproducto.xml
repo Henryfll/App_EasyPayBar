@@ -70,6 +70,7 @@
             android:ems="10"
             android:hint="Escriba su comentario..."
             android:inputType="textMultiLine"
+
             android:textColorHint="@color/bg_screen1" />
 
         <Button
