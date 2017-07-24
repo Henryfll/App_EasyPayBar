@@ -28,7 +28,8 @@
             android:configChanges="orientation|screenSize"/>
 
         <activity android:name=".MenuProveedor.MenuProveedor"  />
-        <activity android:name=".DetalleProducto.Detalleproducto" ></activity>
+        <activity android:name=".DetalleProducto.Detalleproducto"
+            android:windowSoftInputMode="stateHidden|adjustResize|adjustUnspecified"/>
 
 
 
