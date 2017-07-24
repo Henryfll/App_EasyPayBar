@@ -87,44 +87,12 @@
 
                 >
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
 
-                    >
-
-                    <ImageView
-                        android:id="@+id/btnMenu"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-
-                        android:layout_gravity="center_vertical"
-                        android:adjustViewBounds="true"
-                        android:maxHeight="30dp"
-                        android:maxWidth="30dp"
-                        android:scaleType="fitCenter"
-                        android:src="@mipmap/ic_visible" />
-
-
-
-                </LinearLayout>
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 
                     >
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:id="@+id/ic_afiliar"
-                        android:adjustViewBounds="true"
-                        android:maxHeight="30dp"
-                        android:maxWidth="30dp"
-                        android:scaleType="fitCenter"
-                        android:src="@mipmap/ic_afiliar" />
-
 
 
                 </LinearLayout>
@@ -133,6 +101,18 @@
 
 
             </LinearLayout>
+
+            <ImageView
+                android:id="@+id/ic_afiliar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:maxHeight="30dp"
+                android:maxWidth="30dp"
+                android:scaleType="fitCenter"
+                android:src="@mipmap/ic_afiliar" />
         </LinearLayout>
         </LinearLayout>
     <View
