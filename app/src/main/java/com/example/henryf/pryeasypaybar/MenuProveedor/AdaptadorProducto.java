@@ -91,6 +91,8 @@ public class AdaptadorProducto extends RecyclerView.Adapter<AdaptadorProducto.Vi
                 })
                 .into(holder.imgProducto);
         holder.titulo.setText(mDataset.get(position).getNombre());
+        holder.ratingText.setText(mDataset.get(position).getCalificacion()+"");
+
     }
     /*
     public void hilo(final String uid, final String pro){
@@ -116,12 +118,14 @@ public class AdaptadorProducto extends RecyclerView.Adapter<AdaptadorProducto.Vi
         public TextView titulo;
         private ImageView imgProducto;
         private ProgressBar progressBar;
+        private TextView ratingText;
 
         public ViewHolder(View itemView) {
             super(itemView);
             titulo = (TextView) itemView.findViewById(R.id.titulo);
             imgProducto = (ImageView) itemView.findViewById(R.id.imagenProducto);
             progressBar = (ProgressBar) itemView.findViewById(R.id.progressBarProductos);
+            ratingText = (TextView) itemView.findViewById(R.id.ratingTextView);
         }
     }
      //Implementacion de Metodos de hilo  para crear leer comentarios
