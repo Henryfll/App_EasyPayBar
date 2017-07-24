@@ -33,13 +33,14 @@ public class ProductoProveedor implements Serializable {
     private String imagenURL;
     private String key;
     private String uidproveedor;
+    private boolean sePuedeComentar;
     private float calificacion;
 
 
     public ProductoProveedor(){
     }
 
-    public ProductoProveedor(String nombre, String precio, String imagen, String veces, String imagenURL, String key, String uidproveedor, float calificacion) {
+    public ProductoProveedor(String nombre, String precio, String imagen, String veces, String imagenURL, String key, String uidproveedor, boolean sePuedeComentar, float calificacion) {
         this.nombre = nombre;
         this.precio = precio;
         this.imagen = imagen;
@@ -47,7 +48,24 @@ public class ProductoProveedor implements Serializable {
         this.imagenURL = imagenURL;
         this.key=key;
         this.uidproveedor=uidproveedor;
-        this.calificacion=calificacion;
+        this.sePuedeComentar = sePuedeComentar;
+        this.calificacion = calificacion;
+    }
+
+    public float getCalificacion() {
+        return calificacion;
+    }
+
+    public void setCalificacion(float calificacion) {
+        this.calificacion = calificacion;
+    }
+
+    public boolean isSePuedeComentar() {
+        return sePuedeComentar;
+    }
+
+    public void setSePuedeComentar(boolean sePuedeComentar) {
+        this.sePuedeComentar = sePuedeComentar;
     }
 
     public String getKey() {
@@ -106,10 +124,6 @@ public class ProductoProveedor implements Serializable {
         this.imagenURL = imagenURL;
     }
 
-    public float getCalificacion() { return calificacion; }
-
-    public void setCalificacion(float calificacion) { this.calificacion = calificacion; }
-
 
     public void Comentar(final String cuerpo, final String uid_Proveedor, final String uid_Producto, final String uid_categoria , String nombreUsuario , String urlImagen){
         final Calendar fecha=Calendar.getInstance();
@@ -127,10 +141,24 @@ public class ProductoProveedor implements Serializable {
         final FirebaseUser user = firebaseAuth.getCurrentUser();
         mFirebaseInstance = FirebaseDatabase.getInstance();
         mFirebaseDatabase = mFirebaseInstance.getReference();
-        mFirebaseDatabase.child("proveedor").child(uid_Proveedor).child("categoria").child(uid_Categoria).child("producto").child(uid_Producto).child("calificacion").child(user.getUid()).child("valoracion").setValue(calificacion);
-        Toast mensaje = Toast.makeText(getApplicationContext(),"El producto ya fue calificado", Toast.LENGTH_SHORT);
-        mensaje.show();
+        mFirebaseDatabase.child("proveedor").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.child("proveedor").child(uid_Proveedor).child("categoria").child(uid_Categoria).child("producto").child(uid_Producto).child("calificacion").child(user.getUid()).exists()){
+                    mFirebaseDatabase.child("proveedor").child(uid_Proveedor).child("categoria").child(uid_Categoria).child("producto").child(uid_Producto).child("calificacion").child(user.getUid()).child("valoracion").setValue(calificacion);
+                }
+                else{
+                    Toast mensaje = Toast.makeText(getApplicationContext(),"El producto ya fue calificado", Toast.LENGTH_SHORT);
+                    mensaje.show();
+                }
+                
+            }
 
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
         
     }
     

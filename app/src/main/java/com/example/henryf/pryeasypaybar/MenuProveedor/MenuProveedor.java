@@ -27,8 +27,6 @@ import com.example.henryf.pryeasypaybar.Servicios.CategoriaProveedor;
 import com.example.henryf.pryeasypaybar.Servicios.ProductoProveedor;
 import com.example.henryf.pryeasypaybar.Servicios.ProveedorServicio;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -41,6 +39,7 @@ import com.google.firebase.storage.StorageReference;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.function.Consumer;
 
 public class MenuProveedor extends AppCompatActivity {
 
@@ -50,7 +49,6 @@ public class MenuProveedor extends AppCompatActivity {
     private LinearLayoutManager layoutManager;
     private static ArrayList<CategoriaProveedor> categoriasProveedor;
     private ProgressBar progressBar;
-    private FirebaseAuth firebaseAuth;
     private CollapsingToolbarLayout collapsingToolbarLayout ;
 
 
@@ -72,8 +70,7 @@ public class MenuProveedor extends AppCompatActivity {
 
         Intent intent = getIntent();
         final ProveedorServicio proveedorServicio = (ProveedorServicio) intent.getExtras().getSerializable("proveedor");
-        firebaseAuth = FirebaseAuth.getInstance();
-        final FirebaseUser user = firebaseAuth.getCurrentUser();
+
 
         setCategoriasProveedor(proveedorServicio.getCategoriaProveedors());
         imgProveedor = (ImageView) findViewById(R.id.imagenProveedorMenu);
@@ -97,30 +94,28 @@ public class MenuProveedor extends AppCompatActivity {
                         return false;
                     }
                 }).into(imgProveedor);
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("proveedor").child(proveedorServicio.getUid_Proveedor());
 
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                boolean sePuedeComentar = true;
                 final ArrayList<CategoriaProveedor> categoriaProveedorsList = new ArrayList<>();
-                float calificacionPromedio = 0;
-                int numeroCalificaciones = 0;
                 for(DataSnapshot categorias: dataSnapshot.child("categoria").getChildren()){
+
                     ArrayList<ProductoProveedor> listProductos = new ArrayList<ProductoProveedor>();
+
+
+
                     for(DataSnapshot producto: categorias.child("producto").getChildren()){
-                        calificacionPromedio = 0;
-                        numeroCalificaciones = 0;
-                        if(producto.child("calificacion").child(user.getUid()).exists()){
-                            for (DataSnapshot calificacion: producto.child("calificacion").child(user.getUid()).getChildren()) {
-                                calificacionPromedio = calificacionPromedio + Float.parseFloat(calificacion.getValue().toString());
-                                numeroCalificaciones++;
-                            }
-                        }else{
-                            calificacionPromedio = 3;
-                            numeroCalificaciones = 1;
+
+                        if(producto.child("comentar").exists()){
+                            sePuedeComentar = Boolean.parseBoolean(producto.child("comentar").getValue().toString());
                         }
+
+
                         listProductos.add(new ProductoProveedor(
                                 producto.child("nombre").getValue().toString(),
                                 producto.child("precio").getValue().toString(),
@@ -129,7 +124,7 @@ public class MenuProveedor extends AppCompatActivity {
                                 producto.child("imagenURL").getValue().toString(),
                                 producto.getKey().toString(),
                                 proveedorServicio.getUid_Proveedor(),
-                                calificacionPromedio/numeroCalificaciones
+                                sePuedeComentar
                         ));
 
 

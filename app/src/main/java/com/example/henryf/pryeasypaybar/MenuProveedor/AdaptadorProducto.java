@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
@@ -79,11 +80,16 @@ public class AdaptadorProducto extends RecyclerView.Adapter<AdaptadorProducto.Vi
                                 //String prod=mDataset.get(position).getKey();
                                // String cat=keyCategoria;
                                 //hilo(uidopro,prod);
-                                Context context = v.getContext();
-                                Intent intent = new Intent(context, Detalleproducto.class);
-                                intent.putExtra( "producto" , mDataset.get(position) );
-                                intent.putExtra("keyCategoria", keyCategoria);
-                                context.startActivity(intent);
+                                if(mDataset.get(position).isSePuedeComentar()){
+                                    Context context = v.getContext();
+                                    Intent intent = new Intent(context, Detalleproducto.class);
+                                    intent.putExtra( "producto" , mDataset.get(position) );
+                                    intent.putExtra("keyCategoria", keyCategoria);
+                                    context.startActivity(intent);
+                                }else{
+                                    Toast.makeText(v.getContext(), "No se puede comentar", Toast.LENGTH_SHORT).show();
+                                }
+
                             }
                         });
                         return false;

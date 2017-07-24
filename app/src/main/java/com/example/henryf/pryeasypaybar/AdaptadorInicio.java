@@ -48,7 +48,6 @@ public class AdaptadorInicio
         public TextView bar;
         public ImageView imagenProveedor;
         private ImageView imgAfiliar;
-        private ImageView imgCategoria;
         private RelativeLayout loading;
         private ProgressBar progressBar;
         public ViewHolder(View v) {
@@ -58,7 +57,6 @@ public class AdaptadorInicio
             bar = (TextView) v.findViewById(R.id.txt_bar);
             imagenProveedor = (ImageView) v.findViewById(R.id.img_proveedor);
             imgAfiliar = (ImageView) v.findViewById(R.id.ic_afiliar);
-            imgCategoria = (ImageView) v.findViewById(R.id.btnMenu);
             loading = (RelativeLayout) v.findViewById(R.id.loadingPanel);
             progressBar = (ProgressBar) itemView.findViewById(R.id.progressBarInico);
 
@@ -110,7 +108,7 @@ public class AdaptadorInicio
         /**
          * Nuevo fragmento para categoria
          */
-        viewHolder.imgCategoria.setOnClickListener(new View.OnClickListener() {
+        viewHolder.imagenProveedor.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
