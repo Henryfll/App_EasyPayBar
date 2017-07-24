@@ -1,6 +1,7 @@
 package com.example.henryf.pryeasypaybar.Servicios;
 
 import android.net.Uri;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -15,6 +16,8 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import static com.facebook.FacebookSdk.getApplicationContext;
+
 /**
  * Created by Fabian on 25/06/2017.
  */
@@ -28,8 +31,9 @@ public class ProductoProveedor implements Serializable {
     private String imagen;
     private String veces;
     private String imagenURL;
-    private  String key;
+    private String key;
     private String uidproveedor;
+
 
     public ProductoProveedor(){
     }
@@ -111,4 +115,31 @@ public class ProductoProveedor implements Serializable {
         mFirebaseDatabase.child("proveedor").child(uid_Proveedor).child("categoria").child(uid_categoria).child("producto").child(uid_Producto).child("comentario").push().setValue(new ComentarioProducto(cuerpo,formato.format(fecha.getTime()),user.getUid(),nombreUsuario,urlImagen.toString()));
 
     }
+    
+    public void Calificar(final float calificacion, final String uid_Proveedor, final String uid_Producto, final String uid_Categoria){
+        firebaseAuth = FirebaseAuth.getInstance();
+        final FirebaseUser user = firebaseAuth.getCurrentUser();
+        mFirebaseInstance = FirebaseDatabase.getInstance();
+        mFirebaseDatabase = mFirebaseInstance.getReference();
+        mFirebaseDatabase.child("proveedor").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.child("proveedor").child(uid_Proveedor).child("categoria").child(uid_Categoria).child("producto").child(uid_Producto).child("calificacion").child(user.getUid()).exists()){
+                    mFirebaseDatabase.child("proveedor").child(uid_Proveedor).child("categoria").child(uid_Categoria).child("producto").child(uid_Producto).child("calificacion").child(user.getUid()).child("valoracion").setValue(calificacion);
+                }
+                else{
+                    Toast mensaje = Toast.makeText(getApplicationContext(),"El producto ya fue calificado", Toast.LENGTH_SHORT);
+                    mensaje.show();
+                }
+                
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        
+    }
+    
 }
