@@ -26,7 +26,6 @@ import java.util.GregorianCalendar;
 public class Cliente {
     public boolean admin;
     public String codigoQR;
-    public boolean estado;
     public String fecha_Afiliacion;
     public String nombre;
     public boolean proveedor;
@@ -46,7 +45,6 @@ public class Cliente {
     public Cliente(String codigoQR, String nombre) {
         this.admin = false;
         this.codigoQR = codigoQR;
-        this.estado = true;
         Calendar fecha = Calendar.getInstance();
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
         this.fecha_Afiliacion = formato.format(fecha.getTime());
@@ -68,14 +66,6 @@ public class Cliente {
 
     public void setCodigoQR(String codigoQR) {
         this.codigoQR = codigoQR;
-    }
-
-    public boolean isEstado() {
-        return estado;
-    }
-
-    public void setEstado(boolean estado) {
-        this.estado = estado;
     }
 
     public String getFecha_Afiliacion() {
@@ -186,39 +176,32 @@ public class Cliente {
         mFirebaseDatabase = mFirebaseInstance.getReference();
         //Busca el registro del cliente con el Uid del mismo
 
-            mFirebaseDatabase.child("proveedor").addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    ArrayList<String> proveedores = new ArrayList<String>();
-                    ArrayList<Float> saldo = new ArrayList<>();
-                    ArrayList<Float> recarga = new ArrayList<>();
-                    for (DataSnapshot child : dataSnapshot.getChildren()) {
-                        if(child.child("afiliados").child(user.getUid()).exists()){
-                            float recargaTotal = 0;
-                            for (DataSnapshot item : child.child("afiliados").child(user.getUid()).child("recarga").getChildren()) {
-                                recargaTotal = recargaTotal+Float.parseFloat(item.child("valor").getValue().toString());
-                            }
-                            proveedores.add(child.child("bar").getValue().toString());
-                            recarga.add(recargaTotal);
-                            saldo.add(Float.parseFloat(child.child("afiliados").child(user.getUid()).child("saldo").getValue().toString()));
-                            /*for (DataSnapshot compra : child.child("afiliados").child(user.getUid()).child("compras").getChildren()) {
-                                String fecha_compra = compra.child("fecha_Compra").getValue().toString();
-                                if(Comparar_Fechas(fecha_compra)) {
-                                    System.out.println("compras"+compra.child("fecha_Compra").getValue());
-                                }
-
-                            }*/
+        mFirebaseDatabase.child("proveedor").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<String> proveedores = new ArrayList<String>();
+                ArrayList<Float> saldo = new ArrayList<>();
+                ArrayList<Float> recarga = new ArrayList<>();
+                for (DataSnapshot child : dataSnapshot.getChildren()) {
+                    if(child.child("afiliados").child(user.getUid()).exists()){
+                        float recargaTotal = 0;
+                        for (DataSnapshot item : child.child("afiliados").child(user.getUid()).child("recarga").getChildren()) {
+                            recargaTotal = recargaTotal+Float.parseFloat(item.child("valor").getValue().toString());
                         }
+                        proveedores.add(child.child("bar").getValue().toString());
+                        recarga.add(recargaTotal);
+                        saldo.add(Float.parseFloat(child.child("afiliados").child(user.getUid()).child("saldo").getValue().toString()));
                     }
-                    setProveedoresAfiliados(proveedores);
-                    setTotalRecargas(recarga);
-                    setTotalSaldo(saldo);
                 }
+                setProveedoresAfiliados(proveedores);
+                setTotalRecargas(recarga);
+                setTotalSaldo(saldo);
+            }
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
-                }
-            });
+            }
+        });
     }
 }

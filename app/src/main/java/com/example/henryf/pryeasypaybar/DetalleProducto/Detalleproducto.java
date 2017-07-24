@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -46,6 +47,7 @@ public class Detalleproducto extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     public static ArrayList<ComentarioProducto> ComentarioProductos;
     private RecyclerView recyclerView;
+    private RatingBar ratingBar;
 
 
     @Override
@@ -60,6 +62,7 @@ public class Detalleproducto extends AppCompatActivity {
         nombreProducto = (TextView) findViewById(R.id.nombreProducto);
         btn_comentar=(Button) findViewById(R.id.btn_comentar);
         txt_comentario=(EditText) findViewById(R.id.txt_comentario);
+        ratingBar = (RatingBar) findViewById(R.id.ratingBar);
         Intent intent = getIntent();
         final ProductoProveedor producto = (ProductoProveedor) intent.getExtras().getSerializable("producto");
         final String keyCategoria = (String) intent.getExtras().getSerializable("keyCategoria");
@@ -148,6 +151,15 @@ public class Detalleproducto extends AppCompatActivity {
 
             }
         });
+
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            public void onRatingChanged(RatingBar ratingBar, float rating,
+                                        boolean fromUser) {
+                float ratingNumber = ratingBar.getRating (); // obtener el número de calificación de una barra de calificación
+                producto.Calificar(ratingNumber, producto.getUidproveedor(), producto.getKey(), keyCategoria);
+            }
+        });
+
     }
 
 
