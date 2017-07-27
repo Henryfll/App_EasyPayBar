@@ -141,10 +141,49 @@ public class ProductoProveedor implements Serializable {
         final FirebaseUser user = firebaseAuth.getCurrentUser();
         mFirebaseInstance = FirebaseDatabase.getInstance();
         mFirebaseDatabase = mFirebaseInstance.getReference();
-        mFirebaseDatabase.child("proveedor").child(uid_Proveedor).child("categoria").child(uid_Categoria).child("producto").child(uid_Producto).child("calificacion").child(user.getUid()).child("valoracion").setValue(calificacion);
-        Toast mensaje = Toast.makeText(getApplicationContext(),"El producto fue calificado", Toast.LENGTH_SHORT);
-        mensaje.show();
+        mFirebaseDatabase.child("proveedor").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.child(uid_Proveedor).child("afiliados").child(user.getUid()).exists()) {
+                    mFirebaseDatabase.child("proveedor").child(uid_Proveedor).child("categoria").child(uid_Categoria).child("producto").child(uid_Producto).child("calificacion").child(user.getUid()).child("valoracion").setValue(calificacion);
+                    Toast mensaje = Toast.makeText(getApplicationContext(), "El producto fue calificado", Toast.LENGTH_SHORT);
+                    mensaje.show();
+                }else {
+                    Toast mensaje = Toast.makeText(getApplicationContext(), "Debe estar afiliado a este Proveedor", Toast.LENGTH_SHORT);
+                    mensaje.show();
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
     }
-    
+
+    public float ConsultarCalificacion(final String uid_Proveedor, final String uid_Producto, final String uid_Categoria){
+        firebaseAuth = FirebaseAuth.getInstance();
+        final FirebaseUser user = firebaseAuth.getCurrentUser();
+        //final float calificacion;
+        mFirebaseInstance = FirebaseDatabase.getInstance();
+        mFirebaseDatabase = mFirebaseInstance.getReference();
+        mFirebaseDatabase.child("proveedor").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                final float calificacion = Float.parseFloat(dataSnapshot.child(uid_Proveedor).child("categoria").
+                        child(uid_Categoria).child("producto").child(uid_Producto).child("calificacion").
+                        child(user.getUid()).child("valoracion").getValue().toString());
+
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        return calificacion;
+    }
 }

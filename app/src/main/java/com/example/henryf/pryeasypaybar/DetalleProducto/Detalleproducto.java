@@ -48,6 +48,7 @@ public class Detalleproducto extends AppCompatActivity {
     public static ArrayList<ComentarioProducto> ComentarioProductos;
     private RecyclerView recyclerView;
     private RatingBar ratingBar;
+    private float ratingNumber;
 
 
     @Override
@@ -152,10 +153,17 @@ public class Detalleproducto extends AppCompatActivity {
             }
         });
 
+        try {
+            ratingNumber = producto.ConsultarCalificacion(producto.getUidproveedor(), producto.getKey(), keyCategoria);
+            ratingBar.setRating(ratingNumber);
+        }catch (Exception e){
+            System.out.println("Error con ratingNumber");
+        }
+
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             public void onRatingChanged(RatingBar ratingBar, float rating,
                                         boolean fromUser) {
-                float ratingNumber = ratingBar.getRating (); // obtener el número de calificación de una barra de calificación
+                ratingNumber = ratingBar.getRating (); // obtener el número de calificación de una barra de calificación
                 producto.Calificar(ratingNumber, producto.getUidproveedor(), producto.getKey(), keyCategoria);
             }
         });
