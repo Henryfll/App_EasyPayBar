@@ -122,7 +122,6 @@ public class Detalleproducto extends AppCompatActivity {
 
                 for (DataSnapshot comentario : dataSnapshot.getChildren()) {
 
-
                         if(comentario.child("nombreUsuario").exists()){
                             nombre = comentario.child("nombreUsuario").getValue().toString();
                         }
