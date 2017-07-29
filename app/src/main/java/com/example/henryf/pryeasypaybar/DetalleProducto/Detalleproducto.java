@@ -109,6 +109,7 @@ public class Detalleproducto extends AppCompatActivity {
         mFirebaseDatabase = mFirebaseInstance.getReference();
         firebaseAuth = FirebaseAuth.getInstance();
         final FirebaseUser user = firebaseAuth.getCurrentUser();
+
         //Consulta todos los comentarios
         assert keyCategoria != null;
         final ArrayList<ComentarioProducto> lista_coment= new ArrayList<ComentarioProducto>();
