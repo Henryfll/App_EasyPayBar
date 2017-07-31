@@ -176,7 +176,7 @@ public class Cliente {
         mFirebaseDatabase = mFirebaseInstance.getReference();
         //Busca el registro del cliente con el Uid del mismo
 
-        mFirebaseDatabase.child("proveedor").addListenerForSingleValueEvent(new ValueEventListener() {
+        mFirebaseDatabase.child("proveedor").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 ArrayList<String> proveedores = new ArrayList<String>();

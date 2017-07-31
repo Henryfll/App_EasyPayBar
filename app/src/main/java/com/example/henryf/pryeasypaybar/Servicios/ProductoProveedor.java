@@ -169,12 +169,18 @@ public class ProductoProveedor implements Serializable {
         //final float calificacion;
         mFirebaseInstance = FirebaseDatabase.getInstance();
         mFirebaseDatabase = mFirebaseInstance.getReference();
-        mFirebaseDatabase.child("proveedor").addListenerForSingleValueEvent(new ValueEventListener() {
+        mFirebaseDatabase.child("proveedor").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                final float calificacion = Float.parseFloat(dataSnapshot.child(uid_Proveedor).child("categoria").
+                DataSnapshot referencia= dataSnapshot.child(uid_Proveedor).child("categoria").
                         child(uid_Categoria).child("producto").child(uid_Producto).child("calificacion").
-                        child(user.getUid()).child("valoracion").getValue().toString());
+                        child(user.getUid()).child("valoracion");
+                final float calificacion;
+                if (referencia.exists())
+                    calificacion = Float.parseFloat(referencia.getValue().toString());
+                else
+                    calificacion = 0;
+
 
 
             }

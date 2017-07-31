@@ -68,9 +68,6 @@ public class MenuProveedor extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_proveedor);
-        favoritosView = (RecyclerView) findViewById(R.id.categoriaFavoritos);
-        favoritosView.setHasFixedSize(true);
-        favoritosView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView = (RecyclerView) findViewById(R.id.categoriasRV);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -130,18 +127,20 @@ public class MenuProveedor extends AppCompatActivity {
 
         });
 
-        //Consulta de los productos Favoritos
+
+
+        //Consulta de todos los productos del Proveedor
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                final ArrayList<ProductoProveedor> listProductos = new ArrayList<ProductoProveedor>();
+                boolean sePuedeComentar = true;
+                float calificacionPromedio=0;
+                float numeroCalificaciones=0;
                 final ArrayList<CategoriaProveedor> categoriaProveedorsList = new ArrayList<>();
-                for (ProductoFavorito produc: productoFavorito.getProductos()                    ) {
+                ArrayList<ProductoProveedor> listProductosFavoritos = new ArrayList<ProductoProveedor>();
+                for (ProductoFavorito produc: productoFavorito.getProductos()) {
                     if (dataSnapshot.child("categoria").child(produc.getCategoriaId())
                             .child("producto").child(produc.getProductoId()).exists()){
-                        boolean sePuedeComentar = true;
-                        float calificacionPromedio = 0;
-                        float numeroCalificaciones = 0;
                         DataSnapshot referencia = dataSnapshot.child("categoria").child(produc.getCategoriaId())
                                 .child("producto").child(produc.getProductoId());
                         if(referencia.child("comentar").exists()){
@@ -157,7 +156,7 @@ public class MenuProveedor extends AppCompatActivity {
                             calificacionPromedio = 0;
 
                         }
-                        listProductos.add(new ProductoProveedor(
+                        listProductosFavoritos.add(new ProductoProveedor(
                                 referencia.child("nombre").getValue().toString(),
                                 referencia.child("precio").getValue().toString(),
                                 referencia.child("imagen").getValue().toString(),
@@ -176,35 +175,9 @@ public class MenuProveedor extends AppCompatActivity {
                         "Key"/*dataSnapshot.child("categoria").getKey().toString()*/,
                         "Productos favoritos",
                         "Favoritos",
-                        listProductos));
+                        listProductosFavoritos));
 
 
-                favoritosView.setAdapter(new AdaptadorMenuP(categoriaProveedorsList));
-
-            }
-
-
-
-            @Override
-
-            public void onCancelled(DatabaseError error) {
-
-                // Failed to read value
-
-                System.out.println("Failed to read value." + error.toException());
-
-            }
-
-        });
-
-        //Consulta de todos los productos del Proveedor
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                boolean sePuedeComentar = true;
-                float calificacionPromedio = 0;
-                float numeroCalificaciones = 0;
-                final ArrayList<CategoriaProveedor> categoriaProveedorsList = new ArrayList<>();
                 for(DataSnapshot categorias: dataSnapshot.child("categoria").getChildren()){
 
                     ArrayList<ProductoProveedor> listProductos = new ArrayList<ProductoProveedor>();
