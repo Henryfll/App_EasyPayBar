@@ -24,6 +24,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.example.henryf.pryeasypaybar.R;
 import com.example.henryf.pryeasypaybar.Servicios.CategoriaProveedor;
+import com.example.henryf.pryeasypaybar.Servicios.ProductoFavorito;
 import com.example.henryf.pryeasypaybar.Servicios.ProductoProveedor;
 import com.example.henryf.pryeasypaybar.Servicios.ProveedorServicio;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -39,13 +40,16 @@ import com.google.firebase.storage.StorageReference;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.function.Consumer;
+
+
+import static com.example.henryf.pryeasypaybar.R.id.producto;
 
 public class MenuProveedor extends AppCompatActivity {
 
     private ImageView imgProveedor;
     private Toolbar titulo;
     private RecyclerView recyclerView;
+    private RecyclerView favoritosView;
     private LinearLayoutManager layoutManager;
     private static ArrayList<CategoriaProveedor> categoriasProveedor;
     private ProgressBar progressBar;
@@ -64,13 +68,16 @@ public class MenuProveedor extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_proveedor);
+        favoritosView = (RecyclerView) findViewById(R.id.categoriaFavoritos);
+        favoritosView.setHasFixedSize(true);
+        favoritosView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView = (RecyclerView) findViewById(R.id.categoriasRV);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         Intent intent = getIntent();
         final ProveedorServicio proveedorServicio = (ProveedorServicio) intent.getExtras().getSerializable("proveedor");
-
+        final ProductoFavorito productoFavorito = new ProductoFavorito();
 
         setCategoriasProveedor(proveedorServicio.getCategoriaProveedors());
         imgProveedor = (ImageView) findViewById(R.id.imagenProveedorMenu);
@@ -97,7 +104,100 @@ public class MenuProveedor extends AppCompatActivity {
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("proveedor").child(proveedorServicio.getUid_Proveedor());
 
+        //Consulta de los Id de productos favoritos del Proveedor
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                final ArrayList<ProductoFavorito> productoFavoritoList = new ArrayList<>();
+                for(DataSnapshot productosFavori: dataSnapshot.child("favoritos").getChildren()){
+                    productoFavoritoList.add(new ProductoFavorito(
+                            productosFavori.child("categoriaId").getValue().toString(),
+                            productosFavori.child("productoId").getValue().toString()));
 
+
+                }
+                productoFavorito.setProductos(productoFavoritoList);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+
+                // Failed to read value
+
+                System.out.println("Failed to read value." + error.toException());
+
+            }
+
+        });
+
+        //Consulta de los productos Favoritos
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                final ArrayList<ProductoProveedor> listProductos = new ArrayList<ProductoProveedor>();
+                final ArrayList<CategoriaProveedor> categoriaProveedorsList = new ArrayList<>();
+                for (ProductoFavorito produc: productoFavorito.getProductos()                    ) {
+                    if (dataSnapshot.child("categoria").child(produc.getCategoriaId())
+                            .child("producto").child(produc.getProductoId()).exists()){
+                        boolean sePuedeComentar = true;
+                        float calificacionPromedio = 0;
+                        float numeroCalificaciones = 0;
+                        DataSnapshot referencia = dataSnapshot.child("categoria").child(produc.getCategoriaId())
+                                .child("producto").child(produc.getProductoId());
+                        if(referencia.child("comentar").exists()){
+                            sePuedeComentar = Boolean.parseBoolean(referencia.child("comentar").getValue().toString());
+                        }
+                        if(referencia.child("calificacion").exists()){
+                            for(DataSnapshot calificacion: referencia.child("calificacion").getChildren()){
+                                calificacionPromedio = calificacionPromedio+Float.parseFloat(calificacion.child("valoracion").getValue().toString());
+                                numeroCalificaciones++;
+                            }
+                            calificacionPromedio= calificacionPromedio/numeroCalificaciones;
+                        }else{
+                            calificacionPromedio = 0;
+
+                        }
+                        listProductos.add(new ProductoProveedor(
+                                referencia.child("nombre").getValue().toString(),
+                                referencia.child("precio").getValue().toString(),
+                                referencia.child("imagen").getValue().toString(),
+                                referencia.child("veces").getValue().toString(),
+                                referencia.child("imagenURL").getValue().toString(),
+                                produc.getProductoId(),
+                                proveedorServicio.getUid_Proveedor(),
+                                sePuedeComentar,
+                                calificacionPromedio
+                        ));
+                    }
+                }
+
+
+                categoriaProveedorsList.add(new CategoriaProveedor(
+                        "Key"/*dataSnapshot.child("categoria").getKey().toString()*/,
+                        "Productos favoritos",
+                        "Favoritos",
+                        listProductos));
+
+
+                favoritosView.setAdapter(new AdaptadorMenuP(categoriaProveedorsList));
+
+            }
+
+
+
+            @Override
+
+            public void onCancelled(DatabaseError error) {
+
+                // Failed to read value
+
+                System.out.println("Failed to read value." + error.toException());
+
+            }
+
+        });
+
+        //Consulta de todos los productos del Proveedor
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -121,7 +221,7 @@ public class MenuProveedor extends AppCompatActivity {
                                 numeroCalificaciones++;
                             }
                         }else{
-                            calificacionPromedio = 3;
+                            calificacionPromedio = 0;
                             numeroCalificaciones = 1;
                         }
 
