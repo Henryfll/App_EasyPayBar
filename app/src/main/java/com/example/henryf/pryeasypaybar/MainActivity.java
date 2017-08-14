@@ -1,5 +1,6 @@
 package com.example.henryf.pryeasypaybar;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -14,6 +15,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Display;
 import android.view.View;
+
+import com.example.henryf.pryeasypaybar.PingSeguridad.PingSeguridad;
 import com.facebook.login.LoginManager;
 import android.net.Uri;
 import android.view.WindowManager;
@@ -63,13 +66,6 @@ public class MainActivity extends AppCompatActivity {
     private String name;
     private  String fechaAf;
 
-    public void setFechaAf(String fechaAf) {
-        this.fechaAf = fechaAf;
-    }
-
-    public String getFechaAf() {
-        return fechaAf;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,31 +81,36 @@ public class MainActivity extends AppCompatActivity {
 
 
         if (user != null) {
+
             mFirebaseInstance = FirebaseDatabase.getInstance();
             mFirebaseDatabase = mFirebaseInstance.getReference();
+
             mFirebaseDatabase.child("cliente").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
 
                     for(DataSnapshot cliente: dataSnapshot.getChildren()){
                         if((cliente.child("codigoQR").getValue().toString()).equals(user.getUid().toString())){
-                            Date date = new Date();
-                            try {
-                                Date date1 = new SimpleDateFormat("dd/MM/yyyy").parse(cliente.child("fecha_Afiliacion").getValue().toString());
-                                long diferencia = (date.getTime()-date1.getTime())/86400000;
-                                long años = diferencia / 365;
-                                long meses = (diferencia - (años * 365)) / 30;
-                                long dias = diferencia - (años * 365) - (meses * 30);
-                                fechaAfiliacion.setText( dias +" dias," +meses +" meses, "+años+" años");
-                            } catch (ParseException e) {
-                                e.printStackTrace();
+
+
+                                Date date = new Date();
+                                try {
+                                    Date date1 = new SimpleDateFormat("dd/MM/yyyy").parse(cliente.child("fecha_Afiliacion").getValue().toString());
+                                    long diferencia = (date.getTime() - date1.getTime()) / 86400000;
+                                    long años = diferencia / 365;
+                                    long meses = (diferencia - (años * 365)) / 30;
+                                    long dias = diferencia - (años * 365) - (meses * 30);
+                                    fechaAfiliacion.setText(dias + " dias," + meses + " meses, " + años + " años");
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
                             }
                         }
 
 
                     }
 
-                }
+
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
@@ -117,9 +118,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
             name = user.getDisplayName();
-            String email = user.getEmail();
-            Uri photoUrl = user.getPhotoUrl();
-            String uid = user.getUid();
             usuario = user;
 
 
@@ -250,6 +248,10 @@ public class MainActivity extends AppCompatActivity {
     private void goLoginScreen() {
         Intent intent = new Intent(this, LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
+    private void goPingScreen() {
+        Intent intent = new Intent(this, PingSeguridad.class);
         startActivity(intent);
     }
 

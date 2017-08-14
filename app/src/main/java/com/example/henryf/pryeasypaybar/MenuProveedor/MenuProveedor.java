@@ -42,7 +42,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 
-import static com.example.henryf.pryeasypaybar.R.id.producto;
 
 public class MenuProveedor extends AppCompatActivity {
 
