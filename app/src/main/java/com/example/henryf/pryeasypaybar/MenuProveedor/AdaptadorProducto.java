@@ -25,6 +25,11 @@ import com.example.henryf.pryeasypaybar.R;
 import com.example.henryf.pryeasypaybar.Servicios.ProductoProveedor;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -43,6 +48,7 @@ public class AdaptadorProducto extends RecyclerView.Adapter<AdaptadorProducto.Vi
 
     private ArrayList<ProductoProveedor> mDataset;
     private String keyCategoria;
+    final FirebaseDatabase database = FirebaseDatabase.getInstance();
 
     public AdaptadorProducto(ArrayList<ProductoProveedor> mDataset, String keyCategoria) {
         this.mDataset = mDataset;
@@ -81,6 +87,24 @@ public class AdaptadorProducto extends RecyclerView.Adapter<AdaptadorProducto.Vi
                                // String cat=keyCategoria;
                                 //hilo(uidopro,prod);
                                 if(mDataset.get(position).isSePuedeComentar()){
+                                    DatabaseReference myRef = database.getReference("proveedor").child(mDataset.get(position).getUidproveedor().toString());
+                                    myRef.addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                            for(DataSnapshot categoria: dataSnapshot.child("categoria").getChildren()) {
+                                                if (categoria.child("producto").child(mDataset.get(position).getKey().toString()).exists())
+                                                    keyCategoria = categoria.getKey();
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(DatabaseError error) {
+                                            // Failed to read value
+                                            System.out.println("Failed to read value." + error.toException());
+                                        }
+
+                                    });
                                     Context context = v.getContext();
                                     Intent intent = new Intent(context, Detalleproducto.class);
                                     intent.putExtra( "producto" , mDataset.get(position) );

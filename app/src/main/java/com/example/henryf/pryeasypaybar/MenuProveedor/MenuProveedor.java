@@ -166,6 +166,8 @@ public class MenuProveedor extends AppCompatActivity {
                                 sePuedeComentar,
                                 calificacionPromedio
                         ));
+                        calificacionPromedio =0;
+                        numeroCalificaciones =0;
                     }
                 }
 
@@ -196,7 +198,6 @@ public class MenuProveedor extends AppCompatActivity {
                             calificacionPromedio = 0;
                             numeroCalificaciones = 1;
                         }
-
                         listProductos.add(new ProductoProveedor(
                                 producto.child("nombre").getValue().toString(),
                                 producto.child("precio").getValue().toString(),

@@ -166,7 +166,6 @@ public class ProductoProveedor implements Serializable {
     public float ConsultarCalificacion(final String uid_Proveedor, final String uid_Producto, final String uid_Categoria){
         firebaseAuth = FirebaseAuth.getInstance();
         final FirebaseUser user = firebaseAuth.getCurrentUser();
-        //final float calificacion;
         mFirebaseInstance = FirebaseDatabase.getInstance();
         mFirebaseDatabase = mFirebaseInstance.getReference();
         mFirebaseDatabase.child("proveedor").addValueEventListener(new ValueEventListener() {

@@ -20,6 +20,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.example.henryf.pryeasypaybar.AdaptadorComentario;
 
+import com.example.henryf.pryeasypaybar.MenuProveedor.ConsultasProveedor;
 import com.example.henryf.pryeasypaybar.R;
 import com.example.henryf.pryeasypaybar.Servicios.ComentarioProducto;
 import com.example.henryf.pryeasypaybar.Servicios.ProductoProveedor;
@@ -49,7 +50,15 @@ public class Detalleproducto extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RatingBar ratingBar;
     private float ratingNumber;
+    private String KeyFavorito;
 
+    public String getKeyFavorito() {
+        return KeyFavorito;
+    }
+
+    public void setKeyFavorito(String keyFavorito) {
+        KeyFavorito = keyFavorito;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,8 +75,27 @@ public class Detalleproducto extends AppCompatActivity {
         ratingBar = (RatingBar) findViewById(R.id.ratingBar);
         Intent intent = getIntent();
         final ProductoProveedor producto = (ProductoProveedor) intent.getExtras().getSerializable("producto");
+        final ConsultasProveedor consultasProveedor = new ConsultasProveedor();
         final String keyCategoria = (String) intent.getExtras().getSerializable("keyCategoria");
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("proveedor").child(producto.getUidproveedor());
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
 
+                for(DataSnapshot categoria: dataSnapshot.child("categoria").getChildren()) {
+                    if (categoria.child("producto").child(producto.getKey()).exists())
+                        setKeyFavorito(categoria.getKey());
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                System.out.println("Failed to read value." + error.toException());
+            }
+
+        });
         assert producto != null;
         Glide.with( this)
                 .load(producto.getImagenURL())
@@ -91,6 +119,8 @@ public class Detalleproducto extends AppCompatActivity {
         btn_comentar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+
                 final FirebaseUser user = firebaseAuth.getCurrentUser();
                 String facebookUserId="";
                 for(UserInfo profile : user.getProviderData()) {
@@ -100,7 +130,7 @@ public class Detalleproducto extends AppCompatActivity {
 
 
                 String url = "https://graph.facebook.com/" + facebookUserId + "/picture?height=500";
-                producto.Comentar(txt_comentario.getText().toString(), producto.getUidproveedor(),producto.getKey(), keyCategoria ,user.getDisplayName() , url);
+                producto.Comentar(txt_comentario.getText().toString(), producto.getUidproveedor(), producto.getKey(), getKeyFavorito(), user.getDisplayName(), url);
                 txt_comentario.setText(null);
             }
         });
@@ -163,8 +193,9 @@ public class Detalleproducto extends AppCompatActivity {
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             public void onRatingChanged(RatingBar ratingBar, float rating,
                                         boolean fromUser) {
-                ratingNumber = ratingBar.getRating (); // obtener el número de calificación de una barra de calificación
-                producto.Calificar(ratingNumber, producto.getUidproveedor(), producto.getKey(), keyCategoria);
+                ratingNumber = ratingBar.getRating (); // obtener el número de calificación de la barra de calificación
+                producto.Calificar(ratingNumber, producto.getUidproveedor(), producto.getKey(), getKeyFavorito());
+
             }
         });
 
