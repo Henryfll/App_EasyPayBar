@@ -9,6 +9,8 @@
 
     <include layout="@layout/contenido_principal" />
     <!-- Menú Deslizante -->
+
+
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
@@ -17,6 +19,5 @@
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/cabecera_drawer"
         app:menu="@menu/menu_drawer" />
-
 
 </android.support.v4.widget.DrawerLayout>
