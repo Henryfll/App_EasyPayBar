@@ -1,13 +1,7 @@
 package com.example.henryf.pryeasypaybar;
 
-/**
- * Created by HenryF on 23/05/2017.
- */
-
 import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
@@ -29,19 +23,15 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.example.henryf.pryeasypaybar.Servicios.ProveedorServicio;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.storage.FileDownloadTask;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import java.io.File;
-import java.io.IOException;
+
 import java.util.ArrayList;
 
 /**
- * Adaptador para poblar la lista de Recargas de la sección "Mi Cuenta"
+ * Created by HenryF on 7/8/2017.
  */
-public class AdaptadorRecargas
-        extends RecyclerView.Adapter<AdaptadorRecargas.ViewHolder> {
+
+public class AdaptadorCompras extends RecyclerView.Adapter<AdaptadorCompras.ViewHolder>  {
+
 
     private static ArrayList<ArrayList<String>>  itemsRecargas = new ArrayList<ArrayList<String>>();
     private static ArrayList<ArrayList<String>>  itemsRecargasfinal = new ArrayList<ArrayList<String>>();
@@ -50,7 +40,7 @@ public class AdaptadorRecargas
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView nombre_proveedor;
-        public TextView saldo_cliente;
+       // public TextView saldo_cliente;
         public LinearLayout provedorView;
         public TextView bar_proveedor;
         public ImageView imagenProveedor;
@@ -62,32 +52,32 @@ public class AdaptadorRecargas
 
         public ViewHolder(View v) {
             super(v);
-            nombre_proveedor = (TextView) v.findViewById(R.id.nombre_proeevdor);
-            saldo_cliente = (TextView) v.findViewById(R.id.saldo_cliente);
-            provedorView = (LinearLayout) v.findViewById(R.id.provedorView);
-            bar_proveedor = (TextView) v.findViewById(R.id.bar_proeevdor);
-            imagenProveedor = (ImageView) v.findViewById(R.id.imagenProveedor);
-            listaDetalle = (ListView) v.findViewById(R.id.listViewDetalle);
-            detalleRecarga = (CardView) v.findViewById(R.id.detalleRecarga);
-            progressBar = (ProgressBar) itemView.findViewById(R.id.progressBarRecarga);
+            nombre_proveedor = (TextView) v.findViewById(R.id.nombre_proeevdor1);
+          //  saldo_cliente = (TextView) v.findViewById(R.id.saldo_cliente1);
+            provedorView = (LinearLayout) v.findViewById(R.id.provedorView1);
+            bar_proveedor = (TextView) v.findViewById(R.id.bar_proeevdor1);
+            imagenProveedor = (ImageView) v.findViewById(R.id.imagenProveedor1);
+            listaDetalle = (ListView) v.findViewById(R.id.listViewDetalle1);
+            detalleRecarga = (CardView) v.findViewById(R.id.detalleRecarga1);
+            progressBar = (ProgressBar) itemView.findViewById(R.id.progressBarRecarga1);
         }
     }
 
 
-    public AdaptadorRecargas(ArrayList<ProveedorServicio> listaRecargas) {
+    public AdaptadorCompras(ArrayList<ProveedorServicio> listaRecargas) {
         this.listaRecargas = listaRecargas;
     }
 
     @Override
     public int getItemCount() {
 
-              return listaRecargas.size() ;
+        return listaRecargas.size() ;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.item_lista_recarga, viewGroup, false);
+                .inflate(R.layout.item_lista_compra, viewGroup, false);
         return new ViewHolder(v);
     }
 
@@ -114,12 +104,12 @@ public class AdaptadorRecargas
                 .into(viewHolder.imagenProveedor);
 
         viewHolder.nombre_proveedor.setText(item.getNombre_proveedor());
-        viewHolder.saldo_cliente.setText(item.getSaldo_cliente()+ "$");
+        //viewHolder.saldo_cliente.setText(item.getSaldo_cliente()+ "$");
         viewHolder.bar_proveedor.setText(item.getBar_proveedor());
 
 
 
-       ArrayList<String> leadsNames = item.getLista_recargas();
+        ArrayList<String> leadsNames = item.getLista_recargas();
 
 
 
@@ -134,14 +124,14 @@ public class AdaptadorRecargas
             @Override
             public void onClick(View view) {
 
-            if(viewHolder.detalleRecarga.getVisibility() == View.GONE){
+                if(viewHolder.detalleRecarga.getVisibility() == View.GONE){
                     viewHolder.detalleRecarga.setVisibility(View.VISIBLE);
 
-            }else{
-                if(viewHolder.detalleRecarga.getVisibility() == View.VISIBLE){
-                    viewHolder.detalleRecarga.setVisibility(View.GONE);
+                }else{
+                    if(viewHolder.detalleRecarga.getVisibility() == View.VISIBLE){
+                        viewHolder.detalleRecarga.setVisibility(View.GONE);
+                    }
                 }
-            }
             }
         });
 

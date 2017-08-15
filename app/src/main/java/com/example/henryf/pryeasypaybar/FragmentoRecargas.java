@@ -27,7 +27,7 @@ import java.util.ArrayList;
 
 
 /**
-       * Fragmento para la pestaña "DIRECCIONES" De la sección "Mi Cuenta"
+       * Fragmento para la pestaña "Recargas" De la sección "Mi Cuenta"
         */
 public class FragmentoRecargas extends Fragment {
     private RecyclerView recyclerView;
