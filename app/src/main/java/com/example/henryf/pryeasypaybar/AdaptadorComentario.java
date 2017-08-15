@@ -62,7 +62,7 @@ public class AdaptadorComentario
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, int contador) {
         final ComentarioProducto item = lista_coment.get(contador);
-        System.out.println("ImagenFacebook: "+item.getImagenUrl());
+
         Glide.with(viewHolder.itemView.getContext()).load(item.getImagenUrl().toString()).into(viewHolder.imageUsuario);
         viewHolder.comentario_cuerpo.setText(item.getCuerpo());
         viewHolder.comentario_fecha.setText(item.getFecha());
